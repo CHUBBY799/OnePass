@@ -10,4 +10,4 @@
 .externalNativeBuild
 /src/test
 /src/androidTest
-
+.idea
