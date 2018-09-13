@@ -4,25 +4,27 @@ import java.sql.Date;
 
 
 public class Secret {
-    private int id;
+    private long id;
     private String user;
     private String password;
     private String label;
-    private Date lastTime;
+    private String lastTime;
 
-    public Secret(int id, String user, String password, String label, Date lastTime) {
-        this.id = id;
+    public Secret(long id,String user, String password, String label, String lastTime) {
         this.user = user;
         this.password = password;
         this.label = label;
         this.lastTime = lastTime;
     }
+    public Secret(){
 
-    public int getId() {
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -50,11 +52,11 @@ public class Secret {
         this.label = label;
     }
 
-    public Date getLastTime() {
+    public String getLastTime() {
         return lastTime;
     }
 
-    public void setLastTime(Date lastTime) {
+    public void setLastTime(String lastTime) {
         this.lastTime = lastTime;
     }
 }

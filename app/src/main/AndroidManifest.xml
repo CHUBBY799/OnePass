@@ -3,6 +3,7 @@
     package="com.think.onepass">
 
     <application
+        android:name=".BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,10 +12,13 @@
         android:theme="@style/AppTheme">
         <activity android:name=".view.HeadActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.SettingActivity" />
+        <activity android:name=".view.UnlockActivity"></activity>
     </application>
 
 </manifest>
