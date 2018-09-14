@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.think.onepass">
 
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
@@ -11,14 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.HeadActivity">
+        </activity>
+        <activity android:name=".view.SettingActivity" />
+        <activity android:name=".view.UnlockActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.SettingActivity" />
-        <activity android:name=".view.UnlockActivity"></activity>
     </application>
 
 </manifest>
