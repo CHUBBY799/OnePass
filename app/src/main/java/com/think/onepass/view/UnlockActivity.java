@@ -21,7 +21,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.think.onepass.R;
-import com.think.util.AppManager;
+import com.think.onepass.util.AppManager;
+
 
 import java.security.KeyStore;
 

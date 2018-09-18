@@ -1,10 +1,9 @@
-package com.think.util;
+package com.think.onepass.util;
 
 import android.app.Activity;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 public class AppManager {
     public static List<Activity> activities=new LinkedList<>();

@@ -7,8 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.think.onepass.util.AppManager;
 import com.think.onepass.view.UnlockActivity;
-import com.think.util.AppManager;
+
 
 public class BaseApplication extends Application{
     private static final String TAG = "BaseApplication";
@@ -67,4 +68,5 @@ public class BaseApplication extends Application{
             }
         });
     }
+
 }

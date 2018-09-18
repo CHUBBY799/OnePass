@@ -36,7 +36,7 @@ public class SecretModelImpl implements SecretModel{
     @Override
     public List<Secret> searchSecretByLable(String lable) {
         SQLiteDatabase db=dbHelper.getReadableDatabase();
-        Cursor cursor=db.rawQuery("select * from main where lable=?",new String[]{lable});
+        Cursor cursor=db.rawQuery("select * from main where lable like ? ",new String[]{"%"+lable+"%"});
         Secret secret=null;
         List<Secret> secrets=new ArrayList<>();
         while (cursor.moveToNext()){
