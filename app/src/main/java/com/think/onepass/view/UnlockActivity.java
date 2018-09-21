@@ -80,7 +80,7 @@ public class UnlockActivity extends FragmentActivity implements View.OnClickList
         }else {
             KeyguardManager keyguardManager=getSystemService(KeyguardManager.class);
             FingerprintManager fingerprintManager=getSystemService(FingerprintManager.class);
-            if(!fingerprintManager.isHardwareDetected()){
+            if(fingerprintManager==null||!fingerprintManager.isHardwareDetected()){
                 Toast.makeText(this,"您的手机不支持指纹功能",Toast.LENGTH_SHORT).show();
                 return false;
             }else if(!keyguardManager.isKeyguardSecure()){
