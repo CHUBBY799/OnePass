@@ -7,6 +7,9 @@ import com.think.onepass.model.SecretModel;
 import com.think.onepass.view.HeadActivity;
 import com.think.onepass.view.HeadContract;
 
+import java.util.List;
+import java.util.Map;
+
 public class HeadPresenter implements HeadContract.Presenter {
     private SecretModel mModel;
     private HeadContract.View mView;
@@ -23,7 +26,7 @@ public class HeadPresenter implements HeadContract.Presenter {
     }
 
     @Override
-    public String addSecrets(Secret secret) {
+    public Map<String,Object> addSecrets(Secret secret) {
        return mModel.addSecret(secret);
     }
 
@@ -35,5 +38,11 @@ public class HeadPresenter implements HeadContract.Presenter {
     @Override
     public void deleteSecret(long id) {
         mModel.deleteSecretById(id);
+    }
+
+    @Override
+    public void searchSecretByKey(String key, int deleted) {
+           List<Secret> secrets= mModel.searchSecretByKey(key,deleted);
+           mView.setSecrets(secrets);
     }
 }

@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,15 +28,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class HeadActivity extends AppCompatActivity implements View.OnClickListener,HeadContract.View{
     public static final String TAGPU="pub";
     private static final String TAG = "HeadActivity";
     private ImageView setting,addSecret;
+    private EditText search;
     private HeadContract.Presenter mPresenter;
     private List<Secret> mSecrets;
     private List<Integer> mSecretMode;
     private SecretAdapter secretAdapter;
+    private int focusedPosition;
 
     @Override
     public void setPresenter(HeadContract.Presenter presenter) {
@@ -43,9 +48,20 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void setSecrets(List<Secret> secrets) {
-        mSecrets=secrets;
+        if(mSecrets==null) mSecrets=new ArrayList<>();
+        mSecrets.clear();
+        mSecrets.addAll(secrets);
+        if(mSecretMode==null) mSecretMode=new ArrayList<>();
+        mSecretMode.clear();
+        List<Integer> mSecretModeHelp=new ArrayList<>();
+        for(int i=0;i<secrets.size();i++){
+            mSecretModeHelp.add(SecretAdapter.UPDATE_MODE);
+        }
+        mSecretMode.addAll(mSecretModeHelp);
+        if(secretAdapter!=null){
+            secretAdapter.notifyDataSetChanged();
+        }
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +70,26 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
         setting.setOnClickListener(this);
         addSecret=findViewById(R.id.head_add);
         addSecret.setOnClickListener(this);
+        search=findViewById(R.id.head_search);
+        TextWatcher watcher=new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                Log.d(TAG, "beforeTextChanged: ");
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d(TAG, "onTextChanged: ");
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.d(TAG, "afterTextChanged: ");
+                searchSecretByKey(search.getText().toString(),0);
+            }
+        };
+        search.addTextChangedListener(watcher);
         initPresenter();
         initSecrets();
 //        loadTest();
@@ -112,10 +148,10 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void initSecrets() {
         mPresenter.initSecrets();
-        mSecretMode=new ArrayList<>();
-        for(int i=0;i<mSecrets.size();i++){
-            mSecretMode.add(SecretAdapter.UPDATE_MODE);
-        }
+//        mSecretMode=new ArrayList<>();
+//        for(int i=0;i<mSecrets.size();i++){
+//            mSecretMode.add(SecretAdapter.UPDATE_MODE);
+//        }
         secretAdapter=new SecretAdapter(mSecrets,mSecretMode,this);
     }
     private void replaceFragment(Fragment fragment){
@@ -133,7 +169,7 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public String addSecrets(Secret secret) {
+    public Map<String, Object> addSecrets(Secret secret) {
         return mPresenter.addSecrets(secret);
     }
 
@@ -146,4 +182,10 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
     public void deleteSecret(long id) {
         mPresenter.deleteSecret(id);
     }
+
+    @Override
+    public void searchSecretByKey(String key, int deleted) {
+         mPresenter.searchSecretByKey(key,deleted);
+    }
+
 }

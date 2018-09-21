@@ -20,6 +20,7 @@ import com.think.onepass.R;
 import com.think.onepass.model.Secret;
 
 import java.util.List;
+import java.util.Map;
 
 public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder> {
     private static final String TAG = "SecretAdapter";
@@ -69,12 +70,13 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
         final Secret secret=mSecretList.get(position);
+        // 当文本框内容发生变化时,将文本内容更新至mSecrets
         setEditText(holder.secretTitle,secret.getTitle(),secret);
         setEditText(holder.secretUser,secret.getUser(),secret);
         setEditText(holder.secretPassword,secret.getPassword(),secret);
         setEditText(holder.secretLabel,secret.getLabel(),secret);
         holder.secretTime.setText(secret.getLastTime());
-        Log.d(TAG, "onBindViewHolder: "+mSecretMode.get(position)+"  :  "+holder.getAdapterPosition());
+        Log.d(TAG, "onBindViewHolder: "+position+"   "+mSecretMode.get(position)+"  :  "+holder.getAdapterPosition());
         switch (mSecretMode.get(position)){
             case ADD_MODE:
                 holder.secretUserCopy.setVisibility(View.GONE);
@@ -111,8 +113,10 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
                     Toast.makeText(mContext,"用户名不能为空",Toast.LENGTH_SHORT).show();
                 }else {
                     if(mSecretMode.get(position)==ADD_MODE){
+                        Map<String,Object> response=((HeadContract.View)mContext).addSecrets(mSecretList.get(position));
                         holder.secretTime.setVisibility(View.VISIBLE);
-                        holder.secretTime.setText(((HeadContract.View)mContext).addSecrets(mSecretList.get(position)));
+                        holder.secretTime.setText((String)response.get("lastTime"));
+                        mSecretList.get(position).setId((long)response.get("id"));
                         mSecretMode.set(position,UPDATE_MODE);
                     }else if(mSecretMode.get(position)==UPDATE_MODE){
                         holder.secretTime.setVisibility(View.VISIBLE);
@@ -130,7 +134,9 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
             public void onClick(View v) {
                 int position=holder.getAdapterPosition();
                 if(mSecretMode.get(position)==UPDATE_MODE){
+                    Log.d(TAG, "onClick: deleted"+" "+position);
                     long secretId=mSecretList.get(position).getId();
+                    Log.d(TAG, "onClick: "+secretId);
                     ((HeadContract.View)mContext).deleteSecret(secretId);
                 }
                 mSecretList.remove(position);

@@ -21,6 +21,7 @@ public class Secret {
     private String lastTime;
 
     public Secret(long id,String user,String title, String password, String label, String lastTime) {
+        this.id=id;
         this.user = user;
         this.password = password;
         this.label = label;

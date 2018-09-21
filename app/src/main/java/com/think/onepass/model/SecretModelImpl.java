@@ -9,8 +9,10 @@ import android.database.sqlite.SQLiteDatabase;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class SecretModelImpl implements SecretModel{
     private MyDatabaseHelper dbHelper;
@@ -26,7 +28,7 @@ public class SecretModelImpl implements SecretModel{
         return format.format(date);
     }
     @Override
-    public String addSecret(Secret secret) {
+    public Map<String,Object> addSecret(Secret secret) {
         SQLiteDatabase db=dbHelper.getWritableDatabase();
         ContentValues values=new ContentValues();
         String lastTime=returnLastTimeByDate(new Date());
@@ -39,22 +41,26 @@ public class SecretModelImpl implements SecretModel{
             values.put("deleted",0);
             db.insert("main",null,values);
         }
-        return lastTime;
+        Map<String,Object> response=new HashMap<>();
+        response.put("id",returnIdOfNew(db,"main"));
+        response.put("lastTime",lastTime);
+        return response;
     }
 
     @Override
-    public List<Secret> searchSecretByLable(String lable,int deleted) {
+    public List<Secret> searchSecretByKey(String key,int deleted) {
         SQLiteDatabase db=dbHelper.getReadableDatabase();
-        Cursor cursor=db.rawQuery("select * from main where lable like ? and deleted = ? ",new String[]{"%"+lable+"%",String.valueOf(deleted)});
+        Cursor cursor=db.rawQuery("select * from main where label like ? or title like ? or user like ? or password like ? and deleted = ? ",new String[]{"%"+key+"%","%"+key+"%","%"+key+"%","%"+key+"%",String.valueOf(deleted)});
         Secret secret=null;
         List<Secret> secrets=new ArrayList<>();
         while (cursor.moveToNext()){
-            int id=cursor.getInt(cursor.getColumnIndex("id"));
+            long id=cursor.getLong(cursor.getColumnIndex("id"));
             String user=cursor.getString(cursor.getColumnIndex("user"));
             String password=cursor.getString(cursor.getColumnIndex("password"));
             String lastTime=cursor.getString(cursor.getColumnIndex("lastTime"));
             String title=cursor.getString(cursor.getColumnIndex("title"));
-            secret=new Secret(id,user,title,password,lable, lastTime);
+            String label=cursor.getString(cursor.getColumnIndex("label"));
+            secret=new Secret(id,user,title,password,label, lastTime);
             secrets.add(secret);
         }
         return secrets;
