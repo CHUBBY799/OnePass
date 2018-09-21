@@ -11,48 +11,51 @@
         android:background="@color/title_bg">
         <ImageView
             android:id="@+id/head_search_icon"
-            android:layout_width="20dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:src="@mipmap/search_icon"/>
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginLeft="17dp"
+            android:src="@mipmap/head_search"/>
         <ImageView
             android:id="@+id/head_setting"
-            android:layout_width="20dp"
-            android:layout_height="25dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/setting_icon"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="10dp"/>
+            android:src="@mipmap/head_setting"
+            android:layout_marginTop="14dp"
+            android:layout_marginRight="11dp"
+            />
         <ImageView
             android:id="@+id/head_label"
-            android:layout_width="20dp"
-            android:layout_height="25dp"
-            android:layout_marginRight="10dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_toLeftOf="@+id/head_setting"
-            android:layout_alignTop="@+id/head_setting"
-            android:src="@mipmap/label_icon"/>
+            android:layout_alignTop="@id/head_setting"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/head_label"/>
         <ImageView
             android:id="@+id/head_add"
-            android:layout_width="20dp"
-            android:layout_height="25dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_toLeftOf="@id/head_label"
             android:layout_alignTop="@id/head_label"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/add_icon"/>
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/head_add"/>
         <EditText
             android:id="@+id/head_search"
-            android:layout_width="wrap_content"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:drawableBottom="@drawable/line"
-            android:layout_marginTop="15dp"
-            android:layout_toRightOf="@+id/head_search_icon"/>
+            android:drawableBottom="@color/text_hint_color"
+            android:layout_toRightOf="@+id/head_search_icon"
+            android:maxLines="1"/>
 
     </RelativeLayout>
-    <android.support.v7.widget.RecyclerView
-        android:layout_weight="11"
+    <LinearLayout
+        android:id="@+id/head_fragment"
+        android:layout_weight="10"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:orientation="vertical">
+    </LinearLayout>
 
-    </android.support.v7.widget.RecyclerView>
 </LinearLayout> 

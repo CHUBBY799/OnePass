@@ -6,15 +6,26 @@ import java.sql.Date;
 public class Secret {
     private long id;
     private String user;
+    private String title;
     private String password;
     private String label;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     private String lastTime;
 
-    public Secret(long id,String user, String password, String label, String lastTime) {
+    public Secret(long id,String user,String title, String password, String label, String lastTime) {
         this.user = user;
         this.password = password;
         this.label = label;
         this.lastTime = lastTime;
+        this.title=title;
     }
     public Secret(){
 
