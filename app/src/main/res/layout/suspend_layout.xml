@@ -1,33 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/title_bg">
 
     <ImageView
-        android:id="@+id/search"
-        android:layout_width="84dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintRight_toLeftOf="@+id/tan"
-        app:layout_constraintTop_toTopOf="@+id/tan"
-        android:visibility="gone" />
+        android:id="@+id/suspend_search_icon"
+        android:layout_width="16dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="8dp"
+        android:src="@mipmap/head_search"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <EditText
-        android:id="@+id/datatext"
-        app:layout_constraintWidth_default="wrap"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/search"
-        app:layout_constraintLeft_toLeftOf="@id/search"
-        android:visibility="gone"
-        app:layout_constraintRight_toRightOf="@+id/tan"
-        android:text="hello"
-        android:textSize="50dp"/>
+        android:id="@+id/suspend_search"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:hint="请输入关键词"
+        android:textSize="14sp"
+        android:textColorHint="@color/text_hint_color"
+        android:textColor="@color/text_hint_color"
+        app:layout_constraintStart_toEndOf="@id/suspend_search_icon"
+        app:layout_constraintTop_toTopOf="@id/suspend_search_icon"/>
     <ImageView
-        android:id="@+id/tan"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="tan"/>
+        android:id="@+id/suspend_add"
+        android:layout_width="16dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/head_add"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toEndOf="@id/suspend_search"
+        app:layout_constraintTop_toTopOf="@+id/suspend_search"/>
+    <ImageView
+        android:id="@+id/suspend_control"
+        android:layout_width="19dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/view_more_icon"
+        app:layout_constraintStart_toEndOf="@id/suspend_add"
+        app:layout_constraintTop_toTopOf="@+id/suspend_add"/>
+    <FrameLayout
+        android:id="@+id/suspend_fragment"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        app:layout_constraintTop_toBottomOf="@id/suspend_search_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/suspend_control">
+
+    </FrameLayout>
 </android.support.constraint.ConstraintLayout>

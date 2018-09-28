@@ -43,6 +43,7 @@ public class SecretFragment extends Fragment{
         mActivity=getActivity();
         LinearLayoutManager layoutManager=new LinearLayoutManager(mActivity);
         headRecycler.setLayoutManager(layoutManager);
+        //当点击外部时，内部的输入框失去焦点
         headRecycler.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

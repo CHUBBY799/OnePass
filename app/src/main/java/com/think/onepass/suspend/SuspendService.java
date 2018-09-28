@@ -12,12 +12,19 @@ public class SuspendService extends Service {
 
     }
     private void initWindowData(){
-        SuspendManager.createSuspendWindow(this);
+        SuspendControlManager.createSuspendWindow(this);
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
        return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        SuspendManager.removeFloatWindowManager();
+        SuspendControlManager.removeFloatWindowManager();
     }
 }

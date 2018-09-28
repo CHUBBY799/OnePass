@@ -188,4 +188,5 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
          mPresenter.searchSecretByKey(key,deleted);
     }
 
+
 }
