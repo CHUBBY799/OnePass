@@ -9,18 +9,17 @@ public class HeadContract {
     public static interface View{
         public void setClipboardWithString(String text);
         public void setPresenter(Presenter presenter);
-        public void setSecrets(List<Secret> secrets);
-        public void initSecrets();
-        public Map<String,Object> addSecrets(Secret secret);
-        public String updateSecrets(Secret secret);
-        public void deleteSecret(long id);
         public void searchSecretByKey(String key,int deleted);
+        public void addSecret();
     }
     public static interface Presenter{
-        public void initSecrets();
         public Map<String,Object> addSecrets(Secret secret);
         public String updateSecrets(Secret secret);
         public void deleteSecret(long id);
-        public void searchSecretByKey(String key,int deleted);
+        public List<Secret> searchSecretByKey(String key,int deleted);
+        List<String> selectAllLabel();
+        List<List<Secret>> selectSecretsByLabel(List<String> labels);
+        List<Secret> getSecretsByLasttimeDesc();
+
     }
 }

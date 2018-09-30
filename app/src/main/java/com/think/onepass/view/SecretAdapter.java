@@ -29,10 +29,11 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
     private List<Integer> mSecretMode;
     private List<Secret> mSecretList;
     private Context mContext;
+    private Callback mCallback;
     public static final int NORMAL_MODE=0;
     public static final int ADD_MODE=1;
     public static final int UPDATE_MODE=2;
-    private Set<Secret> UPDATE_ITEMS=new HashSet<>();
+//    private Set<Secret> UPDATE_ITEMS=new HashSet<>();
     static class ViewHolder extends RecyclerView.ViewHolder{
         View secretView;
         TextView secretTime;
@@ -65,34 +66,41 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.secret_item,parent,false);
         final ViewHolder holder=new ViewHolder(view);
-        Log.d(TAG, "onCreateViewHolder: "+holder.getAdapterPosition());
+//        Log.d(TAG, "onCreateViewHolder: "+holder.getAdapterPosition());
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-
-        final Secret secret=mSecretList.get(position);
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        Log.d(TAG, "onBindViewHolder: "+holder.getLayoutPosition()+" : "+position + " : "+ mSecretMode.get(holder.getLayoutPosition()));
+        Secret secret=mSecretList.get(holder.getLayoutPosition());
         // 当文本框内容发生变化时,将文本内容更新至mSecrets
         setEditText(holder.secretTitle,secret.getTitle(),secret,holder);
         setEditText(holder.secretUser,secret.getUser(),secret,holder);
         setEditText(holder.secretPassword,secret.getPassword(),secret,holder);
         setEditText(holder.secretLabel,secret.getLabel(),secret,holder);
         holder.secretTime.setText(secret.getLastTime());
-        Log.d(TAG, "onBindViewHolder: "+position+"   "+mSecretMode.get(position)+"  :  "+holder.getAdapterPosition());
-        switch (mSecretMode.get(position)){
+        switch (mSecretMode.get(holder.getLayoutPosition())){
+            case NORMAL_MODE:
+                holder.secretTime.setVisibility(View.VISIBLE);
+                holder.secretUserCopy.setVisibility(View.VISIBLE);
+                holder.secretPasswordCopy.setVisibility(View.VISIBLE);
+                holder.secretConfirm.setVisibility(View.GONE);
+                setImageviewMargin(holder.secretDelete,15);
+                break;
             case ADD_MODE:
+                holder.secretTime.setVisibility(View.GONE);
                 holder.secretUserCopy.setVisibility(View.GONE);
                 holder.secretPasswordCopy.setVisibility(View.GONE);
-                holder.secretTime.setVisibility(View.GONE);
                 holder.secretConfirm.setVisibility(View.VISIBLE);
                 setImageviewMargin(holder.secretDelete,52);
                 break;
             case UPDATE_MODE:
-                if(!UPDATE_ITEMS.contains(secret)){
-                    holder.secretConfirm.setVisibility(View.GONE);
-                    setImageviewMargin(holder.secretDelete,15);
-                }
+                holder.secretTime.setVisibility(View.VISIBLE);
+                holder.secretUserCopy.setVisibility(View.VISIBLE);
+                holder.secretPasswordCopy.setVisibility(View.VISIBLE);
+                holder.secretConfirm.setVisibility(View.VISIBLE);
+                setImageviewMargin(holder.secretDelete,52);
                 break;
         }
         holder.secretUserCopy.setOnClickListener(new View.OnClickListener() {
@@ -109,27 +117,28 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
                 Toast.makeText(mContext,"已经将密码复制到粘贴板",Toast.LENGTH_SHORT).show();
             }
         });
-
         holder.secretConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position=holder.getAdapterPosition();
-                if(mSecretList.get(position).getUser()==null){
+                int position=holder.getLayoutPosition();
+                if(mSecretList.get(position).getUser()==null||mSecretList.get(position).getUser().equals("")){
                     Toast.makeText(mContext,"用户名不能为空",Toast.LENGTH_SHORT).show();
                 }else {
+                    String time;
                     if(mSecretMode.get(position)==ADD_MODE){
-                        Map<String,Object> response=((HeadContract.View)mContext).addSecrets(mSecretList.get(position));
+                        Map<String,Object> response=mCallback.addSecrets(mSecretList.get(position));
                         holder.secretTime.setVisibility(View.VISIBLE);
-                        holder.secretTime.setText((String)response.get("lastTime"));
+                        time=(String)response.get("lastTime");
+                        holder.secretTime.setText(time);
+                        mSecretList.get(position).setLastTime(time);
                         mSecretList.get(position).setId((long)response.get("id"));
-                        mSecretMode.set(position,UPDATE_MODE);
                     }else if(mSecretMode.get(position)==UPDATE_MODE){
                         holder.secretTime.setVisibility(View.VISIBLE);
-                        holder.secretTime.setText(((HeadContract.View)mContext).updateSecrets(mSecretList.get(position)));
-                        if(UPDATE_ITEMS.contains(secret)){
-                            UPDATE_ITEMS.remove(secret);
-                        }
+                        time=mCallback.updateSecrets(mSecretList.get(position));
+                        holder.secretTime.setText(time);
+                        mSecretList.get(position).setLastTime(time);
                     }
+                    mSecretMode.set(position,NORMAL_MODE);
                     holder.secretConfirm.setVisibility(View.GONE);
                     setImageviewMargin(holder.secretDelete,15);
                     holder.secretUserCopy.setVisibility(View.VISIBLE);
@@ -140,12 +149,11 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
         holder.secretDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position=holder.getAdapterPosition();
-                if(mSecretMode.get(position)==UPDATE_MODE){
-                    Log.d(TAG, "onClick: deleted"+" "+position);
+                int position=holder.getLayoutPosition();
+                int mode=mSecretMode.get(position);
+                if(mode==UPDATE_MODE||mode==NORMAL_MODE){
                     long secretId=mSecretList.get(position).getId();
-                    Log.d(TAG, "onClick: "+secretId);
-                    ((HeadContract.View)mContext).deleteSecret(secretId);
+                    mCallback.deleteSecret(secretId);
                 }
                 mSecretList.remove(position);
                 mSecretMode.remove(position);
@@ -194,10 +202,13 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
                         secret.setLabel(myEditText.getText().toString());
                         break;
                 }
-                UPDATE_ITEMS.add(secret);
                 if(holder.secretConfirm.getVisibility()==View.GONE){
                     holder.secretConfirm.setVisibility(View.VISIBLE);
                     setImageviewMargin(holder.secretDelete,52);
+                }
+                int position=holder.getLayoutPosition();
+                if(mSecretMode.get(position)==NORMAL_MODE){
+                    mSecretMode.set(position,UPDATE_MODE);
                 }
             }
         };
@@ -210,5 +221,14 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return mSecretList.size();
+    }
+
+    public void setCallBack(Callback callBack){
+        mCallback=callBack;
+    }
+    public static interface Callback{
+        public Map<String, Object> addSecrets(Secret secret);
+        public String updateSecrets(Secret secret);
+        public void deleteSecret(long id);
     }
 }

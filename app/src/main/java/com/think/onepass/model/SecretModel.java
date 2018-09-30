@@ -11,4 +11,6 @@ public interface SecretModel {
       List<Secret> getSecretsByLasttimeDesc();
       String updateSecret(Secret secret);
       void deleteSecretById(long id);
+      List<String> selectAllLabel();
+      List<Secret> selectSecretByLabel(String label);
 }

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 
 import java.text.SimpleDateFormat;
@@ -35,7 +36,11 @@ public class SecretModelImpl implements SecretModel{
         if(secret!=null) {
             values.put("user",secret.getUser());
             values.put("password",secret.getPassword());
-            values.put("label",secret.getLabel());
+            if (secret.getLabel()==null){
+                values.put("label","");
+            }else {
+                values.put("label",secret.getLabel());
+            }
             values.put("lastTime",lastTime);
             values.put("title",secret.getTitle());
             values.put("deleted",0);
@@ -94,7 +99,11 @@ public class SecretModelImpl implements SecretModel{
         Date date=new Date();
         SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String lastTime=format.format(date);
-        db.execSQL(sqlOfUpdate,new Object[]{secret.getTitle(),secret.getUser(),secret.getPassword(),secret.getLabel()
+        String label=secret.getLabel();
+        if(label==null){
+            label="";
+        }
+        db.execSQL(sqlOfUpdate,new Object[]{secret.getTitle(),secret.getUser(),secret.getPassword(),label
         ,lastTime,id});
         return lastTime;
     }
@@ -112,5 +121,39 @@ public class SecretModelImpl implements SecretModel{
             strid=cursor.getInt(0);
         }
         return strid;
+    }
+
+    @Override
+    public List<String> selectAllLabel() {
+        List<String> labels=new ArrayList<>();
+        SQLiteDatabase db=dbHelper.getReadableDatabase();
+        Cursor cursor=db.rawQuery("select distinct label from main",null);
+        while (cursor.moveToNext()){
+            labels.add(cursor.getString(cursor.getColumnIndex("label")));
+        }
+        return labels;
+    }
+
+    @Override
+    public List<Secret> selectSecretByLabel(String label) {
+        List<Secret> secrets = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor;
+        if (label == null) {
+            cursor = db.rawQuery("select * from main where label is null", null);
+        } else{
+            cursor = db.rawQuery("select * from main where label = ?", new String[]{label});
+        }
+        while (cursor.moveToNext()){
+            Secret secret=new Secret();
+            secret.setId(cursor.getLong(cursor.getColumnIndex("id")));
+            secret.setUser(cursor.getString(cursor.getColumnIndex("user")));
+            secret.setPassword(cursor.getString(cursor.getColumnIndex("password")));
+            secret.setLabel(cursor.getString(cursor.getColumnIndex("label")));
+            secret.setLastTime(cursor.getString(cursor.getColumnIndex("lastTime")));
+            secret.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+            secrets.add(secret);
+        }
+        return secrets;
     }
 }

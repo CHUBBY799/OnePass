@@ -7,10 +7,11 @@ import com.think.onepass.model.SecretModel;
 import com.think.onepass.view.HeadActivity;
 import com.think.onepass.view.HeadContract;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class HeadPresenter implements HeadContract.Presenter {
+public class HeadPresenter implements HeadContract.Presenter{
     private SecretModel mModel;
     private HeadContract.View mView;
 
@@ -20,10 +21,7 @@ public class HeadPresenter implements HeadContract.Presenter {
         mView.setPresenter(this);
     }
 
-    @Override
-    public void initSecrets() {
-        mView.setSecrets(mModel.getSecretsByLasttimeDesc());
-    }
+
 
     @Override
     public Map<String,Object> addSecrets(Secret secret) {
@@ -41,8 +39,27 @@ public class HeadPresenter implements HeadContract.Presenter {
     }
 
     @Override
-    public void searchSecretByKey(String key, int deleted) {
-           List<Secret> secrets= mModel.searchSecretByKey(key,deleted);
-           mView.setSecrets(secrets);
+    public List<Secret> searchSecretByKey(String key, int deleted) {
+        return mModel.searchSecretByKey(key,deleted);
+    }
+
+    @Override
+    public List<String> selectAllLabel() {
+        return mModel.selectAllLabel();
+    }
+
+    @Override
+    public List<List<Secret>> selectSecretsByLabel(List<String> labels) {
+        List<List<Secret>> lists=new ArrayList<>();
+        for(String label:labels){
+
+            lists.add(mModel.selectSecretByLabel(label));
+        }
+        return lists;
+    }
+
+    @Override
+    public List<Secret> getSecretsByLasttimeDesc() {
+        return mModel.getSecretsByLasttimeDesc();
     }
 }
