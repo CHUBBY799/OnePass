@@ -7,14 +7,14 @@ import android.os.CancellationSignal;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import com.think.onepass.R;
-
 import javax.crypto.Cipher;
 
 public class FingerprintFragment extends Fragment{
@@ -22,6 +22,7 @@ public class FingerprintFragment extends Fragment{
     private FingerprintManager fingerprintManager;
     private CancellationSignal mCancellationSignal;
     private UnlockActivity mActivty;
+    private TextView mtvChangeToNumberFrament;
 
     public void setCipher(Cipher cipher){
         mCipher=cipher;
@@ -37,13 +38,24 @@ public class FingerprintFragment extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fingerprintManager=getContext().getSystemService(FingerprintManager.class);
-
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fingerprint_unlock,container,false);
+        mtvChangeToNumberFrament = (TextView)view.findViewById(R.id.changetonumframentv);
+        mtvChangeToNumberFrament.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager=getFragmentManager();
+                FragmentTransaction transaction=fragmentManager.beginTransaction();
+                //用新建的片段替换当前的片段
+                transaction.replace(R.id.unlock_layout,new NumberFragment());
+                //执行该事务
+                transaction.commit();
+            }
+        });
 
         return view;
     }
@@ -53,6 +65,11 @@ public class FingerprintFragment extends Fragment{
         super.onResume();
         startListening(mCipher);
     }
+
+    /**
+     * 启动指纹识别
+     * @param cipher
+     */
     private void startListening(Cipher cipher){
         mCancellationSignal=new CancellationSignal();
         fingerprintManager.authenticate(new FingerprintManager.CryptoObject(mCipher), mCancellationSignal
@@ -83,6 +100,7 @@ public class FingerprintFragment extends Fragment{
         super.onPause();
         stopListening();
     }
+
     private void stopListening(){
         if(mCancellationSignal!=null){
             mCancellationSignal.cancel();
