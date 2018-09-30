@@ -10,7 +10,17 @@
         android:id="@+id/setting_suspend_open"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="open suspend"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="open suspend"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/set_update_password_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="设置/修改密码"
+        android:textSize="25dp"/>
+
+
 </android.support.constraint.ConstraintLayout>

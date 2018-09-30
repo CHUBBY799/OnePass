@@ -1,6 +1,4 @@
 package com.think.onepass.view;
-
-import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -11,16 +9,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-
 import com.think.onepass.R;
 import com.think.onepass.model.Secret;
-import com.think.onepass.model.SecretModel;
 import com.think.onepass.model.SecretModelImpl;
 import com.think.onepass.presenter.HeadPresenter;
 

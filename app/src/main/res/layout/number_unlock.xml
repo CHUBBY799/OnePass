@@ -1,14 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="请输入您设定的四位密码"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20dp" />
+
     <EditText
-        android:id="@+id/password_input"
+        android:id="@+id/passwordeditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textView"
+        android:ems="3"
+        android:inputType="numberPassword"
+        android:maxLength="4"
+        android:backgroundTint="@color/windowBackground"
+        android:cursorVisible="false"
+        android:scrollHorizontally="false"
+        android:textSize="25dp"
+        android:gravity="center"/>
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"/>
+        android:layout_centerInParent="true"
+        android:keyBackground="@color/windowBackground"
+        android:background="@color/colorPrimaryDark"
+        android:keyTextColor="@color/colorPrimaryDark"
+        android:keyTextSize="50dp"
+        android:shadowRadius="0"/>
+      <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"
+        android:id="@+id/relativeLayout">
 
-</android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="13dp"
+            android:layout_toStartOf="@+id/changetofingerprintframenttv"
+            android:src="@mipmap/fingerprint" />
+        <TextView
+            android:id="@+id/changetofingerprintframenttv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignTop="@+id/imageView"
+            android:text="使用指纹验证"
+            android:textColor="@color/colorAccent"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+</RelativeLayout>
