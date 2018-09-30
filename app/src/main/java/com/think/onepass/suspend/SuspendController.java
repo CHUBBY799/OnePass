@@ -1,7 +1,9 @@
 package com.think.onepass.suspend;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.util.Log;
 
 public class SuspendController {
@@ -16,5 +18,15 @@ public class SuspendController {
         Log.d(TAG, "startSuspendService: ");
         Intent intent=new Intent(context,SuspendService.class);
         context.startService(intent);
+    }
+    public void stopSuspendService(Context context){
+        Intent intent=new Intent(context,SuspendService.class);
+        context.stopService(intent);
+    }
+    public void show(){
+//        SuspendControlManager.show();
+    }
+    public void hide(){
+        SuspendManager.hide();
     }
 }

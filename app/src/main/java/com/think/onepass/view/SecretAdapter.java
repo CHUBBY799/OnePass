@@ -19,8 +19,10 @@ import android.widget.Toast;
 import com.think.onepass.R;
 import com.think.onepass.model.Secret;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder> {
     private static final String TAG = "SecretAdapter";
@@ -30,6 +32,7 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
     public static final int NORMAL_MODE=0;
     public static final int ADD_MODE=1;
     public static final int UPDATE_MODE=2;
+    private Set<Secret> UPDATE_ITEMS=new HashSet<>();
     static class ViewHolder extends RecyclerView.ViewHolder{
         View secretView;
         TextView secretTime;
@@ -71,10 +74,10 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
 
         final Secret secret=mSecretList.get(position);
         // 当文本框内容发生变化时,将文本内容更新至mSecrets
-        setEditText(holder.secretTitle,secret.getTitle(),secret);
-        setEditText(holder.secretUser,secret.getUser(),secret);
-        setEditText(holder.secretPassword,secret.getPassword(),secret);
-        setEditText(holder.secretLabel,secret.getLabel(),secret);
+        setEditText(holder.secretTitle,secret.getTitle(),secret,holder);
+        setEditText(holder.secretUser,secret.getUser(),secret,holder);
+        setEditText(holder.secretPassword,secret.getPassword(),secret,holder);
+        setEditText(holder.secretLabel,secret.getLabel(),secret,holder);
         holder.secretTime.setText(secret.getLastTime());
         Log.d(TAG, "onBindViewHolder: "+position+"   "+mSecretMode.get(position)+"  :  "+holder.getAdapterPosition());
         switch (mSecretMode.get(position)){
@@ -86,8 +89,10 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
                 setImageviewMargin(holder.secretDelete,52);
                 break;
             case UPDATE_MODE:
-                holder.secretConfirm.setVisibility(View.GONE);
-                setImageviewMargin(holder.secretDelete,15);
+                if(!UPDATE_ITEMS.contains(secret)){
+                    holder.secretConfirm.setVisibility(View.GONE);
+                    setImageviewMargin(holder.secretDelete,15);
+                }
                 break;
         }
         holder.secretUserCopy.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +126,9 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
                     }else if(mSecretMode.get(position)==UPDATE_MODE){
                         holder.secretTime.setVisibility(View.VISIBLE);
                         holder.secretTime.setText(((HeadContract.View)mContext).updateSecrets(mSecretList.get(position)));
+                        if(UPDATE_ITEMS.contains(secret)){
+                            UPDATE_ITEMS.remove(secret);
+                        }
                     }
                     holder.secretConfirm.setVisibility(View.GONE);
                     setImageviewMargin(holder.secretDelete,15);
@@ -154,7 +162,7 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
         view.setLayoutParams(lp);
     }
 
-    private void setEditText(final EditText myEditText, String data, final Secret secret){
+    private void setEditText(final EditText myEditText, String data, final Secret secret, final ViewHolder holder){
         if(myEditText.getTag() instanceof TextWatcher){
             myEditText.removeTextChangedListener((TextWatcher)myEditText.getTag());
         }
@@ -185,6 +193,11 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
                     case R.id.secret_label:
                         secret.setLabel(myEditText.getText().toString());
                         break;
+                }
+                UPDATE_ITEMS.add(secret);
+                if(holder.secretConfirm.getVisibility()==View.GONE){
+                    holder.secretConfirm.setVisibility(View.VISIBLE);
+                    setImageviewMargin(holder.secretDelete,52);
                 }
             }
         };
