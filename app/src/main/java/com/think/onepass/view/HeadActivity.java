@@ -9,11 +9,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-<<<<<<< HEAD
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-=======
->>>>>>> 6048bfd9b0598fd5d21bf79b1d2bf5b9051b027b
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;

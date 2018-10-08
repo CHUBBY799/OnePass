@@ -9,10 +9,14 @@ public class SuspendService extends Service {
     public void onCreate() {
         super.onCreate();
         initWindowData();
+        initFingerprint();
 
     }
     private void initWindowData(){
         SuspendControlManager.createSuspendWindow(this);
+    }
+    private void initFingerprint(){
+
     }
 
     @Override

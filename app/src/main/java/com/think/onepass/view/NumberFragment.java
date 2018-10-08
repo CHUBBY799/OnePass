@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.think.onepass.R;
 
 public class NumberFragment extends Fragment{
+    private static final String TAG = "NumberFragment";
     private UnlockActivity mActivty;
     private TextView mtvChangeToFingerPrintFrament;
     private EditText metPassWord;
@@ -46,6 +48,7 @@ public class NumberFragment extends Fragment{
         mtvChangeToFingerPrintFrament.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(TAG, "onClick: ");
                     FragmentManager fragmentManager=getFragmentManager();
                     FragmentTransaction transaction=fragmentManager.beginTransaction();
                     //用新建的片段替换当前的片段

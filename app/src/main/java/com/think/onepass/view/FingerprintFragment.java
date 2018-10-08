@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.think.onepass.R;
 import javax.crypto.Cipher;
 
 public class FingerprintFragment extends Fragment{
+    private static final String TAG = "FingerprintFragment";
     private Cipher mCipher;
     private FingerprintManager fingerprintManager;
     private CancellationSignal mCancellationSignal;
@@ -72,6 +74,9 @@ public class FingerprintFragment extends Fragment{
      */
     private void startListening(Cipher cipher){
         mCancellationSignal=new CancellationSignal();
+        if(mCipher==null){
+            Log.d(TAG, "startListening: ciper null");
+        }
         fingerprintManager.authenticate(new FingerprintManager.CryptoObject(mCipher), mCancellationSignal
                 , 0, new FingerprintManager.AuthenticationCallback() {
                     @Override

@@ -20,6 +20,7 @@ public class SuspendSearchAdapter extends RecyclerView.Adapter<SuspendSearchAdap
     private static final String TAG = "SuspendSearchAdapter";
     private List<Secret> mSecretList;
     private Context mContext;
+    private Callback mCallback;
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView mTitle,mUser,mPassword;
         View suspendSearchView;
@@ -57,8 +58,7 @@ public class SuspendSearchAdapter extends RecyclerView.Adapter<SuspendSearchAdap
         holder.mUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setClipboardWithString(mSecretList.get(position).getUser());
-                Toast.makeText(mContext,"帐号复制到剪贴板成功",Toast.LENGTH_SHORT).show();
+                mCallback.setCliboardWithString(mSecretList.get(position).getUser());
             }
         });
         holder.mPassword.setOnClickListener(new View.OnClickListener() {
@@ -67,8 +67,7 @@ public class SuspendSearchAdapter extends RecyclerView.Adapter<SuspendSearchAdap
                 if(secret.getPassword()==null||secret.getPassword().equals("")){
                     Toast.makeText(mContext,"密码为空",Toast.LENGTH_SHORT).show();
                 }else {
-                    setClipboardWithString(secret.getPassword());
-                    Toast.makeText(mContext,"密码复制到剪贴板成功",Toast.LENGTH_SHORT).show();
+                    mCallback.setCliboardWithString(secret.getPassword());
                 }
             }
         });
@@ -82,5 +81,13 @@ public class SuspendSearchAdapter extends RecyclerView.Adapter<SuspendSearchAdap
     public void setClipboardWithString(String text) {
         ClipboardManager clipboardManager=(ClipboardManager)mContext.getSystemService(Context.CLIPBOARD_SERVICE);
         clipboardManager.setText(text);
+    }
+
+    public void setmCallback(Callback mCallback) {
+        this.mCallback = mCallback;
+    }
+
+    public static interface Callback{
+        public void setCliboardWithString(String data);
     }
 }

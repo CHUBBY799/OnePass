@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/suspend_password_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@mipmap/password_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.116"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.238" />
+    <android.support.constraint.Guideline
+        android:id="@+id/suspend_guideline"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="50dp"/>
+
+    <EditText
+        android:id="@+id/suspend_unlock_password"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:background="@null"
+        android:gravity="center"
+        android:hint="请输入你的密码"
+        android:inputType="textPassword"
+        android:textColorHint="@color/text_hint_color"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/suspend_password_icon"
+        app:layout_constraintEnd_toEndOf="@id/suspend_guideline"
+        app:layout_constraintHeight_default="wrap"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/suspend_password_icon"
+        app:layout_constraintTop_toTopOf="@+id/suspend_password_icon"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/suspend_unlocak_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:text="cancel"
+        android:textColor="@color/text_hint_color"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.894" />
+</android.support.constraint.ConstraintLayout>

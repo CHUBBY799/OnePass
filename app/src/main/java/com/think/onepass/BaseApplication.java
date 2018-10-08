@@ -3,10 +3,13 @@ package com.think.onepass;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.think.onepass.util.AppManager;
+import com.think.onepass.util.FingerprintUtils;
+import com.think.onepass.util.SharePreferenceUtils;
 import com.think.onepass.view.UnlockActivity;
 
 
@@ -17,6 +20,9 @@ public class BaseApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+        SharePreferenceUtils.setContext(getApplicationContext());
+        FingerprintUtils.setContext(getApplicationContext());
+        FingerprintUtils.init();
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
