@@ -15,13 +15,14 @@
         android:theme="@style/AppTheme">
         <activity android:name=".view.HeadActivity"
             android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".view.SettingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".view.SetUpdatePW"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".view.UnlockActivity"
             android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".view.SettingActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".view.UnlockActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

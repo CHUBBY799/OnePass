@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -19,12 +20,8 @@ import com.think.onepass.label.LabelFragment;
 import com.think.onepass.model.Secret;
 import com.think.onepass.model.SecretModelImpl;
 import com.think.onepass.presenter.HeadPresenter;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class HeadActivity extends AppCompatActivity implements View.OnClickListener,HeadContract.View{
     public static final String TAGPU="pub";
