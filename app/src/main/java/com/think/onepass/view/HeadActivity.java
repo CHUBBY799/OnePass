@@ -9,11 +9,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-<<<<<<< HEAD
+
 import android.view.KeyEvent;
-import android.view.MotionEvent;
-=======
->>>>>>> 6048bfd9b0598fd5d21bf79b1d2bf5b9051b027b
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,12 +19,8 @@ import com.think.onepass.label.LabelFragment;
 import com.think.onepass.model.Secret;
 import com.think.onepass.model.SecretModelImpl;
 import com.think.onepass.presenter.HeadPresenter;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class HeadActivity extends AppCompatActivity implements View.OnClickListener,HeadContract.View{
     public static final String TAGPU="pub";

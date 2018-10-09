@@ -1,26 +1,328 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.SettingActivity">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/windowBackground"
+        android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/setting_suspend_open"
-        android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dip"
+            android:orientation="vertical" >
+
+            <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="40dip"
+                 android:gravity="center_vertical"
+                 android:text="安全设定"
+                 android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/secure_lock"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:background="@color/colorAccent"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/secure_lock_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dip"
+                        android:gravity="center_vertical"
+                        android:text="20秒无动作后锁定"
+                        android:textSize="15sp"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                    <Switch
+                        android:layout_width="40dip"
+                        android:layout_height="20dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dip"
+                        android:background="@color/colorPrimaryDark" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/colorPrimaryDark" />
+
+                <RelativeLayout
+                    android:id="@+id/secure_clear"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/secure_clear_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dip"
+                        android:gravity="center_vertical"
+                        android:text="一分钟后自动清除剪切板"
+                        android:textSize="15sp"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                    <ImageView
+                        android:layout_width="20dip"
+                        android:layout_height="20dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dip"
+                        android:background="@color/colorPrimaryDark" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/colorPrimaryDark" />
+
+                <RelativeLayout
+                    android:id="@+id/secure_fingerprintsatrt"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/secure_fingerprintsatrt_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dip"
+                        android:gravity="center_vertical"
+                        android:text="开启指纹解锁"
+                        android:textSize="15sp"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                    <ImageView
+                        android:layout_width="20dip"
+                        android:layout_height="20dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dip"
+                        android:background="@color/colorPrimaryDark" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/colorPrimaryDark" />
+
+                <RelativeLayout
+                    android:id="@+id/secure_savepassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                    android:id="@+id/secure_savepassword_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dip"
+                    android:text="网页/APP密码保存"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dip"
+                    android:background="@color/colorPrimaryDark" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="@color/colorPrimaryDark" />
+
+            <RelativeLayout
+                android:id="@+id/secure_autofill"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/secure_autofill_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dip"
+                    android:text="自动填充未输完的帐号密码"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dip"
+                    android:background="@color/colorPrimaryDark" />
+            </RelativeLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="@color/colorPrimaryDark" />
+
+            <RelativeLayout
+                android:id="@+id/secure_floatwindowstart"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/secure_floatwindowstart_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dip"
+                    android:text="开起悬浮窗"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dip"
+                    android:background="@color/colorPrimaryDark" />
+            </RelativeLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="@color/colorPrimaryDark" />
+
+            <RelativeLayout
+                android:id="@+id/secure_securitylevel"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/secure_securitylevel_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dip"
+                    android:text="安全等级设定"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+            </RelativeLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="@color/colorPrimaryDark" />
+
+            <RelativeLayout
+                android:id="@+id/secure_passwordupdate"
+                android:layout_width="match_parent"
+                android:layout_height="40dip"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/secure_passwordupdate_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dip"
+                    android:text="修改密码"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:text="open suspend"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dip"
+        android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/set_update_password_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="设置/修改密码"
-        android:textSize="25dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:gravity="center_vertical"
+            android:text="数据设定"
+            android:textSize="15sp" />
 
+        <RelativeLayout
+            android:id="@+id/data_backup"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:background="@color/colorAccent"
+            android:orientation="horizontal" >
 
-</android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/data_backup_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dip"
+                android:gravity="center_vertical"
+                android:text="备份到本地/邮箱/云盘"
+                android:textSize="15sp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/colorPrimaryDark" />
+        <RelativeLayout
+            android:id="@+id/data_backupfrequency"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:orientation="horizontal"
+            android:background="@color/colorAccent">
+
+            <TextView
+                android:id="@+id/data_backupfrequency_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="5dip"
+                android:text="备份频率"
+                android:textSize="15sp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/colorPrimaryDark" />
+        <RelativeLayout
+            android:id="@+id/data_backuprestore"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:orientation="horizontal"
+            android:background="@color/colorAccent">
+
+            <TextView
+                android:id="@+id/data_backuprestore_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="5dip"
+                android:text="备份还原"
+                android:textSize="15sp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

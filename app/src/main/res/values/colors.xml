@@ -5,6 +5,7 @@
     <color name="colorAccent">#FFFFFF</color>
     <color name="windowBackground">#f5f5f5</color>
     <color name="title_bg">#5EB482</color>
+    <color name="passwordtext">#000000</color>
 
     <!--item-->
     <color name="head_item_title">#FF5EB482</color>
@@ -14,4 +15,5 @@
     <!--label-->
     <color name="label_line_color">#D0E9DA</color>
     <color name="label_title_edit">#EFFFF6</color>
+
 </resources>

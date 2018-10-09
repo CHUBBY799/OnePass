@@ -16,7 +16,6 @@
         <activity android:name=".view.HeadActivity"
             android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".view.SettingActivity" />
-        <activity android:name=".view.SetUpdatePW"/>
         <activity android:name=".view.UnlockActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
