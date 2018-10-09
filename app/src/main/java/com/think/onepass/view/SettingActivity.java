@@ -29,6 +29,7 @@ public class SettingActivity extends Activity implements View.OnClickListener{
         rlUpdatePassword.setOnClickListener(this);
         rlStartFloatWindow = findViewById(R.id.secure_floatwindowstart);
         rlStartFloatWindow.setOnClickListener(this);
+
         //创建一个SharedPreferences实例
         msharedPreferences = this.getSharedPreferences("password", MODE_PRIVATE);
     }
@@ -36,15 +37,14 @@ public class SettingActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.secure_floatwindowstart:{
+            case R.id.secure_floatwindowstart:
                 boolean isPermission = FloatPermissionManager.getInstance().applyFloatWindow(this);
                 //有对应权限或者系统版本小于7.0
                 if (isPermission || Build.VERSION.SDK_INT < 24){
                     SuspendController.getInstance().startSuspendService(this);
                 }
                 break;
-            }
-            case R.id.secure_passwordupdate:{
+            case R.id.secure_passwordupdate:
                 final AlertDialog.Builder builderupdatepassword= new AlertDialog.Builder(this);
                 final LinearLayout linearlayoutUpdatePassword = (LinearLayout)getLayoutInflater().inflate
                         (R.layout.set_update_password,null);
@@ -79,7 +79,6 @@ public class SettingActivity extends Activity implements View.OnClickListener{
                 });
                 builderupdatepassword.create().show();
                 break;
-            }
             default:break;
         }
     }

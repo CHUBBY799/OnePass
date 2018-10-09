@@ -53,7 +53,7 @@ public class SuspendSearchAdapter extends RecyclerView.Adapter<SuspendSearchAdap
         if(secret.getPassword()==null||secret.getPassword().equals("")){
             holder.mPassword.setText("");
         }else {
-            holder.mPassword.setText("......");
+            holder.mPassword.setText("123456");
         }
         holder.mUser.setOnClickListener(new View.OnClickListener() {
             @Override

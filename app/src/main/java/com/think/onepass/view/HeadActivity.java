@@ -20,6 +20,8 @@ import com.think.onepass.label.LabelFragment;
 import com.think.onepass.model.Secret;
 import com.think.onepass.model.SecretModelImpl;
 import com.think.onepass.presenter.HeadPresenter;
+import com.think.onepass.util.SharePreferenceUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -185,5 +187,11 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
         }
         }
         return super.onKeyUp(keyCode,event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SharePreferenceUtils.setSuspendpasstimeKey(0);
     }
 }

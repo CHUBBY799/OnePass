@@ -33,7 +33,7 @@
         android:hint="请输入你的密码"
         android:inputType="textPassword"
         android:textColorHint="@color/text_hint_color"
-        android:textSize="20sp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@id/suspend_password_icon"
         app:layout_constraintEnd_toEndOf="@id/suspend_guideline"
         app:layout_constraintHeight_default="wrap"

@@ -81,6 +81,7 @@ public class SuspendLayout extends FrameLayout {
     private EditText unlockPassword;
     private Button unlockCancel;
     private View preview;
+    public static final long MAX_PASSTIME=5 * 60 * 1000;
 
     public SuspendLayout(@NonNull Context context) {
         this(context,null);
@@ -133,47 +134,56 @@ public class SuspendLayout extends FrameLayout {
                 mSearchAdapter.setmCallback(new SuspendSearchAdapter.Callback() {
                     @Override
                     public void setCliboardWithString(String data) {
+                        long currentTime=System.currentTimeMillis();
+                        long passTime=currentTime-SharePreferenceUtils.getSuspendpasstimeKey();
                         mdata=data;
-                        preview=mSuspendFragment.getChildAt(0);
-                        mSuspendFragment.removeAllViews();
-                        View unlockView=LayoutInflater.from(mContext).inflate(R.layout.suspend_unlock_fragment,mSuspendFragment,false);
-                        startListening(mCipher);
-                        mSuspendFragment.addView(unlockView);
-                        unlockPassword=unlockView.findViewById(R.id.suspend_unlock_password);
-                        unlockPassword.addTextChangedListener(new TextWatcher() {
-                            @Override
-                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        if(passTime>MAX_PASSTIME) {
+                            preview = mSuspendFragment.getChildAt(0);
+                            mSuspendFragment.removeAllViews();
+                            View unlockView = LayoutInflater.from(mContext).inflate(R.layout.suspend_unlock_fragment, mSuspendFragment, false);
+                            startListening(mCipher);
+                            mSuspendFragment.addView(unlockView);
+                            unlockPassword = unlockView.findViewById(R.id.suspend_unlock_password);
+                            unlockPassword.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                            }
+                                }
 
-                            @Override
-                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                @Override
+                                public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                            }
+                                }
 
-                            @Override
-                            public void afterTextChanged(Editable s) {
-                                String password=unlockPassword.getText().toString();
-                                if(unlockPassword.length()==4){
-                                    String correctPassword= SharePreferenceUtils.getPassword();
-                                    if(password.equals(correctPassword)){
-                                        setClipboard(mdata);
-                                        Toast.makeText(mContext,"复制成功",Toast.LENGTH_SHORT).show();
-                                        backPreSearchView(preview);
+                                @Override
+                                public void afterTextChanged(Editable s) {
+                                    String password = unlockPassword.getText().toString();
+                                    if (unlockPassword.length() == 4) {
+                                        String correctPassword = SharePreferenceUtils.getPassword();
+                                        if (password.equals(correctPassword)) {
+                                            SharePreferenceUtils.setSuspendpasstimeKey(System.currentTimeMillis());
+                                            setClipboard(mdata);
+                                            Toast.makeText(mContext, "复制成功", Toast.LENGTH_SHORT).show();
+                                            backPreSearchView(preview);
+                                        }
                                     }
                                 }
-                            }
-                        });
-                        unlockCancel=unlockView.findViewById(R.id.suspend_unlocak_cancel);
-                        unlockCancel.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                backPreSearchView(preview);
-                            }
-                        });
+                            });
+                            unlockCancel = unlockView.findViewById(R.id.suspend_unlocak_cancel);
+                            unlockCancel.setOnClickListener(new OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    backPreSearchView(preview);
+                                }
+                            });
+                        }else {
+                            setClipboard(mdata);
+                            Toast.makeText(mContext, "复制成功", Toast.LENGTH_SHORT).show();
+                        }
 
                     }
                 });
+
                 mSearchRecycler.addItemDecoration(new DividerItemDecoration(mContext,DividerItemDecoration.VERTICAL));
                 LinearLayoutManager manage=new LinearLayoutManager(mContext);
                 mSearchRecycler.setLayoutManager(manage);
@@ -191,19 +201,32 @@ public class SuspendLayout extends FrameLayout {
                 mAddConfirm.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        InputMethodManager inputMethodManager=(InputMethodManager)mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(mSuspendFragment.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
                         Secret secret=new Secret();
-                        secret.setTitle(mAddTitle.getText().toString());
-                        secret.setUser(mAddUser.getText().toString());
+                        String title=mAddTitle.getText().toString();
+                        String user=mAddUser.getText().toString();
+                        if(title==null||title.equals("")){
+                            Toast.makeText(mContext,"标题不能为空",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if(user==null||user.equals("")){
+                            Toast.makeText(mContext,"用户名不能为空",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        secret.setTitle(title);
+                        secret.setUser(user);
                         secret.setPassword(mAddPassword.getText().toString());
                         mModel.addSecret(secret);
                         Toast.makeText(mContext,"添加账户成功",Toast.LENGTH_SHORT).show();
+                        setmSuspendFragment(SUSPEND_TYPE_SEARCH);
                     }
                 });
                 mAddCancel=findViewById(R.id.suspend_add_cacel);
                 mAddCancel.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        setmSuspendFragment(SUSPEND_TYPE_ADD);
+                        setmSuspendFragment(SUSPEND_TYPE_SEARCH);
                     }
                 });
                 break;

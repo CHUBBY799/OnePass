@@ -1,52 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/title_bg">
-
-    <ImageView
-        android:id="@+id/suspend_search_icon"
-        android:layout_width="16dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="8dp"
-        android:src="@mipmap/head_search"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <EditText
-        android:id="@+id/suspend_search"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:hint="请输入关键词"
-        android:textSize="14sp"
-        android:textColorHint="@color/text_hint_color"
-        android:textColor="@color/text_hint_color"
-        app:layout_constraintStart_toEndOf="@id/suspend_search_icon"
-        app:layout_constraintTop_toTopOf="@id/suspend_search_icon"/>
-    <ImageView
-        android:id="@+id/suspend_add"
-        android:layout_width="16dp"
-        android:layout_height="40dp"
-        android:src="@mipmap/head_add"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintStart_toEndOf="@id/suspend_search"
-        app:layout_constraintTop_toTopOf="@+id/suspend_search"/>
-    <ImageView
-        android:id="@+id/suspend_control"
-        android:layout_width="19dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/view_more_icon"
-        app:layout_constraintStart_toEndOf="@id/suspend_add"
-        app:layout_constraintTop_toTopOf="@+id/suspend_add"/>
-    <FrameLayout
-        android:id="@+id/suspend_fragment"
-        android:layout_width="200dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <android.support.v7.widget.CardView
+        android:id="@+id/suspend_title_carview"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:cardCornerRadius="6dp">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/title_bg">
+            <ImageView
+                android:id="@+id/suspend_search_icon"
+                android:layout_width="16dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:src="@mipmap/head_search"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <EditText
+                android:id="@+id/suspend_search"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:hint="请输入关键词"
+                android:textSize="14sp"
+                android:textColorHint="@color/text_hint_color"
+                android:textColor="@color/text_hint_color"
+                app:layout_constraintStart_toEndOf="@id/suspend_search_icon"
+                app:layout_constraintTop_toTopOf="@id/suspend_search_icon"/>
+            <ImageView
+                android:id="@+id/suspend_add"
+                android:layout_width="16dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/head_add"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintStart_toEndOf="@id/suspend_search"
+                app:layout_constraintTop_toTopOf="@+id/suspend_search"/>
+            <ImageView
+                android:id="@+id/suspend_control"
+                android:layout_width="19dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/view_more_icon"
+                app:layout_constraintStart_toEndOf="@id/suspend_add"
+                app:layout_constraintTop_toTopOf="@+id/suspend_add"/>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        app:cardCornerRadius="6dp"
         android:background="@color/colorAccent"
-        app:layout_constraintTop_toBottomOf="@id/suspend_search_icon"
+        app:layout_constraintTop_toBottomOf="@id/suspend_title_carview"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/suspend_control">
-
-    </FrameLayout>
+        app:layout_constraintEnd_toEndOf="@id/suspend_title_carview">
+        <FrameLayout
+            android:id="@+id/suspend_fragment"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content">
+        </FrameLayout>
+    </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

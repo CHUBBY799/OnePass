@@ -123,7 +123,9 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
                 int position=holder.getLayoutPosition();
                 if(mSecretList.get(position).getUser()==null||mSecretList.get(position).getUser().equals("")){
                     Toast.makeText(mContext,"用户名不能为空",Toast.LENGTH_SHORT).show();
-                }else {
+                }else if(mSecretList.get(position).getTitle()==null||mSecretList.get(position).getTitle().equals("")){
+                    Toast.makeText(mContext,"标题不能为空",Toast.LENGTH_SHORT).show();
+                } else {
                     String time;
                     if(mSecretMode.get(position)==ADD_MODE){
                         Map<String,Object> response=mCallback.addSecrets(mSecretList.get(position));

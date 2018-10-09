@@ -16,6 +16,8 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 import com.think.onepass.R;
 import com.think.onepass.util.AppManager;
+import com.think.onepass.util.SharePreferenceUtils;
+
 import java.security.KeyStore;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -31,7 +33,7 @@ public class UnlockActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
         setContentView(R.layout.activity_unlock);
-        if(supportFingerprint()){
+        if(SharePreferenceUtils.getFingerprintopenKey() && supportFingerprint()){
             initKey();
             initCipher();
         }

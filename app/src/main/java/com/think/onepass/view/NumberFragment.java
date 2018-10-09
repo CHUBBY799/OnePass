@@ -17,15 +17,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.think.onepass.R;
+import com.think.onepass.util.SharePreferenceUtils;
 
 public class NumberFragment extends Fragment{
     private static final String TAG = "NumberFragment";
     private UnlockActivity mActivty;
     private TextView mtvChangeToFingerPrintFrament;
+    private RelativeLayout relativeLayout;
     private EditText metPassWord;
     private SharedPreferences msharePreferences;
     @Override
@@ -44,19 +48,24 @@ public class NumberFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.number_unlock,container,false);
-        mtvChangeToFingerPrintFrament = (TextView)view.findViewById(R.id.changetofingerprintframenttv);
-        mtvChangeToFingerPrintFrament.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: ");
-                    FragmentManager fragmentManager=getFragmentManager();
-                    FragmentTransaction transaction=fragmentManager.beginTransaction();
+        relativeLayout=view.findViewById(R.id.relativeLayout);
+        if(!SharePreferenceUtils.getFingerprintopenKey()) {
+            relativeLayout.setVisibility(View.GONE);
+        }else {
+            mtvChangeToFingerPrintFrament = (TextView) view.findViewById(R.id.changetofingerprintframenttv);
+            mtvChangeToFingerPrintFrament.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d(TAG, "onClick: ");
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
                     //用新建的片段替换当前的片段
-                    transaction.replace(R.id.unlock_layout,new FingerprintFragment());
+                    transaction.replace(R.id.unlock_layout, new FingerprintFragment());
                     //执行该事务
                     transaction.commit();
-            }
-        });
+                }
+            });
+        }
         metPassWord = (EditText)view.findViewById(R.id.passwordeditText);
         //屏蔽系统的软键盘
         metPassWord.setInputType(InputType.TYPE_NULL);
