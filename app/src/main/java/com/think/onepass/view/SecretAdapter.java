@@ -89,7 +89,7 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
                 setImageviewMargin(holder.secretDelete,15);
                 break;
             case ADD_MODE:
-                holder.secretTime.setVisibility(View.GONE);
+                holder.secretTime.setVisibility(View.INVISIBLE);
                 holder.secretUserCopy.setVisibility(View.GONE);
                 holder.secretPasswordCopy.setVisibility(View.GONE);
                 holder.secretConfirm.setVisibility(View.VISIBLE);

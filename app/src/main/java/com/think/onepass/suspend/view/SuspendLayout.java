@@ -2,9 +2,12 @@ package com.think.onepass.suspend.view;
 
 import android.app.Activity;
 import android.app.Service;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.ColorSpace;
 import android.graphics.Rect;
+import android.hardware.fingerprint.FingerprintManager;
+import android.os.CancellationSignal;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -38,10 +41,14 @@ import com.think.onepass.model.SecretModelImpl;
 import com.think.onepass.suspend.SuspendControlManager;
 import com.think.onepass.suspend.SuspendController;
 import com.think.onepass.suspend.SuspendManager;
+import com.think.onepass.util.FingerprintUtils;
+import com.think.onepass.util.SharePreferenceUtils;
 import com.think.onepass.view.HeadActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.crypto.Cipher;
 
 public class SuspendLayout extends FrameLayout {
     private static final String TAG = "SuspendLayout";
@@ -60,12 +67,20 @@ public class SuspendLayout extends FrameLayout {
     private RecyclerView mSearchRecycler;
     private SuspendSearchAdapter mSearchAdapter;
     private List<Secret> secrets;
-    private boolean initSearchView=true;//判断
+    private boolean initSearchView=true;//判断当前view是否是SearchView
     public final String SUSPEND_TYPE_SEARCH="search";
     public final String SUSPEND_TYPE_ADD="add";
-
+    public String searchKey;
 
     private float mTouchStartX,mTouchStartY;
+
+    //指纹验证
+    private Cipher mCipher;
+    private FingerprintManager fingerprintManager;
+    private CancellationSignal mCancellationSignal;
+    private EditText unlockPassword;
+    private Button unlockCancel;
+    private View preview;
 
     public SuspendLayout(@NonNull Context context) {
         this(context,null);
@@ -100,6 +115,9 @@ public class SuspendLayout extends FrameLayout {
             }
         });
 
+        //fingerprint
+        fingerprintManager=context.getSystemService(FingerprintManager.class);
+        mCipher= FingerprintUtils.getCipher();
     }
 
     // 根据类型加载不同布局  搜索：0  添加：1
@@ -112,6 +130,50 @@ public class SuspendLayout extends FrameLayout {
                 mSearchRecycler=findViewById(R.id.suspend_search_recycler);
                 secrets=mModel.searchSecretByKey(mSearch.getText().toString(),0);
                 mSearchAdapter=new SuspendSearchAdapter(secrets,mContext);
+                mSearchAdapter.setmCallback(new SuspendSearchAdapter.Callback() {
+                    @Override
+                    public void setCliboardWithString(String data) {
+                        mdata=data;
+                        preview=mSuspendFragment.getChildAt(0);
+                        mSuspendFragment.removeAllViews();
+                        View unlockView=LayoutInflater.from(mContext).inflate(R.layout.suspend_unlock_fragment,mSuspendFragment,false);
+                        startListening(mCipher);
+                        mSuspendFragment.addView(unlockView);
+                        unlockPassword=unlockView.findViewById(R.id.suspend_unlock_password);
+                        unlockPassword.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                String password=unlockPassword.getText().toString();
+                                if(unlockPassword.length()==4){
+                                    String correctPassword= SharePreferenceUtils.getPassword();
+                                    if(password.equals(correctPassword)){
+                                        setClipboard(mdata);
+                                        Toast.makeText(mContext,"复制成功",Toast.LENGTH_SHORT).show();
+                                        backPreSearchView(preview);
+                                    }
+                                }
+                            }
+                        });
+                        unlockCancel=unlockView.findViewById(R.id.suspend_unlocak_cancel);
+                        unlockCancel.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                backPreSearchView(preview);
+                            }
+                        });
+
+                    }
+                });
                 mSearchRecycler.addItemDecoration(new DividerItemDecoration(mContext,DividerItemDecoration.VERTICAL));
                 LinearLayoutManager manage=new LinearLayoutManager(mContext);
                 mSearchRecycler.setLayoutManager(manage);
@@ -147,6 +209,51 @@ public class SuspendLayout extends FrameLayout {
                 break;
         }
     }
+    private void backPreSearchView(View view){
+        stopListening();
+        mSuspendFragment.removeAllViews();
+        mSuspendFragment.addView(view);
+
+    }
+    public void setClipboard(String text) {
+        ClipboardManager clipboardManager=(ClipboardManager)mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboardManager.setText(text);
+    }
+    private String mdata;
+    private void startListening(Cipher cipher){
+        Log.d(TAG, "startListening: ");
+        mCancellationSignal=new CancellationSignal();
+        fingerprintManager.authenticate(new FingerprintManager.CryptoObject(mCipher), mCancellationSignal
+                , 0, new FingerprintManager.AuthenticationCallback() {
+                    @Override
+                    public void onAuthenticationError(int errorCode, CharSequence errString) {
+                    }
+
+                    @Override
+                    public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
+
+                    }
+
+                    @Override
+                    public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
+                        setClipboard(mdata);
+                        Toast.makeText(mContext,"复制成功",Toast.LENGTH_SHORT).show();
+                        backPreSearchView(preview);
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+                    }
+                },null);
+    }
+    private void stopListening(){
+        Log.d(TAG, "stopListening: ");
+        if(mCancellationSignal!=null){
+            mCancellationSignal.cancel();
+            mCancellationSignal=null;
+        }
+    }
+
 
     //为Edittext内容改变保存值
     private void setEditText(final EditText myEditText){
@@ -168,6 +275,7 @@ public class SuspendLayout extends FrameLayout {
             public void afterTextChanged(Editable s) {
                 switch (myEditText.getId()){
                     case R.id.suspend_search:
+                        searchKey=myEditText.getText().toString();
                         if(initSearchView){
                             setmSuspendFragment(SUSPEND_TYPE_SEARCH);
                         }else {
