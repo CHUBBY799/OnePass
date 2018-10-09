@@ -14,10 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.HeadActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".view.SettingActivity" />
-        <activity android:name=".view.SetUpdatePW"/>
-        <activity android:name=".view.UnlockActivity">
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".view.SettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".view.SetUpdatePW"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".view.UnlockActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
