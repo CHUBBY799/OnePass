@@ -62,4 +62,9 @@ public class HeadPresenter implements HeadContract.Presenter{
     public List<Secret> getSecretsByLasttimeDesc() {
         return mModel.getSecretsByLasttimeDesc();
     }
+
+    @Override
+    public boolean isContainById(long id) {
+        return mModel.isContainById(id);
+    }
 }

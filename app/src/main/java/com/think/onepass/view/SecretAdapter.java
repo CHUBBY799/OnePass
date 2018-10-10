@@ -1,6 +1,7 @@
 package com.think.onepass.view;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
@@ -18,7 +19,9 @@ import android.widget.Toast;
 
 import com.think.onepass.R;
 import com.think.onepass.model.Secret;
+import com.think.onepass.util.DialogUtils;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +36,7 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
     public static final int NORMAL_MODE=0;
     public static final int ADD_MODE=1;
     public static final int UPDATE_MODE=2;
+    public static Map<Integer,Secret> updateCache=new HashMap<>();
 //    private Set<Secret> UPDATE_ITEMS=new HashSet<>();
     static class ViewHolder extends RecyclerView.ViewHolder{
         View secretView;
@@ -151,19 +155,87 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
         holder.secretDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position=holder.getLayoutPosition();
+                final int position=holder.getLayoutPosition();
                 int mode=mSecretMode.get(position);
-                if(mode==UPDATE_MODE||mode==NORMAL_MODE){
-                    long secretId=mSecretList.get(position).getId();
-                    mCallback.deleteSecret(secretId);
-                }
-                mSecretList.remove(position);
-                mSecretMode.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position,mSecretList.size()-position);
+                String title;
+                String message;
+                switch (mode){
+                    case NORMAL_MODE:
+                        title="Delete";
+                        message="Do you want to delete the "+mSecretList.get(position).getTitle();
+                        DialogUtils.showDialog(mContext, title, message, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onNormalDelete(position);
+                            }
+                        }, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                        break;
+                    case UPDATE_MODE:
+                        title="Revoke";
+                        message="Do you want to revoking ?";
+                        DialogUtils.showDialog(mContext, title, message, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onUpdateDelete(position, holder);
+                            }
+                        }, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
+                            }
+                        });
+                        break;
+                    case ADD_MODE:
+                        title="Delete";
+                        message="Will not save your information.";
+                        DialogUtils.showDialog(mContext, title, message, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onAddDelete(position);
+                            }
+                        }, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+
+                        break;
+                }
             }
         });
+    }
+    private void onUpdateDelete(int position,ViewHolder holder){
+        if(updateCache.containsKey(position)){
+            Secret cacheSecret=updateCache.get(position);
+            Secret trueSecret=mSecretList.get(position);
+            trueSecret.setTitle(cacheSecret.getTitle());
+            trueSecret.setUser(cacheSecret.getUser());
+            trueSecret.setPassword(cacheSecret.getPassword());
+            trueSecret.setLabel(cacheSecret.getLabel());
+            mSecretMode.set(position,NORMAL_MODE);
+            holder.secretConfirm.setVisibility(View.GONE);
+            setImageviewMargin(holder.secretDelete,15);
+            notifyDataSetChanged();
+        }
+    }
+    private void onAddDelete(int position){
+        mSecretList.remove(position);
+        mSecretMode.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position,mSecretList.size()-position);
+    }
+    private void onNormalDelete(int position){
+        long secretId=mSecretList.get(position).getId();
+        mCallback.deleteSecret(secretId);
+        mSecretList.remove(position);
+        mSecretMode.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position,mSecretList.size()-position);
     }
     private void setImageviewMargin(ImageView view,int margin){
         ConstraintLayout.LayoutParams lp=(ConstraintLayout.LayoutParams)view.getLayoutParams();
@@ -190,6 +262,16 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
 
             @Override
             public void afterTextChanged(Editable s) {
+                int position=holder.getLayoutPosition();
+                if(mSecretMode.get(position)==NORMAL_MODE){
+                    mSecretMode.set(position,UPDATE_MODE);
+                    Secret cacheSecret=new Secret();
+                    cacheSecret.setTitle(secret.getTitle());
+                    cacheSecret.setUser(secret.getUser());
+                    cacheSecret.setPassword(secret.getPassword());
+                    cacheSecret.setLabel(secret.getLabel());
+                    updateCache.put(position,cacheSecret);
+                }
                 switch (myEditText.getId()){
                     case R.id.secret_title:
                         secret.setTitle(myEditText.getText().toString());
@@ -208,10 +290,7 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
                     holder.secretConfirm.setVisibility(View.VISIBLE);
                     setImageviewMargin(holder.secretDelete,52);
                 }
-                int position=holder.getLayoutPosition();
-                if(mSecretMode.get(position)==NORMAL_MODE){
-                    mSecretMode.set(position,UPDATE_MODE);
-                }
+
             }
         };
         myEditText.addTextChangedListener(watcher);

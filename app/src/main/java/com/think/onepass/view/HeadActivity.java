@@ -33,6 +33,12 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
     private HeadContract.Presenter mPresenter;
     private SecretFragment mainFragment;
 
+    // SecretFragment Type
+    public static final int MAIN=1;
+    public static final int LABEL=2;
+    public static final int SEARCH=3;
+    public static final int ADD = 4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +98,13 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.head_label:
                 Fragment fragmentHelp=getSupportFragmentManager()
                         .findFragmentById(R.id.head_fragment);
+                if(fragmentHelp instanceof SecretFragment ){
+                    int type=((SecretFragment) fragmentHelp).getType();
+                    if(type==LABEL){
+                        break;
+                    }
+                }
+
                 if(!(fragmentHelp instanceof  LabelFragment)){
                     LabelFragment labelFragment=new LabelFragment();
                     labelFragment.setPresenter(mPresenter);
@@ -112,6 +125,16 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
         transaction.replace(R.id.head_fragment,fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+
+    }
+    public void replaceFragmentNotBackStack(Fragment fragment){
+        Log.d(TAG, "replaceFragment: start");
+        FragmentManager fragmentManager=getSupportFragmentManager();
+        FragmentTransaction transaction=fragmentManager.beginTransaction();
+        transaction.replace(R.id.head_fragment,fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
     }
 //    private void replaceFragment(Fragment fragment){
 //        Log.d(TAG, "replaceFragment: start");
@@ -149,7 +172,7 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
              fragment=new SecretFragment();
              ((SecretFragment)fragment).setmPresenter(mPresenter);
              ((SecretFragment)fragment).initData(secrets);
-             replaceFragment(fragment);
+              replaceFragment(fragment);
          }else{
              ((SecretFragment)fragment).refreshSecrets(secrets);
          }

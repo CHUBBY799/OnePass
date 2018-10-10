@@ -32,6 +32,7 @@ public class SecretFragment extends Fragment{
     private Activity mActivity;
     private HeadContract.Presenter mPresenter;
     private boolean autoInit=false; //判断是否需要自己初始化数据.
+    private int type; //主页面 ：1    label项的页面 ：2  search :3  add :4
 
     public void setmPresenter(HeadContract.Presenter presenter){
         mPresenter=presenter;
@@ -39,12 +40,16 @@ public class SecretFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(HeadActivity.TAGPU, "onCreateView: ");
+//        if(type==2 && ! mPresenter.isContainById(mSecretList.get(0).getId())){
+//            getActivity().onBackPressed();
+//        }
+        Log.d(HeadActivity.TAGPU, "onCreateView:1 ");
         View view=inflater.inflate(R.layout.secret_head_fragment,container,false);
         headRecycler=view.findViewById(R.id.head_recycler);
         if(autoInit){
             autoInitData();
         }
+
         initRecycler();
         //当点击外部时，内部的输入框失去焦点
         headRecycler.setOnTouchListener(new View.OnTouchListener() {
@@ -59,6 +64,12 @@ public class SecretFragment extends Fragment{
             }
         });
         return view;
+    }
+    public void setType(int type){
+        this.type=type;
+    }
+    public int getType(){
+        return type;
     }
     public void setAutoInit(boolean autoInit){
         this.autoInit=autoInit;

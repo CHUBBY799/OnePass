@@ -1,6 +1,8 @@
 package com.think.onepass.label;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -50,9 +52,26 @@ public class LabelFragment extends Fragment{
         mAdapter=new LabelAdapter(mContext,labelGroup,labelChild);
         mAdapter.setCallback(new LabelAdapter.Callback() {
             @Override
-            public void deleteSecret(long id) {
-                mPresenter.deleteSecret(id);
-                refreshData();
+            public void deleteSecret(final Secret secret) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                dialog.setTitle("Delete");
+                dialog.setMessage("Do you want to delete "+secret.getTitle()+" ?");
+                dialog.setCancelable(true);
+                dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPresenter.deleteSecret(secret.getId());
+                        refreshData();
+                        dialog.dismiss();
+                    }
+                });
+                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
             }
 
             @Override
@@ -62,6 +81,7 @@ public class LabelFragment extends Fragment{
                 List<Secret> secrets=new ArrayList<>();
                 secrets.add(secret);
                 secretFragment.initData(secrets);
+                secretFragment.setType(2); // 2 : label页面
                 ((HeadActivity)mContext).replaceFragment(secretFragment);
             }
         });

@@ -67,7 +67,7 @@ public class LabelAdapter extends RecyclerView.Adapter<LabelAdapter.ViewHolder>{
             view.setCallBack(new TitleView.CallBack() {
                 @Override
                 public void deleteSecret(Secret secret, View view) {
-                    mCallback.deleteSecret(secret.getId());
+                    mCallback.deleteSecret(secret);
                 }
 
                 @Override
@@ -95,7 +95,7 @@ public class LabelAdapter extends RecyclerView.Adapter<LabelAdapter.ViewHolder>{
         mCallback=callback;
     }
     public static interface Callback{
-        public void deleteSecret(long id);
+        public void deleteSecret(Secret secret);
         public void showSecret(Secret secret);
     }
 }

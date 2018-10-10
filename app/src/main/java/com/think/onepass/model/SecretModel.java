@@ -13,4 +13,5 @@ public interface SecretModel {
       void deleteSecretById(long id);
       List<String> selectAllLabel();
       List<Secret> selectSecretByLabel(String label);
+      public boolean isContainById(long id);
 }

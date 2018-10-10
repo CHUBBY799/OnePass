@@ -20,6 +20,7 @@ public class HeadContract {
         List<String> selectAllLabel();
         List<List<Secret>> selectSecretsByLabel(List<String> labels);
         List<Secret> getSecretsByLasttimeDesc();
+        public boolean isContainById(long id);
 
     }
 }

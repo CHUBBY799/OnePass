@@ -80,7 +80,7 @@ public class NumberFragment extends Fragment{
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 msharePreferences = mActivty.getSharedPreferences("password",Context.MODE_PRIVATE);
-                String mPassWord =msharePreferences.getString("password","密码");
+                String mPassWord =msharePreferences.getString("password","0000");
                 if (metPassWord.getText().toString().equals(mPassWord)){
                     Toast.makeText(mActivty,"success",Toast.LENGTH_SHORT).show();
                     mActivty.onAuthenticated();

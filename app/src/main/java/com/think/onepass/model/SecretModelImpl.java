@@ -156,4 +156,11 @@ public class SecretModelImpl implements SecretModel{
         }
         return secrets;
     }
+
+    @Override
+    public boolean isContainById(long id) {
+        SQLiteDatabase db=dbHelper.getReadableDatabase();
+        Cursor cursor=db.rawQuery("select * from main where id = ? ",new String[]{String.valueOf(id)});
+        return cursor.moveToFirst();
+    }
 }

@@ -20,16 +20,14 @@
     <EditText
         android:id="@+id/suspend_add_title"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="30dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="8dp"
         android:background="@null"
         android:maxLines="1"
         android:padding="0dp"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_default="wrap"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/suspend_add_title_icon"
         app:layout_constraintTop_toTopOf="parent" />
     <View
@@ -53,14 +51,12 @@
     <EditText
         android:id="@+id/suspend_add_user"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="4dp"
+        android:layout_height="30dp"
         android:background="@null"
         android:maxLines="1"
         android:padding="0dp"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_default="wrap"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@id/suspend_add_title"
         app:layout_constraintTop_toTopOf="@+id/suspend_add_user_icon" />
@@ -85,15 +81,13 @@
     <EditText
         android:id="@+id/suspend_add_password"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="4dp"
+        android:layout_height="30dp"
         android:background="@null"
         android:maxLines="1"
         android:padding="0dp"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_default="wrap"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/suspend_add_user"
         app:layout_constraintTop_toTopOf="@+id/suspend_add_password_icon" />
     <View
