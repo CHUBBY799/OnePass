@@ -44,12 +44,12 @@
                         android:textColor="@color/colorPrimaryDark"/>
 
                     <Switch
-                        android:layout_width="40dip"
+                        android:id="@+id/secure_lock_switch"
+                        android:layout_width="50dip"
                         android:layout_height="20dip"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="5dip"
-                        android:background="@color/colorPrimaryDark" />
+                        android:layout_marginRight="5dip" />
                 </RelativeLayout>
 
                 <ImageView
@@ -73,13 +73,13 @@
                         android:textSize="15sp"
                         android:textColor="@color/colorPrimaryDark"/>
 
-                    <ImageView
-                        android:layout_width="20dip"
+                    <Switch
+                        android:id="@+id/secure_clear_switch"
+                        android:layout_width="50dip"
                         android:layout_height="20dip"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="5dip"
-                        android:background="@color/colorPrimaryDark" />
+                        android:layout_marginRight="5dip" />
                 </RelativeLayout>
 
                 <ImageView
@@ -103,13 +103,13 @@
                         android:textSize="15sp"
                         android:textColor="@color/colorPrimaryDark"/>
 
-                    <ImageView
-                        android:layout_width="20dip"
+                    <Switch
+                        android:id="@+id/secure_fingerprintsatrt_switch"
+                        android:layout_width="50dip"
                         android:layout_height="20dip"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="5dip"
-                        android:background="@color/colorPrimaryDark" />
+                        android:layout_marginRight="5dip" />
                 </RelativeLayout>
 
                 <ImageView
@@ -133,13 +133,13 @@
                     android:textSize="15sp"
                     android:textColor="@color/colorPrimaryDark"/>
 
-                <ImageView
-                    android:layout_width="20dip"
-                    android:layout_height="20dip"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="5dip"
-                    android:background="@color/colorPrimaryDark" />
+                    <Switch
+                        android:id="@+id/secure_savepassword_switch"
+                        android:layout_width="50dip"
+                        android:layout_height="20dip"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dip" />
             </RelativeLayout>
 
             <ImageView
@@ -163,13 +163,13 @@
                     android:textSize="15sp"
                     android:textColor="@color/colorPrimaryDark"/>
 
-                <ImageView
-                    android:layout_width="20dip"
+                <Switch
+                    android:id="@+id/secure_autofill_switch"
+                    android:layout_width="50dip"
                     android:layout_height="20dip"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="5dip"
-                    android:background="@color/colorPrimaryDark" />
+                    android:layout_marginRight="5dip" />
             </RelativeLayout>
             <ImageView
                 android:layout_width="match_parent"
@@ -191,14 +191,13 @@
                     android:text="开起悬浮窗"
                     android:textSize="15sp"
                     android:textColor="@color/colorPrimaryDark"/>
-
-                <ImageView
-                    android:layout_width="20dip"
+                <Switch
+                    android:id="@+id/secure_floatwindowstart_switch"
+                    android:layout_width="50dip"
                     android:layout_height="20dip"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="5dip"
-                    android:background="@color/colorPrimaryDark" />
+                    android:layout_marginRight="5dip" />
             </RelativeLayout>
             <ImageView
                 android:layout_width="match_parent"
@@ -221,6 +220,13 @@
                     android:textSize="15sp"
                     android:textColor="@color/colorPrimaryDark"/>
 
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dip"
+                    android:src="@mipmap/more_setting_icon" />
             </RelativeLayout>
             <ImageView
                 android:layout_width="match_parent"
@@ -230,7 +236,7 @@
             <RelativeLayout
                 android:id="@+id/secure_passwordupdate"
                 android:layout_width="match_parent"
-                android:layout_height="40dip"
+                android:layout_height="50dip"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -243,6 +249,13 @@
                     android:textSize="15sp"
                     android:textColor="@color/colorPrimaryDark"/>
 
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_height="20dip"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dip"
+                    android:src="@mipmap/more_setting_icon"/>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
@@ -264,7 +277,7 @@
         <RelativeLayout
             android:id="@+id/data_backup"
             android:layout_width="match_parent"
-            android:layout_height="40dip"
+            android:layout_height="50dip"
             android:background="@color/colorAccent"
             android:orientation="horizontal" >
 
@@ -278,6 +291,13 @@
                 android:textSize="15sp"
                 android:textColor="@color/colorPrimaryDark"/>
 
+            <ImageView
+                android:layout_width="20dip"
+                android:layout_height="20dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dip"
+                android:src="@mipmap/more_setting_icon" />
         </RelativeLayout>
         <ImageView
             android:layout_width="match_parent"
@@ -286,7 +306,7 @@
         <RelativeLayout
             android:id="@+id/data_backupfrequency"
             android:layout_width="match_parent"
-            android:layout_height="40dip"
+            android:layout_height="50dip"
             android:orientation="horizontal"
             android:background="@color/colorAccent">
 
@@ -300,6 +320,13 @@
                 android:textSize="15sp"
                 android:textColor="@color/colorPrimaryDark"/>
 
+            <ImageView
+                android:layout_width="20dip"
+                android:layout_height="20dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dip"
+                android:src="@mipmap/more_setting_icon" />
         </RelativeLayout>
         <ImageView
             android:layout_width="match_parent"
