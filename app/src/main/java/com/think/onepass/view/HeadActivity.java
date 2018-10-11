@@ -18,7 +18,9 @@ import com.think.onepass.label.LabelFragment;
 import com.think.onepass.model.Secret;
 import com.think.onepass.model.SecretModelImpl;
 import com.think.onepass.presenter.HeadPresenter;
+import com.think.onepass.setting.ClearClipboardService;
 import com.think.onepass.util.SharePreferenceUtils;
+import com.think.onepass.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,8 +158,7 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void setClipboardWithString(String text) {
-        ClipboardManager clipboardManager=(ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-        clipboardManager.setText(text);
+        Utils.setClipboard(this.getApplicationContext(),text);
     }
 
 

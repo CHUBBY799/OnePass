@@ -43,6 +43,7 @@ import com.think.onepass.suspend.SuspendController;
 import com.think.onepass.suspend.SuspendManager;
 import com.think.onepass.util.FingerprintUtils;
 import com.think.onepass.util.SharePreferenceUtils;
+import com.think.onepass.util.Utils;
 import com.think.onepass.view.HeadActivity;
 
 import java.util.ArrayList;
@@ -162,7 +163,7 @@ public class SuspendLayout extends FrameLayout {
                                         String correctPassword = SharePreferenceUtils.getPassword();
                                         if (password.equals(correctPassword)) {
                                             SharePreferenceUtils.setSuspendpasstimeKey(System.currentTimeMillis());
-                                            setClipboard(mdata);
+                                            Utils.setClipboard(mContext.getApplicationContext(),mdata);
                                             Toast.makeText(mContext, "复制成功", Toast.LENGTH_SHORT).show();
                                             backPreSearchView(preview);
                                         }
@@ -177,7 +178,7 @@ public class SuspendLayout extends FrameLayout {
                                 }
                             });
                         }else {
-                            setClipboard(mdata);
+                            Utils.setClipboard(mContext.getApplicationContext(),mdata);
                             Toast.makeText(mContext, "复制成功", Toast.LENGTH_SHORT).show();
                         }
 
@@ -238,10 +239,6 @@ public class SuspendLayout extends FrameLayout {
         mSuspendFragment.addView(view);
 
     }
-    public void setClipboard(String text) {
-        ClipboardManager clipboardManager=(ClipboardManager)mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-        clipboardManager.setText(text);
-    }
     private String mdata;
     private void startListening(Cipher cipher){
         Log.d(TAG, "startListening: ");
@@ -259,7 +256,7 @@ public class SuspendLayout extends FrameLayout {
 
                     @Override
                     public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
-                        setClipboard(mdata);
+                        Utils.setClipboard(mContext.getApplicationContext(),mdata);
                         Toast.makeText(mContext,"复制成功",Toast.LENGTH_SHORT).show();
                         backPreSearchView(preview);
                     }

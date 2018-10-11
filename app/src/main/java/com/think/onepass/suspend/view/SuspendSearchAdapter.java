@@ -78,10 +78,7 @@ public class SuspendSearchAdapter extends RecyclerView.Adapter<SuspendSearchAdap
         return mSecretList.size();
     }
 
-    public void setClipboardWithString(String text) {
-        ClipboardManager clipboardManager=(ClipboardManager)mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-        clipboardManager.setText(text);
-    }
+
 
     public void setmCallback(Callback mCallback) {
         this.mCallback = mCallback;

@@ -28,6 +28,9 @@ public class SuspendManager {
     private static SuspendLayout mSuspendLayout;
     private static boolean mHasShown=false;
     private static boolean mInit=false;
+    public static boolean getInit(){
+        return mInit;
+    }
     public static void createSuspendWindow(Context context,int x,int y){
         params=new WindowManager.LayoutParams();
         WindowManager windowManager=getWindowManager(context);
@@ -107,6 +110,7 @@ public class SuspendManager {
         mWindowManager=null;
         mSuspendLayout=null;
         mHasShown=false;
+        mInit=false;
     }
 
 

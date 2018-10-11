@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="172dp"
+        android:layout_marginBottom="257dp"
         android:text="请验证你的指纹信息"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="14sp" />

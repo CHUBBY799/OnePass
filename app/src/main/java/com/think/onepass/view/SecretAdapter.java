@@ -262,7 +262,11 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
 
             @Override
             public void afterTextChanged(Editable s) {
+                Log.d(TAG, "afterTextChanged: "+s.toString());
                 int position=holder.getLayoutPosition();
+                if(myEditText.getId() == R.id.secret_password &&  s.toString().equals(mSecretList.get(position).getPassword())){
+                    return;
+                }
                 if(mSecretMode.get(position)==NORMAL_MODE){
                     mSecretMode.set(position,UPDATE_MODE);
                     Secret cacheSecret=new Secret();

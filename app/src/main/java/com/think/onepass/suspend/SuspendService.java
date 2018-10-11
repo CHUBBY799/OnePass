@@ -28,7 +28,9 @@ public class SuspendService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        SuspendManager.removeFloatWindowManager();
+        if(SuspendManager.getInit()){
+            SuspendManager.removeFloatWindowManager();
+        }
         SuspendControlManager.removeFloatWindowManager();
     }
 }

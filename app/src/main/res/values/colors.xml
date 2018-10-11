@@ -6,6 +6,7 @@
     <color name="windowBackground">#f5f5f5</color>
     <color name="title_bg">#5EB482</color>
     <color name="passwordtext">#000000</color>
+    <color name="main_background">#F5F5F5</color>
 
     <!--item-->
     <color name="head_item_title">#FF5EB482</color>

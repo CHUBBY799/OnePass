@@ -55,9 +55,10 @@ public class SecretFragment extends Fragment{
         headRecycler.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                headRecycler.setFocusable(true);
-                headRecycler.setFocusableInTouchMode(true);
-                headRecycler.requestFocus();
+//                headRecycler.setFocusable(false);
+                headRecycler.clearFocus();
+//                headRecycler.setFocusableInTouchMode(true);
+//                headRecycler.requestFocus();
                 InputMethodManager inputMethodManager=(InputMethodManager)mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(mActivity.getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
                 return false;
