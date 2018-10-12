@@ -133,6 +133,9 @@ public class SettingActivity extends Activity implements View.OnClickListener,Co
                         sendBroadcast(new Intent("com.think.onepass.clearclipboardservice"));
                     }
                 }
+
+
+                
                 break;
         }
     }
