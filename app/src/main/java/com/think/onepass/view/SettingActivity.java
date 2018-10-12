@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -14,42 +16,102 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
-
+import com.think.onepass.BaseApplication;
 import com.think.onepass.R;
-import com.think.onepass.suspend.SuspendControlManager;
 import com.think.onepass.suspend.SuspendController;
 import com.think.onepass.suspend.permission.FloatPermissionManager;
 import com.think.onepass.util.ServiceUtils;
 import com.think.onepass.util.SharePreferenceUtils;
 
-public class SettingActivity extends Activity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
-    private RelativeLayout rlUpdatePassword;
+public class SettingActivity extends Activity implements View.OnClickListener,ScreenLock.OnTimeOutListener,CompoundButton.OnCheckedChangeListener{
+    private Switch mswitchLock;
     private RelativeLayout rlStartFloatWindow;
+    private RelativeLayout rlUpdatePassword;
     private SharedPreferences msharedPreferences;
+    private Boolean isLock;
     private Switch openFinger,openSuspend,openAutoClearClip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        rlUpdatePassword = findViewById(R.id.secure_passwordupdate);
-        rlUpdatePassword.setOnClickListener(this);
+        //创建一个SharedPreferences实例
+        msharedPreferences = this.getSharedPreferences("settings", MODE_PRIVATE);
+        isLock = msharedPreferences.getBoolean("lock",false);
+        //20秒无动作锁定
+        mswitchLock = findViewById(R.id.secure_lock_switch);
+        mswitchLock.setChecked(isLock);
+        mswitchLock.setOnClickListener(this);
+        BaseApplication.mScreenLock = new ScreenLock(20000); //定时20秒
+        BaseApplication.mScreenLock.setOnTimeOutListener(this); //监听
+        //开启悬浮窗
         rlStartFloatWindow = findViewById(R.id.secure_floatwindowstart);
         rlStartFloatWindow.setOnClickListener(this);
+        //修改密码
+        rlUpdatePassword = findViewById(R.id.secure_passwordupdate);
+        rlUpdatePassword.setOnClickListener(this);
+
         openFinger=findViewById(R.id.secure_fingerprintsatrt_switch);
         openFinger.setOnCheckedChangeListener(this);
         openSuspend=findViewById(R.id.secure_floatwindowstart_switch);
         openSuspend.setOnCheckedChangeListener(this);
         openAutoClearClip=findViewById(R.id.secure_clear_switch);
         openAutoClearClip.setOnCheckedChangeListener(this);
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        isLock = msharedPreferences.getBoolean("lock",false);
+        if (isLock==true && BaseApplication.isUnlockActivity==false){
+            BaseApplication.mScreenLock.start(); //开始计时
+        }
+        else if(isLock==false|| BaseApplication.isUnlockActivity==true){
+            BaseApplication.mScreenLock.stop();
+        }
 
-        //创建一个SharedPreferences实例
-        msharedPreferences = this.getSharedPreferences("password", MODE_PRIVATE);
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+        BaseApplication.mScreenLock.stop();
+    }
+    /** * 当触摸就会执行此方法 */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        BaseApplication.mScreenLock.resetTime(); //重置时间
+        return super.dispatchTouchEvent(ev);
+    } /** * 当使用键盘就会执行此方法 */
+
+    @Override public boolean dispatchKeyEvent(KeyEvent event) {
+        BaseApplication.mScreenLock.resetTime(); //重置时间
+        return super.dispatchKeyEvent(event);
+    } /** * 时间到就会执行此方法 */
+
+    @Override
+    public void onTimeOut(ScreenLock screensaver) {
+        Intent intent = new Intent(this, UnlockActivity.class);
+        startActivity(intent);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            //20秒无动作锁定
+            case R.id.secure_lock_switch:{
+                SharedPreferences.Editor meditor = msharedPreferences.edit();
+                meditor.putBoolean("lock",mswitchLock.isChecked());
+                meditor.commit();
+                isLock = msharedPreferences.getBoolean("lock",false);
+                if (isLock==true && BaseApplication.isUnlockActivity==false){
+
+                    BaseApplication.mScreenLock.start(); //开始计时
+                }
+                else if(isLock==false|| BaseApplication.isUnlockActivity==true){
+                    BaseApplication.mScreenLock.stop();
+                }
+                break;
+            }
+            //开启悬浮窗
             case R.id.secure_floatwindowstart:
                 boolean isPermission = FloatPermissionManager.getInstance().applyFloatWindow(this);
                 //有对应权限或者系统版本小于7.0
@@ -57,11 +119,12 @@ public class SettingActivity extends Activity implements View.OnClickListener,Co
                     SuspendController.getInstance().startSuspendService(this);
                 }
                 break;
+            //修该密码
             case R.id.secure_passwordupdate:
                 final AlertDialog.Builder builderupdatepassword= new AlertDialog.Builder(this);
                 final LinearLayout linearlayoutUpdatePassword = (LinearLayout)getLayoutInflater().inflate
                         (R.layout.set_update_password,null);
-                builderupdatepassword.setTitle("设置/修改密码");
+                builderupdatepassword.setTitle("修改密码");
                 builderupdatepassword.setView(linearlayoutUpdatePassword);
                 builderupdatepassword.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
@@ -74,13 +137,13 @@ public class SettingActivity extends Activity implements View.OnClickListener,Co
                         if((mNewPassWord.length()==4) && mNewPassWord.equals(mSurePassWord)){
                             meditor.putString("password",mNewPassWord);
                             meditor.commit();
-                            Toast.makeText(SettingActivity.this,"设置/修改密码成功",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SettingActivity.this,"修改密码成功",Toast.LENGTH_SHORT).show();
                         }
                         else if (mNewPassWord.length()==0 && mSurePassWord.length()==0){
                             return;
                         }
                         else {
-                            Toast.makeText(SettingActivity.this,"设置/修改密码失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SettingActivity.this,"修改密码失败",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -95,6 +158,7 @@ public class SettingActivity extends Activity implements View.OnClickListener,Co
             default:break;
         }
     }
+
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -134,9 +198,8 @@ public class SettingActivity extends Activity implements View.OnClickListener,Co
                     }
                 }
 
-
-                
                 break;
         }
     }
+
 }

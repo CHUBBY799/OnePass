@@ -1,6 +1,5 @@
 package com.think.onepass.view;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +30,7 @@ public class NumberFragment extends Fragment{
     private RelativeLayout relativeLayout;
     private EditText metPassWord;
     private SharedPreferences msharePreferences;
+    private TextView mtvPasswordInput;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -49,9 +48,22 @@ public class NumberFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.number_unlock,container,false);
         relativeLayout=view.findViewById(R.id.relativeLayout);
+        mtvPasswordInput=view.findViewById(R.id.textView);
+        msharePreferences = mActivty.getSharedPreferences("password",Context.MODE_PRIVATE);
+        metPassWord = (EditText)view.findViewById(R.id.passwordeditText);
+        //屏蔽系统的软键盘
+        metPassWord.setInputType(InputType.TYPE_NULL);
+        String mPassWord =msharePreferences.getString("password","");
+        if(mPassWord.length()==0){
+            mtvPasswordInput.setText("请设置四位数字密码");
+        }
+        else {
+            mtvPasswordInput.setText("请输入您设定的四位密码");
+        }
         if(!SharePreferenceUtils.getFingerprintopenKey()) {
             relativeLayout.setVisibility(View.GONE);
-        }else {
+        }
+        else {
             mtvChangeToFingerPrintFrament = (TextView) view.findViewById(R.id.changetofingerprintframenttv);
             mtvChangeToFingerPrintFrament.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -66,9 +78,7 @@ public class NumberFragment extends Fragment{
                 }
             });
         }
-        metPassWord = (EditText)view.findViewById(R.id.passwordeditText);
-        //屏蔽系统的软键盘
-        metPassWord.setInputType(InputType.TYPE_NULL);
+
         KeyboardUtil mKeyBoard = new KeyboardUtil(view, metPassWord);
 
         metPassWord.addTextChangedListener(new TextWatcher() {
@@ -79,15 +89,26 @@ public class NumberFragment extends Fragment{
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                msharePreferences = mActivty.getSharedPreferences("password",Context.MODE_PRIVATE);
-                String mPassWord =msharePreferences.getString("password","0000");
-                if (metPassWord.getText().toString().equals(mPassWord)){
-                    Toast.makeText(mActivty,"success",Toast.LENGTH_SHORT).show();
-                    mActivty.onAuthenticated();
+                String mPassWord =msharePreferences.getString("password","");
+                if (mPassWord.length()==0){
+                    if(metPassWord.getText().length()==4){
+                        SharedPreferences.Editor meditor = msharePreferences.edit();
+                        meditor.putString("password",metPassWord.getText().toString());
+                        meditor.commit();
+                        Toast.makeText(mActivty,"success",Toast.LENGTH_SHORT).show();
+                        mActivty.onAuthenticated();
+                    }
                 }
-                else if (!(metPassWord.getText().toString().equals(mPassWord)) && metPassWord.getText().toString().length()==4){
-                    Toast.makeText(mActivty,"密码错误，请重新输入",Toast.LENGTH_SHORT).show();
+                else{
+                    if (metPassWord.getText().toString().equals(mPassWord)){
+                        Toast.makeText(mActivty,"success",Toast.LENGTH_SHORT).show();
+                        mActivty.onAuthenticated();
+                    }
+                    else if (!(metPassWord.getText().toString().equals(mPassWord)) && metPassWord.getText().toString().length()==4){
+                        Toast.makeText(mActivty,"密码错误，请重新输入",Toast.LENGTH_SHORT).show();
+                    }
                 }
+
 
             }
 
