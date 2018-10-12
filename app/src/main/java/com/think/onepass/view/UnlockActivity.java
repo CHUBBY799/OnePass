@@ -14,10 +14,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
+import com.think.onepass.BaseApplication;
 import com.think.onepass.R;
 import com.think.onepass.util.AppManager;
 import com.think.onepass.util.SharePreferenceUtils;
-
 import java.security.KeyStore;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -27,11 +27,11 @@ public class UnlockActivity extends FragmentActivity {
     private static final String TAG = "UnlockActivity";
     public static final String DEFAULT_KEY_NAME="default_key";
     KeyStore keyStore;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
+        BaseApplication.isUnlockActivity = true;
         setContentView(R.layout.activity_unlock);
         if(SharePreferenceUtils.getFingerprintopenKey() && supportFingerprint()){
             initKey();
@@ -42,7 +42,12 @@ public class UnlockActivity extends FragmentActivity {
         }
     }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+        BaseApplication.isUnlockActivity = false;
 
+    }
     /**
      * 用于切换到指纹或数字密码登陆界面
      * @param fragment 用于区分是哪种界面

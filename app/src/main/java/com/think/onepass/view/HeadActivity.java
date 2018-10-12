@@ -1,6 +1,7 @@
 package com.think.onepass.view;
 import android.content.ClipboardManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -10,9 +11,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.think.onepass.BaseApplication;
 import com.think.onepass.R;
 import com.think.onepass.label.LabelFragment;
 import com.think.onepass.model.Secret;
@@ -25,13 +29,15 @@ import com.think.onepass.util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HeadActivity extends AppCompatActivity implements View.OnClickListener,HeadContract.View{
+public class HeadActivity extends AppCompatActivity implements View.OnClickListener,HeadContract.View, ScreenLock.OnTimeOutListener {
     public static final String TAGPU="pub";
     private static final String TAG = "HeadActivity";
     private ImageView setting,addSecret,label;
     private EditText search;
     private HeadContract.Presenter mPresenter;
     private SecretFragment mainFragment;
+    private SharedPreferences msharedPreferences;
+    private Boolean isLock;
 
     // SecretFragment Type
     public static final int MAIN=1;
@@ -51,6 +57,47 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
         replaceFragment(mainFragment);
         Log.d(TAGPU, "onCreate: ");
 
+        //创建一个SharedPreferences实例
+        msharedPreferences = this.getSharedPreferences("settings", MODE_PRIVATE);
+        isLock = msharedPreferences.getBoolean("lock",false);
+
+        BaseApplication.mScreenLock = new ScreenLock(20000); //定时20秒
+        BaseApplication.mScreenLock.setOnTimeOutListener(this); //监听
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        isLock = msharedPreferences.getBoolean("lock",false);
+        if (isLock==true && BaseApplication.isUnlockActivity==false){
+            BaseApplication.mScreenLock.start(); //开始计时true
+        }
+        else if(isLock==false|| BaseApplication.isUnlockActivity==true){
+            BaseApplication.mScreenLock.stop();
+        }
+
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+        BaseApplication.mScreenLock.stop();
+    }
+
+    /** * 当触摸就会执行此方法 */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        BaseApplication.mScreenLock.resetTime(); //重置时间
+        return super.dispatchTouchEvent(ev);
+    } /** * 当使用键盘就会执行此方法 */
+
+    @Override public boolean dispatchKeyEvent(KeyEvent event) {
+        BaseApplication.mScreenLock.resetTime(); //重置时间
+        return super.dispatchKeyEvent(event);
+    } /** * 时间到就会执行此方法 */
+
+    @Override
+    public void onTimeOut(ScreenLock screensaver) {
+        Intent intent = new Intent(this, UnlockActivity.class);
+        startActivity(intent);
     }
     private void initView(){
         setting=findViewById(R.id.head_setting);
@@ -216,4 +263,5 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
         SharePreferenceUtils.setSuspendpasstimeKey(0);
     }
+
 }
