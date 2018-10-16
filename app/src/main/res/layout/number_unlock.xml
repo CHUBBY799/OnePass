@@ -8,9 +8,8 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/passwordeditText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
         android:text="请输入您设定的四位密码"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="20dp" />
@@ -19,33 +18,80 @@
         android:id="@+id/passwordeditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textView"
-        android:ems="3"
-        android:inputType="numberPassword"
-        android:maxLength="4"
+        android:layout_toEndOf="@+id/keyboardview"
         android:backgroundTint="@color/windowBackground"
         android:cursorVisible="false"
+        android:ems="3"
+        android:gravity="center"
+        android:inputType="numberPassword"
+        android:maxLength="4"
         android:scrollHorizontally="false"
         android:textSize="25dp"
-        android:gravity="center"/>
+        android:visibility="invisible" />
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp">
+
+        <ImageView
+            android:id="@+id/dotimageview1"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/smalldot" />
+
+        <ImageView
+            android:id="@+id/dotimageview2"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="60dp"
+            android:src="@drawable/smalldot" />
+
+        <ImageView
+            android:id="@+id/dotimageview3"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="120dp"
+            android:src="@drawable/smalldot" />
+
+        <ImageView
+            android:id="@+id/dotimageview4"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/smalldot" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/backgroundimageview"
+        android:layout_width="244dp"
+        android:layout_height="325dp"
+        android:layout_centerInParent="true"
+        android:background="@color/colorPrimaryDark"/>
     <android.inputmethodservice.KeyboardView
         android:id="@+id/keyboardview"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:keyBackground="@color/windowBackground"
+        android:layout_alignLeft="@+id/backgroundimageview"
+        android:keyBackground="@drawable/keybackgroundcolor"
         android:background="@color/colorPrimaryDark"
         android:keyTextColor="@color/colorPrimaryDark"
         android:keyTextSize="50dp"
         android:shadowRadius="0"/>
-      <RelativeLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimaryDark"
-        android:id="@+id/relativeLayout">
+        android:id="@+id/changetofingerprintframentrl">
 
         <ImageView
             android:id="@+id/imageView"

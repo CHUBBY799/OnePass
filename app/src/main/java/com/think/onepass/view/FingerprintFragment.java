@@ -13,19 +13,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.think.onepass.R;
 import javax.crypto.Cipher;
 
-public class FingerprintFragment extends Fragment{
+public class FingerprintFragment extends Fragment {
     private static final String TAG = "FingerprintFragment";
     private Cipher mCipher;
     private FingerprintManager fingerprintManager;
     private CancellationSignal mCancellationSignal;
     private UnlockActivity mActivty;
-    private TextView mtvChangeToNumberFrament;
-
+    private RelativeLayout mrlChangeToNumberFrament;
     public void setCipher(Cipher cipher){
         mCipher=cipher;
     }
@@ -42,12 +41,11 @@ public class FingerprintFragment extends Fragment{
         fingerprintManager=getContext().getSystemService(FingerprintManager.class);
     }
 
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fingerprint_unlock,container,false);
-        mtvChangeToNumberFrament = (TextView)view.findViewById(R.id.changetonumframentv);
-        mtvChangeToNumberFrament.setOnClickListener(new View.OnClickListener() {
+        mrlChangeToNumberFrament = view.findViewById(R.id.changetonumframenrl);
+        mrlChangeToNumberFrament.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager=getFragmentManager();
@@ -90,7 +88,7 @@ public class FingerprintFragment extends Fragment{
 
                     @Override
                     public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
-                        Toast.makeText(mActivty,"success",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivty,"success", Toast.LENGTH_SHORT).show();
                         mActivty.onAuthenticated();
                     }
 

@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -23,52 +24,64 @@ import com.think.onepass.suspend.permission.FloatPermissionManager;
 import com.think.onepass.util.ServiceUtils;
 import com.think.onepass.util.SharePreferenceUtils;
 
+import java.io.IOException;
+
 public class SettingActivity extends Activity implements View.OnClickListener,ScreenLock.OnTimeOutListener,CompoundButton.OnCheckedChangeListener{
-    private Switch mswitchLock;
-    private RelativeLayout rlStartFloatWindow;
     private RelativeLayout rlUpdatePassword;
     private SharedPreferences msharedPreferences;
-    private Boolean isLock;
-    private Switch openFinger,openSuspend,openAutoClearClip;
+    private Boolean isLock,isOpenFinger,isOpenSuspend,isopenAutoClearClip;
+    private Switch mswitchLock,openFinger,openSuspend,openAutoClearClip;
+    private ImageView imageViewBackToHeadActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        imageViewBackToHeadActivity = findViewById(R.id.backimagview);
+        imageViewBackToHeadActivity.setOnClickListener(this);
         //创建一个SharedPreferences实例
         msharedPreferences = this.getSharedPreferences("settings", MODE_PRIVATE);
-        isLock = msharedPreferences.getBoolean("lock",false);
+
         //20秒无动作锁定
         mswitchLock = findViewById(R.id.secure_lock_switch);
-        mswitchLock.setChecked(isLock);
-        mswitchLock.setOnClickListener(this);
+        mswitchLock.setOnCheckedChangeListener(this);
         BaseApplication.mScreenLock = new ScreenLock(20000); //定时20秒
         BaseApplication.mScreenLock.setOnTimeOutListener(this); //监听
-        //开启悬浮窗
-        rlStartFloatWindow = findViewById(R.id.secure_floatwindowstart);
-        rlStartFloatWindow.setOnClickListener(this);
+
+
         //修改密码
         rlUpdatePassword = findViewById(R.id.secure_passwordupdate);
         rlUpdatePassword.setOnClickListener(this);
 
+        //指纹
         openFinger=findViewById(R.id.secure_fingerprintsatrt_switch);
         openFinger.setOnCheckedChangeListener(this);
+
+        //悬浮窗
         openSuspend=findViewById(R.id.secure_floatwindowstart_switch);
         openSuspend.setOnCheckedChangeListener(this);
+
+
+        //清除剪切板
         openAutoClearClip=findViewById(R.id.secure_clear_switch);
         openAutoClearClip.setOnCheckedChangeListener(this);
+
     }
     @Override
     protected void onResume(){
         super.onResume();
         isLock = msharedPreferences.getBoolean("lock",false);
+        isOpenSuspend = msharedPreferences.getBoolean("suspend",false);
+        isOpenFinger = msharedPreferences.getBoolean("finger",false);
+        isopenAutoClearClip = msharedPreferences.getBoolean("clear",false);
+
+        mswitchLock.setChecked(isLock);
+        openFinger.setChecked(isOpenFinger);
+        openSuspend.setChecked(isOpenSuspend);
+        openAutoClearClip.setChecked(isopenAutoClearClip);
         if (isLock==true && BaseApplication.isUnlockActivity==false){
             BaseApplication.mScreenLock.start(); //开始计时
         }
-        else if(isLock==false|| BaseApplication.isUnlockActivity==true){
-            BaseApplication.mScreenLock.stop();
-        }
-
     }
     @Override
     protected void onPause(){
@@ -78,12 +91,25 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
     /** * 当触摸就会执行此方法 */
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        BaseApplication.mScreenLock.resetTime(); //重置时间
+        isLock = msharedPreferences.getBoolean("lock",false);
+        if (isLock==true){
+            BaseApplication.mScreenLock.resetTime(); //重置时间
+        }
+        else {
+            BaseApplication.mScreenLock.stop();
+        }
         return super.dispatchTouchEvent(ev);
     } /** * 当使用键盘就会执行此方法 */
 
-    @Override public boolean dispatchKeyEvent(KeyEvent event) {
-        BaseApplication.mScreenLock.resetTime(); //重置时间
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        isLock = msharedPreferences.getBoolean("lock",false);
+        if (isLock==true){
+            BaseApplication.mScreenLock.resetTime(); //重置时间
+        }
+        else {
+            BaseApplication.mScreenLock.stop();
+        }
         return super.dispatchKeyEvent(event);
     } /** * 时间到就会执行此方法 */
 
@@ -96,29 +122,15 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            //20秒无动作锁定
-            case R.id.secure_lock_switch:{
-                SharedPreferences.Editor meditor = msharedPreferences.edit();
-                meditor.putBoolean("lock",mswitchLock.isChecked());
-                meditor.commit();
-                isLock = msharedPreferences.getBoolean("lock",false);
-                if (isLock==true && BaseApplication.isUnlockActivity==false){
+            case R.id.backimagview:{
+                try{
+                    Runtime runtime=Runtime.getRuntime();
+                    runtime.exec("input keyevent " + KeyEvent.KEYCODE_BACK);
+                }catch(IOException e){
+                }
 
-                    BaseApplication.mScreenLock.start(); //开始计时
-                }
-                else if(isLock==false|| BaseApplication.isUnlockActivity==true){
-                    BaseApplication.mScreenLock.stop();
-                }
                 break;
             }
-            //开启悬浮窗
-            case R.id.secure_floatwindowstart:
-                boolean isPermission = FloatPermissionManager.getInstance().applyFloatWindow(this);
-                //有对应权限或者系统版本小于7.0
-                if (isPermission || Build.VERSION.SDK_INT < 24){
-                    SuspendController.getInstance().startSuspendService(this);
-                }
-                break;
             //修该密码
             case R.id.secure_passwordupdate:
                 final AlertDialog.Builder builderupdatepassword= new AlertDialog.Builder(this);
@@ -129,28 +141,30 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
                 builderupdatepassword.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        EditText metoldPassWord = linearlayoutUpdatePassword.findViewById(R.id.oldpasswordedittext);
                         EditText metNewPassWord = linearlayoutUpdatePassword.findViewById(R.id.newpasswordedittext);
                         EditText metSurePassWord = linearlayoutUpdatePassword.findViewById(R.id.surepasswordedittext);
                         SharedPreferences.Editor meditor = msharedPreferences.edit();
+                        String mOldPassWordfromshared =  msharedPreferences.getString("password","");
+                        String mOldPassWord = metoldPassWord.getText().toString();
                         String mNewPassWord = metNewPassWord.getText().toString();
                         String mSurePassWord = metSurePassWord.getText().toString();
-                        if((mNewPassWord.length()==4) && mNewPassWord.equals(mSurePassWord)){
+                        if((mOldPassWordfromshared.equals(mOldPassWord)) && (mNewPassWord.length()==4) && mNewPassWord.equals(mSurePassWord)){
                             meditor.putString("password",mNewPassWord);
                             meditor.commit();
-                            Toast.makeText(SettingActivity.this,"修改密码成功",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SettingActivity.this,"修改密码成功", Toast.LENGTH_SHORT).show();
                         }
                         else if (mNewPassWord.length()==0 && mSurePassWord.length()==0){
                             return;
                         }
                         else {
-                            Toast.makeText(SettingActivity.this,"修改密码失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SettingActivity.this,"修改密码失败", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
                 builderupdatepassword.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
                     }
                 });
                 builderupdatepassword.create().show();
@@ -163,7 +177,23 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()){
+            case R.id.secure_lock_switch:{
+                SharedPreferences.Editor meditor_lock = msharedPreferences.edit();
+                meditor_lock.putBoolean("lock",isChecked);
+                meditor_lock.commit();
+                isLock = msharedPreferences.getBoolean("lock",false);
+                if (isLock==true && BaseApplication.isUnlockActivity==false){
+                    BaseApplication.mScreenLock.resetTime(); //重新开始计时
+                }
+                else {
+                    BaseApplication.mScreenLock.stop();
+                }
+                break;
+            }
             case R.id.secure_fingerprintsatrt_switch:
+                SharedPreferences.Editor meditor_finger = msharedPreferences.edit();
+                meditor_finger.putBoolean("finger",isChecked);
+                meditor_finger.commit();
                 if(isChecked){
                     SharePreferenceUtils.setFigerprintopenKey(true);
                 }else {
@@ -171,6 +201,9 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
                 }
                 break;
             case R.id.secure_floatwindowstart_switch:
+                SharedPreferences.Editor meditor_suspend = msharedPreferences.edit();
+                meditor_suspend.putBoolean("suspend",isChecked);
+                meditor_suspend.commit();
                 if(isChecked){
                     boolean isPermission = FloatPermissionManager.getInstance().applyFloatWindow(this);
                     if(isPermission){
@@ -187,6 +220,9 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
                 }
                 break;
             case R.id.secure_clear_switch:
+                SharedPreferences.Editor meditor_clear = msharedPreferences.edit();
+                meditor_clear.putBoolean("clear",isChecked);
+                meditor_clear.commit();
                 if(isChecked){
                     SharePreferenceUtils.setAutoclearKey(true);
                 }else {
