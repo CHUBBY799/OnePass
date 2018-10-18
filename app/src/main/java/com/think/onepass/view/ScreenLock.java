@@ -24,7 +24,6 @@ public class ScreenLock {
                 if(mOnTimeOutListener != null){
                     mOnTimeOutListener.onTimeOut(ScreenLock.this);
                 }
-                    start(); //重新开始计时
             }
         }
        };

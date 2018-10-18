@@ -84,12 +84,24 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
     /** * 当触摸就会执行此方法 */
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        BaseApplication.mScreenLock.resetTime(); //重置时间
+        isLock = msharedPreferences.getBoolean("lock",false);
+        if (isLock==true){
+            BaseApplication.mScreenLock.resetTime(); //重置时间
+        }
+        else {
+            BaseApplication.mScreenLock.stop();
+        }
         return super.dispatchTouchEvent(ev);
     } /** * 当使用键盘就会执行此方法 */
 
     @Override public boolean dispatchKeyEvent(KeyEvent event) {
-        BaseApplication.mScreenLock.resetTime(); //重置时间
+        isLock = msharedPreferences.getBoolean("lock",false);
+        if (isLock==true){
+            BaseApplication.mScreenLock.resetTime(); //重置时间
+        }
+        else {
+            BaseApplication.mScreenLock.stop();
+        }
         return super.dispatchKeyEvent(event);
     } /** * 时间到就会执行此方法 */
 

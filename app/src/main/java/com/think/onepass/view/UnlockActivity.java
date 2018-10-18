@@ -37,9 +37,7 @@ public class UnlockActivity extends FragmentActivity {
             initKey();
             initCipher();
         }
-        else{
-            replaceFragment(new NumberFragment());
-        }
+        else replaceFragment(new NumberFragment());
     }
 
     @Override
