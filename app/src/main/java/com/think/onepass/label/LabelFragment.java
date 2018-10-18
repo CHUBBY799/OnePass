@@ -82,7 +82,7 @@ public class LabelFragment extends Fragment{
                 secrets.add(secret);
                 secretFragment.initData(secrets);
                 secretFragment.setType(2); // 2 : label页面
-                ((HeadActivity)mContext).replaceFragment(secretFragment);
+                ((HeadActivity)mContext).replaceFragmentBackStack(secretFragment);
             }
         });
         mRecycleView.setAdapter(mAdapter);

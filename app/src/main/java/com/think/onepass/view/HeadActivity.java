@@ -35,16 +35,14 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView setting,addSecret,label;
     private EditText search;
     private HeadContract.Presenter mPresenter;
-    private SecretFragment mainFragment;
+    private SecretFragment mainFragment,searchFragment;
     private SharedPreferences msharedPreferences;
-    private Boolean isLock;
+    private Boolean isLock,inSearch=false;
 
     // SecretFragment Type
     public static final int MAIN=1;
     public static final int LABEL=2;
     public static final int SEARCH=3;
-    public static final int ADD = 4;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +52,7 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
         mainFragment=new SecretFragment();
         mainFragment.setmPresenter(mPresenter);
         mainFragment.setAutoInit(true);
+        mainFragment.setType(MAIN);
         replaceFragment(mainFragment);
         Log.d(TAGPU, "onCreate: ");
 
@@ -107,6 +106,23 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
         label=findViewById(R.id.head_label);
         label.setOnClickListener(this);
         search=findViewById(R.id.head_search);
+        search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                 if(hasFocus && !inSearch){
+                     inSearch=true;
+                     addSecret.setVisibility(View.INVISIBLE);
+                     label.setVisibility(View.INVISIBLE);
+                     if(searchFragment == null){
+                         searchFragment = new SecretFragment();
+                         searchFragment.setmPresenter(mPresenter);
+                         searchFragment.initData(new ArrayList<Secret>());
+                         searchFragment.setType(SEARCH);
+                     }
+                     replaceFragment(searchFragment);
+                 }
+            }
+        });
         TextWatcher watcher=new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -121,6 +137,9 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void afterTextChanged(Editable s) {
+                if(search.getText() == null || search.getText().toString().equals("")){
+                    return;
+                }
                 Log.d(TAG, "afterTextChanged: ");
                 searchSecretByKey(search.getText().toString(),0);
             }
@@ -140,7 +159,8 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.head_add:
-                addSecret();
+//                addSecret();
+                replaceFragment(mainFragment);
                 break;
             case R.id.head_label:
                 Fragment fragmentHelp=getSupportFragmentManager()
@@ -151,7 +171,6 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     }
                 }
-
                 if(!(fragmentHelp instanceof  LabelFragment)){
                     LabelFragment labelFragment=new LabelFragment();
                     labelFragment.setPresenter(mPresenter);
@@ -170,11 +189,10 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
         FragmentManager fragmentManager=getSupportFragmentManager();
         FragmentTransaction transaction=fragmentManager.beginTransaction();
         transaction.replace(R.id.head_fragment,fragment);
-        transaction.addToBackStack(null);
+//        transaction.addToBackStack(null);
         transaction.commit();
-
     }
-    public void replaceFragmentNotBackStack(Fragment fragment){
+    public void replaceFragmentBackStack(Fragment fragment){
         Log.d(TAG, "replaceFragment: start");
         FragmentManager fragmentManager=getSupportFragmentManager();
         FragmentTransaction transaction=fragmentManager.beginTransaction();
@@ -211,51 +229,55 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void searchSecretByKey(String key, int deleted) {
-         Fragment fragment=getSupportFragmentManager()
-                .findFragmentById(R.id.head_fragment);
+//         Fragment fragment=getSupportFragmentManager()
+//                .findFragmentById(R.id.head_fragment);
          List<Secret> secrets = mPresenter.searchSecretByKey(key,deleted);
-         if(!(fragment instanceof SecretFragment)){
-             fragment=new SecretFragment();
-             ((SecretFragment)fragment).setmPresenter(mPresenter);
-             ((SecretFragment)fragment).initData(secrets);
-              replaceFragment(fragment);
-         }else{
-             ((SecretFragment)fragment).refreshSecrets(secrets);
-         }
-
+         searchFragment.refreshSecrets(secrets);
     }
 
-    @Override
-    public void addSecret() {
-        Fragment fragment=getSupportFragmentManager()
-                .findFragmentById(R.id.head_fragment);
-        if(fragment instanceof SecretFragment){
-            ((SecretFragment) fragment).addSecret(new Secret());
-        }else {
-            fragment=new SecretFragment();
-            ((SecretFragment) fragment).setmPresenter(mPresenter);
-            List<Secret> secrets=new ArrayList<Secret>();
-            secrets.add(new Secret());
-            List<Integer> modes=new ArrayList<Integer>();
-            modes.add(SecretAdapter.ADD_MODE);
-            ((SecretFragment) fragment).initData(secrets,modes);
-            replaceFragment(fragment);
-        }
+//    @Override
+//    public void addSecret() {
+//        Fragment fragment=getSupportFragmentManager()
+//                .findFragmentById(R.id.head_fragment);
+//        if(fragment instanceof SecretFragment){
+//            ((SecretFragment) fragment).addSecret(new Secret());
+//        }else {
+//            fragment=new SecretFragment();
+//            ((SecretFragment) fragment).setmPresenter(mPresenter);
+//            List<Secret> secrets=new ArrayList<Secret>();
+//            secrets.add(new Secret());
+//            List<Integer> modes=new ArrayList<Integer>();
+//            modes.add(SecretAdapter.ADD_MODE);
+//            ((SecretFragment) fragment).initData(secrets,modes);
+//            replaceFragment(fragment);
+//        }
+//
+//    }
 
-    }
+//    @Override
+//    public boolean onKeyUp(int keyCode, KeyEvent event) {
+//        if(getSupportFragmentManager().findFragmentById(R.id.head_fragment)==mainFragment){
+//            Log.d(TAG, "onKeyUp: ");
+//            if(event.getAction()==KeyEvent.ACTION_UP){
+//            if(keyCode==KeyEvent.KEYCODE_BACK){
+//                    moveTaskToBack(true);
+//                return true;
+//            }
+//        }
+//        }
+//        return super.onKeyUp(keyCode,event);
+//    }
 
     @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if(getSupportFragmentManager().findFragmentById(R.id.head_fragment)==mainFragment){
-            Log.d(TAG, "onKeyUp: ");
-            if(event.getAction()==KeyEvent.ACTION_UP){
-            if(keyCode==KeyEvent.KEYCODE_BACK){
-                    moveTaskToBack(true);
-                return true;
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(inSearch){
+            if(keyCode == KeyEvent.KEYCODE_BACK) {
+                inSearch=false;
+                label.setVisibility(View.VISIBLE);
+                addSecret.setVisibility(View.VISIBLE);
             }
         }
-        }
-        return super.onKeyUp(keyCode,event);
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

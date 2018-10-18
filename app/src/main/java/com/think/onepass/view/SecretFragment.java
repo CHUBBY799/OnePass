@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,7 +33,8 @@ public class SecretFragment extends Fragment{
     private Activity mActivity;
     private HeadContract.Presenter mPresenter;
     private boolean autoInit=false; //判断是否需要自己初始化数据.
-    private int type; //主页面 ：1    label项的页面 ：2  search :3  add :4
+    private int type;//主页面 ：1    label项的页面 ：2  search :3
+    private FloatingActionButton add;
 
     public void setmPresenter(HeadContract.Presenter presenter){
         mPresenter=presenter;
@@ -40,11 +42,20 @@ public class SecretFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        if(type==2 && ! mPresenter.isContainById(mSecretList.get(0).getId())){
-//            getActivity().onBackPressed();
-//        }
         Log.d(HeadActivity.TAGPU, "onCreateView:1 ");
         View view=inflater.inflate(R.layout.secret_head_fragment,container,false);
+        add=(FloatingActionButton)(view.findViewById(R.id.secret_add_item));
+        if(type != 1){
+            add.hide();
+        }else {
+            add.show();
+            add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addSecret(new Secret());
+                }
+            });
+        }
         headRecycler=view.findViewById(R.id.head_recycler);
         if(autoInit){
             autoInitData();
@@ -131,4 +142,8 @@ public class SecretFragment extends Fragment{
         secretAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }

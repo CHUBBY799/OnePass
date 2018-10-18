@@ -10,7 +10,7 @@ public class HeadContract {
         public void setClipboardWithString(String text);
         public void setPresenter(Presenter presenter);
         public void searchSecretByKey(String key,int deleted);
-        public void addSecret();
+//        public void addSecret();
     }
     public static interface Presenter{
         public Map<String,Object> addSecrets(Secret secret);
