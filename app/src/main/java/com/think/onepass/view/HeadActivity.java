@@ -1,5 +1,6 @@
 package com.think.onepass.view;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
@@ -13,8 +14,11 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.think.onepass.BaseApplication;
 import com.think.onepass.R;
@@ -32,12 +36,13 @@ import java.util.List;
 public class HeadActivity extends AppCompatActivity implements View.OnClickListener,HeadContract.View, ScreenLock.OnTimeOutListener {
     public static final String TAGPU="pub";
     private static final String TAG = "HeadActivity";
-    private ImageView setting,addSecret,label;
+    private ImageView setting,home,label;
     private EditText search;
     private HeadContract.Presenter mPresenter;
     private SecretFragment mainFragment,searchFragment;
     private SharedPreferences msharedPreferences;
     private Boolean isLock,inSearch=false;
+    private TextView searchCancel;
 
     // SecretFragment Type
     public static final int MAIN=1;
@@ -113,25 +118,33 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
     private void initView(){
         setting=findViewById(R.id.head_setting);
         setting.setOnClickListener(this);
-        addSecret=findViewById(R.id.head_add);
-        addSecret.setOnClickListener(this);
+        home=findViewById(R.id.head_home);
+        home.setOnClickListener(this);
+        home.setImageResource(R.mipmap.home_icon_onclick);
         label=findViewById(R.id.head_label);
         label.setOnClickListener(this);
+        searchCancel = findViewById(R.id.search_cancel);
+        searchCancel.setVisibility(View.INVISIBLE);
+        searchCancel.setOnClickListener(this);
         search=findViewById(R.id.head_search);
         search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                  if(hasFocus && !inSearch){
                      inSearch=true;
-                     addSecret.setVisibility(View.INVISIBLE);
+                     home.setVisibility(View.INVISIBLE);
                      label.setVisibility(View.INVISIBLE);
+                     setting.setVisibility(View.INVISIBLE);
+                     searchCancel.setVisibility(View.VISIBLE);
+                     changeSearchWidth(true);
                      if(searchFragment == null){
                          searchFragment = new SecretFragment();
                          searchFragment.setmPresenter(mPresenter);
                          searchFragment.initData(new ArrayList<Secret>());
                          searchFragment.setType(SEARCH);
                      }
-                     replaceFragment(searchFragment);
+                     searchFragment.setIsFirstSearch(true);
+                     replaceFragmentBackStack(searchFragment);
                  }
             }
         });
@@ -153,6 +166,7 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
                 Log.d(TAG, "afterTextChanged: ");
+                searchFragment.setIsFirstSearch(false);
                 searchSecretByKey(search.getText().toString(),0);
             }
         };
@@ -170,9 +184,11 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent=new Intent(HeadActivity.this,SettingActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.head_add:
+            case R.id.head_home:
 //                addSecret();
                 replaceFragment(mainFragment);
+                home.setImageResource(R.mipmap.home_icon_onclick);
+                label.setImageResource(R.mipmap.label_icon_white);
                 break;
             case R.id.head_label:
                 Fragment fragmentHelp=getSupportFragmentManager()
@@ -187,7 +203,21 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
                     LabelFragment labelFragment=new LabelFragment();
                     labelFragment.setPresenter(mPresenter);
                     replaceFragment(labelFragment);
+                    label.setImageResource(R.mipmap.label_icon_white_onclick);
+                    home.setImageResource(R.mipmap.home_icon);
                 }
+                break;
+            case R.id.search_cancel:
+                inSearch=false;
+                label.setVisibility(View.VISIBLE);
+                home.setVisibility(View.VISIBLE);
+                setting.setVisibility(View.VISIBLE);
+                searchCancel.setVisibility(View.INVISIBLE);
+                changeSearchWidth(false);
+                search.clearFocus();
+                onBackPressed();
+                InputMethodManager inputMethodManager=(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
                 break;
         }
     }
@@ -245,8 +275,25 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
 //                .findFragmentById(R.id.head_fragment);
          List<Secret> secrets = mPresenter.searchSecretByKey(key,deleted);
          searchFragment.refreshSecrets(secrets);
+         searchFragment.isShowNoData();
     }
-
+    private void changeSearchWidth(boolean inSearch){
+        if(!inSearch){
+            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)search.getLayoutParams();
+            lp.width = Utils.dp2px(this,180);
+            search.setLayoutParams(lp);
+            Log.d(TAG, "changeSearchWidth: 3"+Utils.dp2px(this,180));
+            return;
+        }
+        Log.d(TAG, "changeSearchWidth: 5 "+search.getWidth());
+        int searchLeft = search.getLeft();
+        int searchCacelLeft = searchCancel.getLeft();
+        Log.d(TAG, "changeSearchWidth: 1"+searchLeft);
+        Log.d(TAG, "changeSearchWidth: 2 "+searchCacelLeft);
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams)search.getLayoutParams();
+        lp.width = searchCacelLeft-searchLeft-Utils.dp2px(this,10);
+        search.setLayoutParams(lp);
+    }
 //    @Override
 //    public void addSecret() {
 //        Fragment fragment=getSupportFragmentManager()
@@ -284,9 +331,14 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(inSearch){
             if(keyCode == KeyEvent.KEYCODE_BACK) {
+                Log.d(TAG, "onKeyDown: ");
                 inSearch=false;
                 label.setVisibility(View.VISIBLE);
-                addSecret.setVisibility(View.VISIBLE);
+                home.setVisibility(View.VISIBLE);
+                setting.setVisibility(View.VISIBLE);
+                searchCancel.setVisibility(View.INVISIBLE);
+                changeSearchWidth(false);
+                search.clearFocus();
             }
         }
         return super.onKeyDown(keyCode, event);

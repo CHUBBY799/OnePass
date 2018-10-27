@@ -16,5 +16,5 @@
     <!--label-->
     <color name="label_line_color">#D0E9DA</color>
     <color name="label_title_edit">#EFFFF6</color>
-
+    <color name="main_no_data_tv">#FFD8D8D8</color>
 </resources>

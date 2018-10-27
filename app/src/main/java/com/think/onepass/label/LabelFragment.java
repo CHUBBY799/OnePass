@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.think.onepass.R;
 import com.think.onepass.model.Secret;
@@ -32,12 +34,14 @@ public class LabelFragment extends Fragment{
     private List<List<Secret>> labelChild;
     private HeadContract.Presenter mPresenter;
     private LabelAdapter mAdapter;
+    private View mNodata;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.secret_label_fragment,container,false);
         mRecycleView=view.findViewById(R.id.label_recycler);
         initData();
+        mNodata = view.findViewById(R.id.head_no_data);
         return view;
     }
     public void setPresenter(HeadContract.Presenter presenter){
@@ -94,6 +98,22 @@ public class LabelFragment extends Fragment{
         labelChild.addAll(mPresenter.selectSecretsByLabel(labelGroup));
         Log.d(TAG, "refreshData: "+labelGroup.size());
         mAdapter.notifyDataSetChanged();
+        if(labelGroup.size() == 0){
+            mNodata.setVisibility(View.VISIBLE);
+            ImageView iv = mNodata.findViewById(R.id.main_no_data_iv);
+            TextView tvTop = mNodata.findViewById(R.id.main_no_data_tv_top);
+            TextView tvBottom = mNodata.findViewById(R.id.main_no_data_tv_bottom);
+            iv.setImageResource(R.mipmap.no_label);
+            tvTop.setText(getResources().getString(R.string.label_no_data_top));
+            tvBottom.setText(getResources().getString(R.string.label_no_data_bottom));
+        }else {
+            mNodata.setVisibility(View.INVISIBLE);
+        }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshData();
+    }
 }

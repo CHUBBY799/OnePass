@@ -13,4 +13,7 @@ public class Utils {
         ClipboardManager clipboardManager=(ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
         clipboardManager.setText(text);
     }
+    public static int dp2px(Context context, int dp) {
+        return (int) (dp * context.getResources().getDisplayMetrics().density);
+    }
 }

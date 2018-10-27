@@ -78,6 +78,7 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: "+holder.getLayoutPosition()+" : "+position + " : "+ mSecretMode.get(holder.getLayoutPosition()));
         Secret secret=mSecretList.get(holder.getLayoutPosition());
+        mCallback.showNodata();
         // 当文本框内容发生变化时,将文本内容更新至mSecrets
         setEditText(holder.secretTitle,secret.getTitle(),secret,holder);
         setEditText(holder.secretUser,secret.getUser(),secret,holder);
@@ -221,21 +222,26 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
             holder.secretConfirm.setVisibility(View.GONE);
             setImageviewMargin(holder.secretDelete,15);
             notifyDataSetChanged();
+            mCallback.showNodata();
         }
     }
     private void onAddDelete(int position){
+        Log.d(TAG, "onAddDelete: ");
         mSecretList.remove(position);
         mSecretMode.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position,mSecretList.size()-position);
+        mCallback.showNodata();
     }
     private void onNormalDelete(int position){
         long secretId=mSecretList.get(position).getId();
         mCallback.deleteSecret(secretId);
         mSecretList.remove(position);
         mSecretMode.remove(position);
+        mCallback.showNodata();
         notifyItemRemoved(position);
         notifyItemRangeChanged(position,mSecretList.size()-position);
+        mCallback.showNodata();
     }
     private void setImageviewMargin(ImageView view,int margin){
         ConstraintLayout.LayoutParams lp=(ConstraintLayout.LayoutParams)view.getLayoutParams();
@@ -302,7 +308,6 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
     }
 
 
-
     @Override
     public int getItemCount() {
         return mSecretList.size();
@@ -315,5 +320,6 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
         public Map<String, Object> addSecrets(Secret secret);
         public String updateSecrets(Secret secret);
         public void deleteSecret(long id);
+        public void showNodata();
     }
 }

@@ -12,7 +12,7 @@
         android:layout_centerHorizontal="true"
         android:text="请输入您设定的四位密码"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="20dp" />
+        android:textSize="16dp" />
 
     <EditText
         android:id="@+id/passwordeditText"
@@ -39,31 +39,31 @@
 
         <ImageView
             android:id="@+id/dotimageview1"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_centerVertical="true"
             android:src="@drawable/smalldot" />
 
         <ImageView
             android:id="@+id/dotimageview2"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="60dp"
             android:src="@drawable/smalldot" />
 
         <ImageView
             android:id="@+id/dotimageview3"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="120dp"
             android:src="@drawable/smalldot" />
 
         <ImageView
             android:id="@+id/dotimageview4"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@drawable/smalldot" />
@@ -84,7 +84,7 @@
         android:keyBackground="@drawable/keybackgroundcolor"
         android:background="@color/colorPrimaryDark"
         android:keyTextColor="@color/colorPrimaryDark"
-        android:keyTextSize="50dp"
+        android:keyTextSize="30dp"
         android:shadowRadius="0"/>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -92,24 +92,25 @@
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimaryDark"
         android:id="@+id/changetofingerprintframentrl">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="13dp"
-            android:layout_toStartOf="@+id/changetofingerprintframenttv"
-            android:src="@mipmap/fingerprint" />
-        <TextView
-            android:id="@+id/changetofingerprintframenttv"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_alignTop="@+id/imageView"
-            android:text="使用指纹验证"
-            android:textColor="@color/colorAccent"
-            android:textSize="20dp" />
+            android:orientation="horizontal"
+            android:layout_centerInParent="true">
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="13dp"
+                android:src="@mipmap/fingerprint" />
+            <TextView
+                android:id="@+id/changetofingerprintframenttv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="使用指纹验证"
+                android:textColor="@color/colorAccent"
+                android:textSize="16dp" />
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

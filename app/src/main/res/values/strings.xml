@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">onepass</string>
+    <string name="setting_unuse_tip">Sorry,our developers sucks.\nThe function is being perfected,please look forward to it. </string>
+    <string name="main_no_data_top">No Passport</string>
+    <string name="main_no_data_bottom">passport will appear here</string>
+    <string name="label_no_data_top">No Label</string>
+    <string name="label_no_data_bottom">label will appear here</string>
+    <string name="search_no_data">oops,no search results</string>
+    <string name="search_cancel">Cancel</string>
+    <string name="search_first">Please input keywords.</string>
 </resources>

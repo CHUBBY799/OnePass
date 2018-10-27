@@ -1,55 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:id="@+id/fingerprint"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_above="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
-        android:src="@mipmap/fingerprint_icon" />
-
-    <TextView
-        android:id="@+id/textView"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="257dp"
-        android:text="请验证你的指纹信息"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="14sp" />
-
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="0.4">
+        <ImageView
+            android:id="@+id/fingerprint"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginBottom="40dp"
+            android:src="@mipmap/fingerprint_icon" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请验证你的指纹信息"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp" />
+    </LinearLayout>
     <RelativeLayout
         android:id="@+id/changetonumframenrl"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         android:background="@color/colorPrimaryDark">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="11dp"
-            android:layout_toStartOf="@+id/changetonumframentv"
-            android:src="@mipmap/password_white" />
-
-        <TextView
-            android:id="@+id/changetonumframentv"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="123dp"
-            android:text="使用密码验证"
-            android:textColor="@color/colorAccent"
-            android:textSize="20sp" />
+            android:orientation="horizontal"
+            android:layout_centerInParent="true">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="13dp"
+                android:layout_toStartOf="@+id/changetonumframentv"
+                android:src="@mipmap/password_white" />
+
+            <TextView
+                android:id="@+id/changetonumframentv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="使用密码验证"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp" />
+        </LinearLayout>
     </RelativeLayout>
 
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

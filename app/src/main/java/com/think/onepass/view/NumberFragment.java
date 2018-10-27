@@ -86,6 +86,10 @@ public class NumberFragment extends Fragment {
         mimageviewtwo = view.findViewById(R.id.dotimageview2);
         mimageviewthree = view.findViewById(R.id.dotimageview3);
         mimageviewfour = view.findViewById(R.id.dotimageview4);
+        SetImageSize(mimageviewone,14);
+        SetImageSize(mimageviewtwo,14);
+        SetImageSize(mimageviewthree,14);
+        SetImageSize(mimageviewfour,14);
 
         metPassWord.addTextChangedListener(new TextWatcher() {
             @Override
@@ -97,34 +101,34 @@ public class NumberFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String mPassWord =msharePreferences.getString("password","");
                 if (metPassWord.getText().length() == 0){
-                    SetImageSize(mimageviewone,20);
-                    SetImageSize(mimageviewtwo,20);
-                    SetImageSize(mimageviewthree,20);
-                    SetImageSize(mimageviewfour,20);
+                    SetImageSize(mimageviewone,14);
+                    SetImageSize(mimageviewtwo,14);
+                    SetImageSize(mimageviewthree,14);
+                    SetImageSize(mimageviewfour,14);
                 }
                 else if (metPassWord.getText().length() == 1){
-                    SetImageSize(mimageviewone,40);
-                    SetImageSize(mimageviewtwo,20);
-                    SetImageSize(mimageviewthree,20);
-                    SetImageSize(mimageviewfour,20);
+                    SetImageSize(mimageviewone,30);
+                    SetImageSize(mimageviewtwo,14);
+                    SetImageSize(mimageviewthree,14);
+                    SetImageSize(mimageviewfour,14);
                 }
                 else if (metPassWord.getText().length() == 2){
-                    SetImageSize(mimageviewone,40);
-                    SetImageSize(mimageviewtwo,40);
-                    SetImageSize(mimageviewthree,20);
-                    SetImageSize(mimageviewfour,20);
+                    SetImageSize(mimageviewone,30);
+                    SetImageSize(mimageviewtwo,30);
+                    SetImageSize(mimageviewthree,14);
+                    SetImageSize(mimageviewfour,14);
                 }
                 else if (metPassWord.getText().length() == 3){
-                    SetImageSize(mimageviewone,40);
-                    SetImageSize(mimageviewtwo,40);
-                    SetImageSize(mimageviewthree,40);
-                    SetImageSize(mimageviewfour,20);
+                    SetImageSize(mimageviewone,30);
+                    SetImageSize(mimageviewtwo,30);
+                    SetImageSize(mimageviewthree,30);
+                    SetImageSize(mimageviewfour,14);
                 }
                 else if (metPassWord.getText().length() == 4){
-                    SetImageSize(mimageviewone,40);
-                    SetImageSize(mimageviewtwo,40);
-                    SetImageSize(mimageviewthree,40);
-                    SetImageSize(mimageviewfour,40);
+                    SetImageSize(mimageviewone,30);
+                    SetImageSize(mimageviewtwo,30);
+                    SetImageSize(mimageviewthree,30);
+                    SetImageSize(mimageviewfour,30);
                 }
 
                 if (mPassWord.length()==0){

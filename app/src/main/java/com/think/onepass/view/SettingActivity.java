@@ -27,7 +27,7 @@ import com.think.onepass.util.SharePreferenceUtils;
 import java.io.IOException;
 
 public class SettingActivity extends Activity implements View.OnClickListener,ScreenLock.OnTimeOutListener,CompoundButton.OnCheckedChangeListener{
-    private RelativeLayout rlUpdatePassword;
+    private RelativeLayout rlUpdatePassword,secureSavepassword,secure_autofill,secure_securitylevel;
     private SharedPreferences msharedPreferences;
     private Boolean isLock,isOpenFinger,isOpenSuspend,isopenAutoClearClip;
     private Switch mswitchLock,openFinger,openSuspend,openAutoClearClip;
@@ -66,6 +66,7 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
         openAutoClearClip=findViewById(R.id.secure_clear_switch);
         openAutoClearClip.setOnCheckedChangeListener(this);
 
+        //
     }
     @Override
     protected void onResume(){
@@ -123,12 +124,12 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.backimagview:{
-                try{
-                    Runtime runtime=Runtime.getRuntime();
-                    runtime.exec("input keyevent " + KeyEvent.KEYCODE_BACK);
-                }catch(IOException e){
-                }
-
+//                try{
+//                    Runtime runtime=Runtime.getRuntime();
+//                    runtime.exec("input keyevent " + KeyEvent.KEYCODE_BACK);
+//                }catch(IOException e){
+//                }
+                finish();
                 break;
             }
             //修该密码
