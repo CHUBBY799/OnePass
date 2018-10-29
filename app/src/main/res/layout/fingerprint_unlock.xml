@@ -17,12 +17,13 @@
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_marginBottom="40dp"
+            android:layout_gravity="center"
             android:src="@mipmap/fingerprint_icon" />
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="请验证你的指纹信息"
+            android:text="@string/fingerprint"
             android:layout_gravity="center"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp" />
@@ -53,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="使用密码验证"
+                android:text="@string/changetonumframentv"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp" />
         </LinearLayout>

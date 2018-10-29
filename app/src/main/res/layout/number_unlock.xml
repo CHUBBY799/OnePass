@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/passwordeditText"
         android:layout_centerHorizontal="true"
-        android:text="请输入您设定的四位密码"
+        android:text="@string/head_password"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16dp" />
 
@@ -109,7 +109,7 @@
                 android:id="@+id/changetofingerprintframenttv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="使用指纹验证"
+                android:text="@string/changetofingerprintframenttv"
                 android:textColor="@color/colorAccent"
                 android:textSize="16dp" />
         </LinearLayout>

@@ -1,3 +1,40 @@
 <resources>
-
+    <string name="app_name">onepass</string>
+    <string name="main_no_data_top">无密码项</string>
+    <string name="main_no_data_bottom">密码项将会在这里显示</string>
+    <string name="label_no_data_top">无标签</string>
+    <string name="label_no_data_bottom">标签将会在这里显示</string>
+    <string name="search_no_data">天啊！没有搜索结果</string>
+    <string name="search_cancel">取消</string>
+    <string name="search_first">请输入关键词.</string>
+    <string name="setting_tag">通用设置</string>
+    <string name="secure_lock">20秒无动作后锁定</string>
+    <string name="secure_clear">1min后自动清除剪切板</string>
+    <string name="secure_fingerprintsatrt">开启指纹解锁</string>
+    <string name="secure_floatwindowstart">开启悬浮窗</string>
+    <string name="secure_passwordupdate">修改密码</string>
+    <string name="head_password">请输入你设置的密码</string>
+    <string name="head_first_password">请设置你的四位密码</string>
+    <string name="password_incorrect">密码不正确，请重新输入</string>
+    <string name="password_correct">密码验证成功</string>
+    <string name="changetofingerprintframenttv">指纹验证</string>
+    <string name="fingerprint">请验证你的指纹信息</string>
+    <string name="changetonumframentv">密码验证</string>
+    <string name="secret_title_hint">请输入你的标题</string>
+    <string name="secret_user_hint">请输入你的账户id</string>
+    <string name="secret_password_hint">请输入你的密码</string>
+    <string name="secret_label_hint">添加标签</string>
+    <string name="user_copy">已经将用户名复制到粘贴板</string>
+    <string name="password_copy">已经将密码复制到粘贴板</string>
+    <string name="user_empty">用户名不能为空</string>
+    <string name="title_empty">标题不能为空</string>
+    <string name="confirm">确认</string>
+    <string name="cancel">取消</string>
+    <string name="revoke">重置</string>
+    <string name="delete">删除</string>
+    <string name="normal_delete">这将会删除</string>
+    <string name="normal_delete_help">密码项</string>
+    <string name="update_delete">你想重置信息吗?</string>
+    <string name="add_delete">这将不会保存你之前设置的信息.</string>
+    <string name="back">清除</string>
 </resources>

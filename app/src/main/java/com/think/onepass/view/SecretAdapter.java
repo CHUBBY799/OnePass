@@ -112,7 +112,7 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 ((HeadContract.View)mContext).setClipboardWithString(holder.secretUser.getText().toString());
-                Toast.makeText(mContext,"已经将用户名复制到粘贴板",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,mContext.getResources().getString(R.string.user_copy),Toast.LENGTH_SHORT).show();
                 mCallback.addUse(secret.getId());
             }
         });
@@ -120,7 +120,7 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 ((HeadContract.View)mContext).setClipboardWithString(holder.secretPassword.getText().toString());
-                Toast.makeText(mContext,"已经将密码复制到粘贴板",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,mContext.getResources().getString(R.string.password_copy),Toast.LENGTH_SHORT).show();
                 mCallback.addUse(secret.getId());
             }
         });
@@ -129,9 +129,9 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
             public void onClick(View v) {
                 int position=holder.getLayoutPosition();
                 if(mSecretList.get(position).getUser()==null||mSecretList.get(position).getUser().equals("")){
-                    Toast.makeText(mContext,"用户名不能为空",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext,mContext.getResources().getString(R.string.user_empty),Toast.LENGTH_SHORT).show();
                 }else if(mSecretList.get(position).getTitle()==null||mSecretList.get(position).getTitle().equals("")){
-                    Toast.makeText(mContext,"标题不能为空",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext,mContext.getResources().getString(R.string.title_empty),Toast.LENGTH_SHORT).show();
                 } else {
                     String time;
                     if(mSecretMode.get(position)==ADD_MODE){
@@ -164,8 +164,8 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
                 String message;
                 switch (mode){
                     case NORMAL_MODE:
-                        title="Delete";
-                        message="Do you want to delete the "+mSecretList.get(position).getTitle();
+                        title=mContext.getString(R.string.delete);
+                        message=mContext.getString(R.string.normal_delete)+" "+mSecretList.get(position).getTitle()+mContext.getString(R.string.normal_delete_help);
                         DialogUtils.showDialog(mContext, title, message, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -178,8 +178,8 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
                         });
                         break;
                     case UPDATE_MODE:
-                        title="Revoke";
-                        message="Do you want to revoking ?";
+                        title=mContext.getString(R.string.revoke);
+                        message=mContext.getString(R.string.update_delete);
                         DialogUtils.showDialog(mContext, title, message, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -193,8 +193,8 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
                         });
                         break;
                     case ADD_MODE:
-                        title="Delete";
-                        message="Will not save your information.";
+                        title=mContext.getString(R.string.delete);;
+                        message=mContext.getString(R.string.add_delete);
                         DialogUtils.showDialog(mContext, title, message, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

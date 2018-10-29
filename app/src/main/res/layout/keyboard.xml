@@ -26,9 +26,9 @@
     </Row>
 
     <Row>
-        <Key android:codes="-3" android:keyLabel="清除" />
+        <Key android:codes="-3" android:keyLabel="@string/back" />
         <Key android:codes="48" android:keyLabel="0" />
-        <Key android:codes="-5" android:keyLabel="删除" />
+        <Key android:codes="-5" android:keyLabel="@string/delete" />
     </Row>
 
 

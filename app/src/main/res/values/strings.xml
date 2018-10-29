@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">onepass</string>
-    <string name="setting_unuse_tip">Sorry,our developers sucks.\nThe function is being perfected,please look forward to it. </string>
     <string name="main_no_data_top">No Passport</string>
     <string name="main_no_data_bottom">passport will appear here</string>
     <string name="label_no_data_top">No Label</string>
@@ -9,4 +8,33 @@
     <string name="search_cancel">Cancel</string>
     <string name="search_first">Please input keywords.</string>
     <string name="setting_tag">Common setting</string>
+    <string name="secure_lock">No action lock after 20 seconds.</string>
+    <string name="secure_clear">Automatic clipboard after 1min</string>
+    <string name="secure_fingerprintsatrt">Unlocking fingerprint</string>
+    <string name="secure_floatwindowstart">Open suspension window</string>
+    <string name="secure_passwordupdate">Change Password</string>
+    <string name="head_password">Please enter the password you set.</string>
+    <string name="head_first_password">Please set up four password.</string>
+    <string name="password_incorrect">Incorrect password.Please retype.</string>
+    <string name="password_correct">Success</string>
+    <string name="changetofingerprintframenttv">Fingerprint verification</string>
+    <string name="fingerprint">Please verify your fingerprint information.</string>
+    <string name="changetonumframentv">Password verification</string>
+    <string name="secret_title_hint">Please input your title.</string>
+    <string name="secret_user_hint">Please input your account ID</string>
+    <string name="secret_password_hint">Please input your password.</string>
+    <string name="secret_label_hint">Add labels</string>
+    <string name="user_copy">The user name has been copied to the paste board.</string>
+    <string name="password_copy">The password has been copied to the paste board.</string>
+    <string name="user_empty">User name can not be empty.</string>
+    <string name="title_empty">The title should not be empty.</string>
+    <string name="confirm">confirm</string>
+    <string name="cancel">cancel</string>
+    <string name="revoke">revoke</string>
+    <string name="delete">delete</string>
+    <string name="normal_delete">Do you want to delete the </string>
+    <string name="normal_delete_help"></string>
+    <string name="update_delete">Do you want to revoking ?</string>
+    <string name="add_delete">Will not save your information.</string>
+    <string name="back">clean</string>
 </resources>

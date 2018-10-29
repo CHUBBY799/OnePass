@@ -57,10 +57,10 @@ public class NumberFragment extends Fragment {
         metPassWord.setInputType(InputType.TYPE_NULL);
         String mPassWord =msharePreferences.getString("password","");
         if(mPassWord.length()==0){
-            mtvPasswordInput.setText("请设置四位数字密码");
+            mtvPasswordInput.setText(getResources().getString(R.string.head_first_password));
         }
         else {
-            mtvPasswordInput.setText("请输入您设定的四位密码");
+            mtvPasswordInput.setText(getResources().getString(R.string.head_password));
         }
         if(!SharePreferenceUtils.getFingerprintopenKey()) {
             relativeLayout.setVisibility(View.GONE);
@@ -136,17 +136,17 @@ public class NumberFragment extends Fragment {
                         SharedPreferences.Editor meditor = msharePreferences.edit();
                         meditor.putString("password",metPassWord.getText().toString());
                         meditor.commit();
-                        Toast.makeText(mActivty,"success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivty,getResources().getString(R.string.password_correct), Toast.LENGTH_SHORT).show();
                         mActivty.onAuthenticated();
                     }
                 }
                 else{
                     if (metPassWord.getText().toString().equals(mPassWord)){
-                        Toast.makeText(mActivty,"success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivty,getResources().getString(R.string.password_correct), Toast.LENGTH_SHORT).show();
                         mActivty.onAuthenticated();
                     }
                     else if (!(metPassWord.getText().toString().equals(mPassWord)) && metPassWord.getText().toString().length()==4){
-                        Toast.makeText(mActivty,"密码错误，请重新输入", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivty,getResources().getString(R.string.password_incorrect), Toast.LENGTH_SHORT).show();
                     }
                 }
 

@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.think.onepass.R;
+
 public class DialogUtils {
 
 
@@ -14,8 +16,8 @@ public class DialogUtils {
         dialog.setTitle(title);
         dialog.setMessage(message);
         dialog.setCancelable(true);
-        dialog.setPositiveButton("OK", positive);
-        dialog.setNegativeButton("Cancel",negative);
+        dialog.setPositiveButton(context.getString(R.string.confirm), positive);
+        dialog.setNegativeButton(context.getString(R.string.cancel),negative);
         dialog.show();
     }
 
