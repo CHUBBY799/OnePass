@@ -21,6 +21,7 @@ public class HeadContract {
         List<List<Secret>> selectSecretsByLabel(List<String> labels);
         List<Secret> getSecretsByLasttimeDesc();
         public boolean isContainById(long id);
+        public void addUse(long id);
 
     }
 }

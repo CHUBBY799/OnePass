@@ -77,7 +77,7 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: "+holder.getLayoutPosition()+" : "+position + " : "+ mSecretMode.get(holder.getLayoutPosition()));
-        Secret secret=mSecretList.get(holder.getLayoutPosition());
+        final Secret secret=mSecretList.get(holder.getLayoutPosition());
         mCallback.showNodata();
         // 当文本框内容发生变化时,将文本内容更新至mSecrets
         setEditText(holder.secretTitle,secret.getTitle(),secret,holder);
@@ -113,6 +113,7 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
             public void onClick(View v) {
                 ((HeadContract.View)mContext).setClipboardWithString(holder.secretUser.getText().toString());
                 Toast.makeText(mContext,"已经将用户名复制到粘贴板",Toast.LENGTH_SHORT).show();
+                mCallback.addUse(secret.getId());
             }
         });
         holder.secretPasswordCopy.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +121,7 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
             public void onClick(View v) {
                 ((HeadContract.View)mContext).setClipboardWithString(holder.secretPassword.getText().toString());
                 Toast.makeText(mContext,"已经将密码复制到粘贴板",Toast.LENGTH_SHORT).show();
+                mCallback.addUse(secret.getId());
             }
         });
         holder.secretConfirm.setOnClickListener(new View.OnClickListener() {
@@ -321,5 +323,6 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
         public String updateSecrets(Secret secret);
         public void deleteSecret(long id);
         public void showNodata();
+        public void addUse(long id);
     }
 }

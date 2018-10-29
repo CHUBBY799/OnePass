@@ -92,6 +92,7 @@ public class SecretFragment extends Fragment{
         this.autoInit=autoInit;
     }
     private void autoInitData(){
+        Log.d(TAG, "autoInitData: ");
         mSecretList=mPresenter.getSecretsByLasttimeDesc();
         mSecretMode=new ArrayList<>();
         for(Secret secret:mSecretList){
@@ -125,6 +126,11 @@ public class SecretFragment extends Fragment{
             public void showNodata() {
                 isShowNoData();
             }
+
+            @Override
+            public void addUse(long id) {
+                mPresenter.addUse(id);
+            }
         });
         headRecycler.setAdapter(secretAdapter);
     }
@@ -141,7 +147,7 @@ public class SecretFragment extends Fragment{
     }
 
     public void addSecret(Secret secret){
-
+        secret.setUse(0);
         mSecretList.add(0,secret);
         mSecretMode.add(0,SecretAdapter.ADD_MODE);
         secretAdapter.notifyDataSetChanged();

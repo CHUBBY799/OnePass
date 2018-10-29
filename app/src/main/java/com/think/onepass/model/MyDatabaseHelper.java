@@ -12,7 +12,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             +"password text,"
             +"label text,"
             +"lastTime text," +
-            "deleted integer)";
+            "deleted integer," +
+            "use integer)";
     private Context mContext;
     public MyDatabaseHelper(Context context, String name,
                             SQLiteDatabase.CursorFactory factory, int version){

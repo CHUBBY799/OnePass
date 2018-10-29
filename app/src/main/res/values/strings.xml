@@ -8,4 +8,5 @@
     <string name="search_no_data">oops,no search results</string>
     <string name="search_cancel">Cancel</string>
     <string name="search_first">Please input keywords.</string>
+    <string name="setting_tag">Common setting</string>
 </resources>

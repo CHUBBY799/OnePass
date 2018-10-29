@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SecretModelImpl implements SecretModel{
+    private static final String TAG = "SecretModelImpl";
     private MyDatabaseHelper dbHelper;
     private Context mContext;
     private final String TABLE="main";
@@ -44,6 +45,7 @@ public class SecretModelImpl implements SecretModel{
             values.put("lastTime",lastTime);
             values.put("title",secret.getTitle());
             values.put("deleted",0);
+            values.put("use",secret.getUse());
             db.insert("main",null,values);
         }
         Map<String,Object> response=new HashMap<>();
@@ -70,9 +72,9 @@ public class SecretModelImpl implements SecretModel{
         }
         return secrets;
     }
-    private final String sqlOfSecrets="select * from "+TABLE+" where deleted = 0"+" order by lastTime desc";
+    private final String sqlOfSecrets="select * from "+TABLE+" where deleted = 0"+" order by use desc";
     @Override
-    public List<Secret> getSecretsByLasttimeDesc() {
+    public List<Secret> getSecretsByUseDesc() {
         List<Secret> secrets=new ArrayList<>();
         SQLiteDatabase db=dbHelper.getReadableDatabase();
         Cursor cursor=db.rawQuery(sqlOfSecrets,null);
@@ -84,6 +86,7 @@ public class SecretModelImpl implements SecretModel{
             secret.setLabel(cursor.getString(cursor.getColumnIndex("label")));
             secret.setLastTime(cursor.getString(cursor.getColumnIndex("lastTime")));
             secret.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+            Log.d(TAG, "getSecretsByUseDesc: "+secret.getId()+" : "+cursor.getInt(cursor.getColumnIndex("use")));
             secrets.add(secret);
         }
         return secrets;
@@ -162,5 +165,11 @@ public class SecretModelImpl implements SecretModel{
         SQLiteDatabase db=dbHelper.getReadableDatabase();
         Cursor cursor=db.rawQuery("select * from main where id = ? ",new String[]{String.valueOf(id)});
         return cursor.moveToFirst();
+    }
+
+    @Override
+    public void addUse(long id) {
+        SQLiteDatabase db=dbHelper.getWritableDatabase();
+        db.execSQL("update main set use = use + 1 where id = ?",new Object[]{id});
     }
 }

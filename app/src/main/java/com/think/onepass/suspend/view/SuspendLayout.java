@@ -160,7 +160,8 @@ public class SuspendLayout extends FrameLayout {
                                 public void afterTextChanged(Editable s) {
                                     String password = unlockPassword.getText().toString();
                                     if (unlockPassword.length() == 4) {
-                                        String correctPassword = SharePreferenceUtils.getPassword();
+                                        String correctPassword = mContext.getSharedPreferences("settings",Context.MODE_PRIVATE)
+                                                .getString(password,"1111");
                                         if (password.equals(correctPassword)) {
                                             SharePreferenceUtils.setSuspendpasstimeKey(System.currentTimeMillis());
                                             Utils.setClipboard(mContext.getApplicationContext(),mdata);

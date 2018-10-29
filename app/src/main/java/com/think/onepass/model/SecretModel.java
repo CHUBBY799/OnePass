@@ -8,10 +8,11 @@ import java.util.Map;
 public interface SecretModel {
       Map<String,Object> addSecret(Secret secret);
       List<Secret> searchSecretByKey(String key,int deleted);
-      List<Secret> getSecretsByLasttimeDesc();
+      List<Secret> getSecretsByUseDesc();
       String updateSecret(Secret secret);
       void deleteSecretById(long id);
       List<String> selectAllLabel();
       List<Secret> selectSecretByLabel(String label);
       public boolean isContainById(long id);
+      public void addUse(long id);
 }

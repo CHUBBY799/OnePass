@@ -9,6 +9,7 @@ public class Secret {
     private String title;
     private String password;
     private String label;
+    private int use;
 
     public String getTitle() {
         return title;
@@ -70,5 +71,13 @@ public class Secret {
 
     public void setLastTime(String lastTime) {
         this.lastTime = lastTime;
+    }
+
+    public int getUse() {
+        return use;
+    }
+
+    public void setUse(int use) {
+        this.use = use;
     }
 }
