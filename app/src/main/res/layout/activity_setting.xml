@@ -325,7 +325,7 @@
                         android:gravity="center_vertical"
                         android:text="备份到本地/邮箱/云盘"
                         android:textSize="15sp"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        android:textColor="@color/label_line_color"/>
 
                     <ImageView
                         android:layout_width="20dip"
@@ -354,7 +354,7 @@
                         android:layout_marginLeft="5dip"
                         android:text="备份频率"
                         android:textSize="15sp"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        android:textColor="@color/label_line_color"/>
 
                     <ImageView
                         android:layout_width="20dip"
@@ -382,8 +382,8 @@
                         android:gravity="center_vertical"
                         android:layout_marginLeft="5dip"
                         android:text="备份还原"
-                        android:textSize="15sp"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        android:textColor="@color/label_line_color"
+                        android:textSize="15sp" />
 
                 </RelativeLayout>
             </LinearLayout>
