@@ -24,7 +24,6 @@ import com.think.onepass.suspend.permission.FloatPermissionManager;
 import com.think.onepass.util.ServiceUtils;
 import com.think.onepass.util.SharePreferenceUtils;
 
-import java.io.IOException;
 
 public class SettingActivity extends Activity implements View.OnClickListener,ScreenLock.OnTimeOutListener,CompoundButton.OnCheckedChangeListener{
     private RelativeLayout rlUpdatePassword,secureSavepassword,secure_autofill,secure_securitylevel;
@@ -137,29 +136,20 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
                 final AlertDialog.Builder builderupdatepassword= new AlertDialog.Builder(this);
                 final LinearLayout linearlayoutUpdatePassword = (LinearLayout)getLayoutInflater().inflate
                         (R.layout.set_update_password,null);
-                builderupdatepassword.setTitle("修改密码");
+                builderupdatepassword.setTitle("确认原密码");
                 builderupdatepassword.setView(linearlayoutUpdatePassword);
                 builderupdatepassword.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         EditText metoldPassWord = linearlayoutUpdatePassword.findViewById(R.id.oldpasswordedittext);
-                        EditText metNewPassWord = linearlayoutUpdatePassword.findViewById(R.id.newpasswordedittext);
-                        EditText metSurePassWord = linearlayoutUpdatePassword.findViewById(R.id.surepasswordedittext);
-                        SharedPreferences.Editor meditor = msharedPreferences.edit();
                         String mOldPassWordfromshared =  msharedPreferences.getString("password","");
                         String mOldPassWord = metoldPassWord.getText().toString();
-                        String mNewPassWord = metNewPassWord.getText().toString();
-                        String mSurePassWord = metSurePassWord.getText().toString();
-                        if((mOldPassWordfromshared.equals(mOldPassWord)) && (mNewPassWord.length()==4) && mNewPassWord.equals(mSurePassWord)){
-                            meditor.putString("password",mNewPassWord);
-                            meditor.commit();
-                            Toast.makeText(SettingActivity.this,"修改密码成功", Toast.LENGTH_SHORT).show();
-                        }
-                        else if (mNewPassWord.length()==0 && mSurePassWord.length()==0){
-                            return;
+                        if(mOldPassWordfromshared.equals(mOldPassWord)){
+                            Intent intent = new Intent(SettingActivity.this,SetNewPassWordActivity.class);
+                            startActivity(intent);
                         }
                         else {
-                            Toast.makeText(SettingActivity.this,"修改密码失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SettingActivity.this,"密码有误", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -169,7 +159,6 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
                     }
                 });
                 builderupdatepassword.create().show();
-                break;
             default:break;
         }
     }
