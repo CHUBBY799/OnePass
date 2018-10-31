@@ -272,7 +272,7 @@ public class SecretAdapter extends RecyclerView.Adapter<SecretAdapter.ViewHolder
             public void afterTextChanged(Editable s) {
                 Log.d(TAG, "afterTextChanged: "+s.toString());
                 int position=holder.getLayoutPosition();
-                if(myEditText.getId() == R.id.secret_password &&  s.toString().equals(mSecretList.get(position).getPassword())){
+                if(myEditText.getId() == R.id.secret_password &&  (s.toString().equals(mSecretList.get(position).getPassword())||s.toString().equals(""))){
                     return;
                 }
                 if(mSecretMode.get(position)==NORMAL_MODE){

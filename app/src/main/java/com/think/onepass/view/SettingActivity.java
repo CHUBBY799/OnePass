@@ -1,12 +1,21 @@
 package com.think.onepass.view;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,14 +28,22 @@ import android.widget.Switch;
 import android.widget.Toast;
 import com.think.onepass.BaseApplication;
 import com.think.onepass.R;
+import com.think.onepass.excel.ExcelUtils;
+import com.think.onepass.model.Secret;
+import com.think.onepass.model.SecretModelImpl;
 import com.think.onepass.suspend.SuspendController;
 import com.think.onepass.suspend.permission.FloatPermissionManager;
 import com.think.onepass.util.ServiceUtils;
 import com.think.onepass.util.SharePreferenceUtils;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class SettingActivity extends Activity implements View.OnClickListener,ScreenLock.OnTimeOutListener,CompoundButton.OnCheckedChangeListener{
-    private RelativeLayout rlUpdatePassword,secureSavepassword,secure_autofill,secure_securitylevel;
+    private static final String TAG = "SettingActivity";
+    private RelativeLayout rlUpdatePassword,rlExcel;
     private SharedPreferences msharedPreferences;
     private Boolean isLock,isOpenFinger,isOpenSuspend,isopenAutoClearClip;
     private Switch mswitchLock,openFinger,openSuspend,openAutoClearClip;
@@ -65,7 +82,9 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
         openAutoClearClip=findViewById(R.id.secure_clear_switch);
         openAutoClearClip.setOnCheckedChangeListener(this);
 
-        //
+        //输出Excel
+        rlExcel = findViewById(R.id.data_excel);
+        rlExcel.setOnClickListener(this);
     }
     @Override
     protected void onResume(){
@@ -159,11 +178,93 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
                     }
                 });
                 builderupdatepassword.create().show();
+                break;
+            case R.id.data_excel:
+                if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+                }else {
+                    exportExcel();
+                }
+                break;
             default:break;
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case 1:
+                if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    exportExcel();
+                }else{
+                    Toast.makeText(this,R.string.data_excel_unsuccess,Toast.LENGTH_LONG).show();
+                }
+                break;
+        }
+    }
 
+    private String[] title = new String[]{"id","title","username","password","label","number of use"};
+    public void exportExcel() {
+        File file = new File(getSDPath() + "/Record");
+        makeDir(file);
+        ExcelUtils.initExcel(file.toString() + "/passport.xls", title);
+        String fileName = getSDPath() + "/Record/passport.xls";
+        Log.d(TAG, "exportExcel: ");
+        ExcelUtils.writeObjListToExcel(getRecordData(), fileName, this);
+//        File file1 = new File(file,"passport.xls");
+//         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//         Uri excelURI = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider",file1);
+//         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//         intent.setDataAndType(excelURI, getContentResolver().getType(excelURI));
+//         intent.addCategory(Intent.CATEGORY_OPENABLE);
+//         startActivity(intent);
+    }
+
+    /**
+     * 将数据集合 转化成ArrayList<ArrayList<String>>
+     * @return
+     */
+    private  ArrayList<ArrayList<String>> getRecordData() {
+        ArrayList<ArrayList<String>> recordList = new ArrayList<>();
+        SecretModelImpl model = new SecretModelImpl(this);
+        List<Secret> secrets = model.getSecretsByUseDesc();
+        if(secrets.size() == 0){
+            Toast.makeText(this,R.string.data_excel_none,Toast.LENGTH_LONG).show();
+            return null;
+        }
+        for (int i = 0; i <secrets.size(); i++) {
+            Secret secret = secrets.get(i);
+            ArrayList<String> beanList = new ArrayList<String>();
+            beanList.add(String.valueOf(secret.getId()));
+            beanList.add(secret.getTitle());
+            beanList.add(secret.getUser());
+            beanList.add(secret.getPassword());
+            beanList.add(secret.getLabel());
+            beanList.add(String.valueOf(secret.getUse()));
+            recordList.add(beanList);
+        }
+        return recordList;
+    }
+
+    private  String getSDPath() {
+        File sdDir = null;
+        boolean sdCardExist = Environment.getExternalStorageState().equals(
+                android.os.Environment.MEDIA_MOUNTED);
+        if (sdCardExist) {
+            sdDir = Environment.getExternalStorageDirectory();
+        }
+        String dir = sdDir.toString();
+        return dir;
+    }
+
+    public  void makeDir(File dir) {
+        if (!dir.getParentFile().exists()) {
+            makeDir(dir.getParentFile());
+        }
+        dir.mkdir();
+    }
+    
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()){

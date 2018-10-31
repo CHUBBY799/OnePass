@@ -37,4 +37,9 @@
     <string name="update_delete">Do you want to revoking ?</string>
     <string name="add_delete">Will not save your information.</string>
     <string name="back">clean</string>
+    <string name="data_title">Data output and restore</string>
+    <string name="data_excel">Output Excel</string>
+    <string name="data_excel_unsuccess">"Sorry,I don't have access to storage"</string>
+    <string name="data_excel_none">"Sorry,you don't have passport"</string>
+    <string name="data_excel_success">The file has been successfully saved to the record folder</string>
 </resources>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import com.think.onepass.util.AppManager;
+import com.think.onepass.util.EncryptUtils.ARSAUtils;
 import com.think.onepass.util.FingerprintUtils;
 import com.think.onepass.util.SharePreferenceUtils;
 import com.think.onepass.view.ScreenLock;
@@ -23,6 +24,7 @@ public class BaseApplication extends Application{
         SharePreferenceUtils.setContext(getApplicationContext());
         FingerprintUtils.setContext(getApplicationContext());
         FingerprintUtils.init();
+        ARSAUtils.setContext(getApplicationContext());
 
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override

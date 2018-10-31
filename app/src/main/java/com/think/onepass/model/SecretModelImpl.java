@@ -4,9 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Base64;
 import android.util.Log;
 
 
+import com.think.onepass.util.EncryptUtils.ARSAUtils;
+
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,7 +41,13 @@ public class SecretModelImpl implements SecretModel{
         String lastTime=returnLastTimeByDate(new Date());
         if(secret!=null) {
             values.put("user",secret.getUser());
-            values.put("password",secret.getPassword());
+            String password = secret.getPassword();
+            if(password == null || password.equals(" ") || password.equals("")){
+                values.put("password",password);
+            }else {
+                String passwordEncrypted = ARSAUtils.encryptDataByPublicKey(password.getBytes());
+                values.put("password",passwordEncrypted);
+            }
             if (secret.getLabel()==null){
                 values.put("label","");
             }else {
@@ -64,6 +75,9 @@ public class SecretModelImpl implements SecretModel{
             long id=cursor.getLong(cursor.getColumnIndex("id"));
             String user=cursor.getString(cursor.getColumnIndex("user"));
             String password=cursor.getString(cursor.getColumnIndex("password"));
+            if(!(password == null || password.equals(" ")||password.equals(""))){
+                password= ARSAUtils.decryptedToStrByPrivate(password);
+            }
             String lastTime=cursor.getString(cursor.getColumnIndex("lastTime"));
             String title=cursor.getString(cursor.getColumnIndex("title"));
             String label=cursor.getString(cursor.getColumnIndex("label"));
@@ -82,7 +96,11 @@ public class SecretModelImpl implements SecretModel{
             Secret secret=new Secret();
             secret.setId(cursor.getLong(cursor.getColumnIndex("id")));
             secret.setUser(cursor.getString(cursor.getColumnIndex("user")));
-            secret.setPassword(cursor.getString(cursor.getColumnIndex("password")));
+            String password=cursor.getString(cursor.getColumnIndex("password"));
+            if(!(password == null || password.equals(" ")||password.equals(""))){
+                password= ARSAUtils.decryptedToStrByPrivate(password);
+            }
+            secret.setPassword(password);
             secret.setLabel(cursor.getString(cursor.getColumnIndex("label")));
             secret.setLastTime(cursor.getString(cursor.getColumnIndex("lastTime")));
             secret.setTitle(cursor.getString(cursor.getColumnIndex("title")));
@@ -106,7 +124,11 @@ public class SecretModelImpl implements SecretModel{
         if(label==null){
             label="";
         }
-        db.execSQL(sqlOfUpdate,new Object[]{secret.getTitle(),secret.getUser(),secret.getPassword(),label
+        String password = secret.getPassword();
+        if(!(password == null || password.equals(" ")||password.equals(""))){
+            password = ARSAUtils.encryptDataByPublicKey(password.getBytes());
+        }
+        db.execSQL(sqlOfUpdate,new Object[]{secret.getTitle(),secret.getUser(),password,label
         ,lastTime,id});
         return lastTime;
     }
@@ -151,7 +173,11 @@ public class SecretModelImpl implements SecretModel{
             Secret secret=new Secret();
             secret.setId(cursor.getLong(cursor.getColumnIndex("id")));
             secret.setUser(cursor.getString(cursor.getColumnIndex("user")));
-            secret.setPassword(cursor.getString(cursor.getColumnIndex("password")));
+            String password=cursor.getString(cursor.getColumnIndex("password"));
+            if(!(password == null || password.equals(" ")||password.equals(""))){
+                password= ARSAUtils.decryptedToStrByPrivate(password);
+            }
+            secret.setPassword(password);
             secret.setLabel(cursor.getString(cursor.getColumnIndex("label")));
             secret.setLastTime(cursor.getString(cursor.getColumnIndex("lastTime")));
             secret.setTitle(cursor.getString(cursor.getColumnIndex("title")));
