@@ -155,9 +155,9 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
                 final AlertDialog.Builder builderupdatepassword= new AlertDialog.Builder(this);
                 final LinearLayout linearlayoutUpdatePassword = (LinearLayout)getLayoutInflater().inflate
                         (R.layout.set_update_password,null);
-                builderupdatepassword.setTitle("确认原密码");
+                builderupdatepassword.setTitle("Confirm the original password");
                 builderupdatepassword.setView(linearlayoutUpdatePassword);
-                builderupdatepassword.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                builderupdatepassword.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         EditText metoldPassWord = linearlayoutUpdatePassword.findViewById(R.id.oldpasswordedittext);
@@ -168,11 +168,11 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
                             startActivity(intent);
                         }
                         else {
-                            Toast.makeText(SettingActivity.this,"密码有误", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SettingActivity.this,"The password is wrong", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-                builderupdatepassword.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                builderupdatepassword.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                     }
