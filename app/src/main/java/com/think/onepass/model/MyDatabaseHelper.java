@@ -1,8 +1,11 @@
 package com.think.onepass.model;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.think.onepass.util.EncryptUtils.ARSAUtils;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
     public static final String CREATE_MAIN="create table main("
@@ -21,8 +24,21 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         mContext=context;
     }
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        switch (oldVersion){
+            case 1:
+                Cursor cursor = sqLiteDatabase.rawQuery("select * from main",null);
+                while (cursor.moveToNext()){
+                    String password = cursor.getString(cursor.getColumnIndex("password"));
+                    if(password == null || password.equals(" ") || password.equals("")){
 
+                    }else {
+                         password = ARSAUtils.encryptDataByPublicKey(password.getBytes());
+                    }
+                    sqLiteDatabase.execSQL("update main set password = ? where id = ?",new Object[]{password,cursor.getInt(cursor.getColumnIndex("id"))});
+                }
+                break;
+        }
     }
 
     @Override

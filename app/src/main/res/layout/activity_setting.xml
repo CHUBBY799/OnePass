@@ -246,6 +246,52 @@
                         android:layout_marginEnd="5dip"
                         android:src="@mipmap/more_setting_icon"/>
                 </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/data_backup"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="5dip"
+                        android:text="@string/data_backup"
+                        android:textSize="15sp"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                    <ImageView
+                        android:layout_width="20dip"
+                        android:layout_height="20dip"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="5dip"
+                        android:src="@mipmap/more_setting_icon"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/data_retore"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="5dip"
+                        android:text="@string/data_store"
+                        android:textSize="15sp"
+                        android:textColor="@color/colorPrimaryDark"/>
+
+                    <ImageView
+                        android:layout_width="20dip"
+                        android:layout_height="20dip"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="5dip"
+                        android:src="@mipmap/more_setting_icon"/>
+                </RelativeLayout>
             </LinearLayout>
 
         </LinearLayout>

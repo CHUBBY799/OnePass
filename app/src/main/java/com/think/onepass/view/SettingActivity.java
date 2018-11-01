@@ -31,8 +31,11 @@ import com.think.onepass.R;
 import com.think.onepass.excel.ExcelUtils;
 import com.think.onepass.model.Secret;
 import com.think.onepass.model.SecretModelImpl;
+import com.think.onepass.setting.BackupTask;
+import com.think.onepass.setting.backup.MyBackupTask;
 import com.think.onepass.suspend.SuspendController;
 import com.think.onepass.suspend.permission.FloatPermissionManager;
+import com.think.onepass.util.DialogUtils;
 import com.think.onepass.util.ServiceUtils;
 import com.think.onepass.util.SharePreferenceUtils;
 
@@ -43,7 +46,7 @@ import java.util.List;
 
 public class SettingActivity extends Activity implements View.OnClickListener,ScreenLock.OnTimeOutListener,CompoundButton.OnCheckedChangeListener{
     private static final String TAG = "SettingActivity";
-    private RelativeLayout rlUpdatePassword,rlExcel;
+    private RelativeLayout rlUpdatePassword,rlExcel,rlBackup,rlRestore;
     private SharedPreferences msharedPreferences;
     private Boolean isLock,isOpenFinger,isOpenSuspend,isopenAutoClearClip;
     private Switch mswitchLock,openFinger,openSuspend,openAutoClearClip;
@@ -85,6 +88,14 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
         //输出Excel
         rlExcel = findViewById(R.id.data_excel);
         rlExcel.setOnClickListener(this);
+
+        //备份
+        rlBackup=findViewById(R.id.data_backup);
+        rlBackup.setOnClickListener(this);
+
+        //还原
+        rlRestore = findViewById(R.id.data_retore);
+        rlRestore.setOnClickListener(this);
     }
     @Override
     protected void onResume(){
@@ -187,6 +198,35 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
                     exportExcel();
                 }
                 break;
+            case R.id.data_backup:
+//                new BackupTask(this).execute("backupDatabase");
+                if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},2);
+                }else {
+                    new MyBackupTask(this.getApplicationContext()).execute(MyBackupTask.BACKUP);
+                }
+                break;
+            case R.id.data_retore:
+                DialogUtils.showDialog(this, getString(R.string.data_retore_remind_title)
+                        , getString(R.string.data_restore_remind_message), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (ContextCompat.checkSelfPermission(SettingActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                        != PackageManager.PERMISSION_GRANTED) {
+                                    ActivityCompat.requestPermissions(SettingActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
+                                } else {
+                                    new MyBackupTask(SettingActivity.this.getApplicationContext()).execute(MyBackupTask.RESTORE);
+                                }
+                            }
+                        }, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+//                new BackupTask(this).execute("restoreDatabase");
+                break;
             default:break;
         }
     }
@@ -198,9 +238,24 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
                 if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     exportExcel();
                 }else{
-                    Toast.makeText(this,R.string.data_excel_unsuccess,Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,R.string.data_excel_unsuccess,Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case 2:
+                if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    new MyBackupTask(this.getApplicationContext()).execute(MyBackupTask.BACKUP);
+                }else{
+                    Toast.makeText(this,R.string.data_excel_unsuccess,Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case 3:
+                if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    new MyBackupTask(this.getApplicationContext()).execute(MyBackupTask.RESTORE);
+                }else{
+                    Toast.makeText(this,R.string.data_excel_unsuccess,Toast.LENGTH_SHORT).show();
+                }
+                break;
+
         }
     }
 
@@ -258,13 +313,13 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
         return dir;
     }
 
-    public  void makeDir(File dir) {
+    public void makeDir(File dir) {
         if (!dir.getParentFile().exists()) {
             makeDir(dir.getParentFile());
         }
         dir.mkdir();
     }
-    
+
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()){

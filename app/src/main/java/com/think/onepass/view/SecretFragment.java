@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.think.onepass.R;
 import com.think.onepass.model.Secret;
+import com.think.onepass.model.SecretModelImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -166,6 +167,19 @@ public class SecretFragment extends Fragment{
     public void onResume() {
         super.onResume();
         isShowNoData();
+        if(type == 1){
+            refreshSecrets();
+        }
+    }
+
+    public void refreshSecrets(){
+        mSecretList.clear();
+        SecretModelImpl model = new SecretModelImpl(getActivity());
+        mSecretList.addAll(model.getSecretsByUseDesc());
+        for (Secret secret:mSecretList){
+            mSecretMode.add(SecretAdapter.NORMAL_MODE);
+        }
+        secretAdapter.notifyDataSetChanged();
     }
     public void isShowNoData(){
         if(mSecretList.size() == 0){

@@ -1,9 +1,10 @@
 package com.think.onepass.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 
-public class Secret {
+public class Secret implements Serializable{
     private long id;
     private String user;
     private String title;

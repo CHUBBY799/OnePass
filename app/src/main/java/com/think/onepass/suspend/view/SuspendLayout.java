@@ -21,6 +21,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -165,7 +166,9 @@ public class SuspendLayout extends FrameLayout {
                                         if (password.equals(correctPassword)) {
                                             SharePreferenceUtils.setSuspendpasstimeKey(System.currentTimeMillis());
                                             Utils.setClipboard(mContext.getApplicationContext(),mdata);
-                                            Toast.makeText(mContext, "复制成功", Toast.LENGTH_SHORT).show();
+                                            Toast toast=Toast.makeText(mContext, "复制成功", Toast.LENGTH_SHORT);
+                                            toast.setGravity(Gravity.CENTER,0,0);
+                                            toast.show();
                                             backPreSearchView(preview);
                                         }
                                     }

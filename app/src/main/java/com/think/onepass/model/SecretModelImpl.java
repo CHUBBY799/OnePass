@@ -28,7 +28,7 @@ public class SecretModelImpl implements SecretModel{
 
     public SecretModelImpl(Context context){
         mContext=context;
-        dbHelper=new MyDatabaseHelper(mContext,"secret.db",null,1);
+        dbHelper=new MyDatabaseHelper(mContext,"secret.db",null,2);
     }
     public String returnLastTimeByDate(Date date){
         SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -197,5 +197,10 @@ public class SecretModelImpl implements SecretModel{
     public void addUse(long id) {
         SQLiteDatabase db=dbHelper.getWritableDatabase();
         db.execSQL("update main set use = use + 1 where id = ?",new Object[]{id});
+    }
+    @Override
+    public void deleteAll(){
+        SQLiteDatabase db=dbHelper.getWritableDatabase();
+        db.execSQL("delete from main");
     }
 }

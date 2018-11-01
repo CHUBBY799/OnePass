@@ -41,5 +41,13 @@
     <string name="data_excel">Output Excel</string>
     <string name="data_excel_unsuccess">"Sorry,I don't have access to storage"</string>
     <string name="data_excel_none">"Sorry,you don't have passport"</string>
-    <string name="data_excel_success">The file has been successfully saved to the record folder</string>
+    <string name="data_excel_success">"The file has been successfully saved to the internal storage/record folder"</string>
+    <string name="data_backup">Data backup</string>
+    <string name="data_store">Data store</string>
+    <string name="data_backup_success">Data backup success</string>
+    <string name="data_store_success">Data restore success</string>
+    <string name="data_backup_failed">Data backup failed</string>
+    <string name="data_store_failed">Data restore failed</string>
+    <string name="data_restore_remind_message">Your current data will be cleared,do you want to restore it?</string>
+    <string name="data_retore_remind_title">Restore of warning</string>
 </resources>

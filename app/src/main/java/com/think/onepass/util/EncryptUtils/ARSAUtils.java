@@ -33,13 +33,13 @@ public class ARSAUtils {
     // 进行Base64转码时的flag设置，默认为Base64.DEFAULT
     private static int BASE64_MODE = Base64.DEFAULT;
 
-    private static final String SP_NAME = "arsa";
+    public static final String SP_NAME = "arsa";
 
     private static final String INIT = "init";
 
-    private static final String PUBLIC_KEY = "public_key";
+    public static final String PUBLIC_KEY = "public_key";
 
-    private static final String PRIVATE_KEY = "private_key";
+    public static final String PRIVATE_KEY = "private_key";
 
     private static Context context;
 
