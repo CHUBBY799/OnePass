@@ -33,12 +33,12 @@ public class SetNewPassWordActivity extends Activity {
                 if ((mNewPassWord.length() == 4) && mNewPassWord.equals(mSurePassWord)) {
                     meditor.putString("password", mNewPassWord);
                     meditor.commit();
-                    Toast.makeText(SetNewPassWordActivity.this, "修改密码成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SetNewPassWordActivity.this, "Password modification succeeded", Toast.LENGTH_SHORT).show();
                     finish();
                 } else if (mNewPassWord.length() == 0 && mSurePassWord.length() == 0) {
                     return;
                 } else {
-                    Toast.makeText(SetNewPassWordActivity.this, "修改密码失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SetNewPassWordActivity.this, "Failed to modify password", Toast.LENGTH_SHORT).show();
                 }
             }
         });
