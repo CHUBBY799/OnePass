@@ -3,6 +3,8 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +25,7 @@ import android.widget.TextView;
 
 import com.think.onepass.BaseApplication;
 import com.think.onepass.R;
+import com.think.onepass.guide.GuideWindow;
 import com.think.onepass.label.LabelFragment;
 import com.think.onepass.model.Secret;
 import com.think.onepass.model.SecretModelImpl;
@@ -43,7 +47,8 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences msharedPreferences;
     private Boolean isLock,inSearch=false;
     private TextView searchCancel;
-
+    private static final int MSG_SHOW = 1001;
+    private  GuideWindow window;
     // SecretFragment Type
     public static final int MAIN=1;
     public static final int LABEL=2;
@@ -78,12 +83,45 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
         else if(isLock==false|| BaseApplication.isUnlockActivity==true){
             BaseApplication.mScreenLock.stop();
         }
-
+        showGuide();
     }
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case MSG_SHOW :
+                    showCopyGuide();
+                    break;
+            }
+        }
+    };
+    private void showGuide(){
+        if(!SharePreferenceUtils.getGuideCopy()){
+            mHandler.removeMessages(MSG_SHOW);
+            Message message = mHandler.obtainMessage(MSG_SHOW);
+            mHandler.sendMessageDelayed(message,300);
+        }
+    }
+
+    private void showCopyGuide(){
+        window = new GuideWindow(this, R.layout.guide_layout, R.mipmap.copy_guide_img,
+                R.string.guide_copy, new GuideWindow.Callback() {
+            @Override
+            public void onClickOk() {
+                SharePreferenceUtils.setGuideCopy(true);
+            }
+        });
+        window.showAtLocation(search, Gravity.NO_GRAVITY,0,0);
+    }
+
     @Override
     protected void onPause(){
         super.onPause();
         BaseApplication.mScreenLock.stop();
+        mHandler.removeMessages(MSG_SHOW);
+        if(window != null){
+            window.dismiss();
+        }
     }
 
     /** * 当触摸就会执行此方法 */

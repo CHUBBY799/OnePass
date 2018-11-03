@@ -15,6 +15,26 @@ public class SharePreferenceUtils {
     private static final String SUSPENDPASSTIME_KEY="suspendpasstime";
     private static final String SUSPENDPEMISSION_KEY="suspendpermission";
     private static final String AUTOCLEAR_KEY="autoclear";
+    private static final String GUIDE_FILE_NAME = "guide";
+    private static final String GUIDE_COPY_KEY = "guidecopykey";
+    private static final String GUIDE_FLOAT_KEY = "guidefloatkey";
+
+    public static void setGuideCopy(boolean show){
+        SharedPreferences sharedPreferences=mContext.getSharedPreferences(GUIDE_FILE_NAME,Context.MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean(GUIDE_COPY_KEY,show).apply();
+    }
+    public static boolean getGuideCopy(){
+        SharedPreferences sharedPreferences=mContext.getSharedPreferences(GUIDE_FILE_NAME,Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(GUIDE_COPY_KEY,false);
+    }
+    public static void setGuideFloat(boolean show){
+        SharedPreferences sharedPreferences=mContext.getSharedPreferences(GUIDE_FILE_NAME,Context.MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean(GUIDE_FLOAT_KEY,show).apply();
+    }
+    public static boolean getGuideFloat(){
+        SharedPreferences sharedPreferences=mContext.getSharedPreferences(GUIDE_FILE_NAME,Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(GUIDE_FLOAT_KEY,false);
+    }
 
     public static String getPassword(){
         SharedPreferences sharedPreferences=mContext.getSharedPreferences(FILE_NAME,Context.MODE_PRIVATE);

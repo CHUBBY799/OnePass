@@ -7,7 +7,8 @@
     <color name="title_bg">#42AE85</color>
     <color name="passwordtext">#000000</color>
     <color name="main_background">#F5F5F5</color>
-
+    <color name="transparent">#00000000</color>
+    <color name="guide_color">#FFFFFFFF</color>
     <!--item-->
     <color name="head_item_title">#FF5EB482</color>
     <color name="text_hint_color">#FFD0E9DA</color>

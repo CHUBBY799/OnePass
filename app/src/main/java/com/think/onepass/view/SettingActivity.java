@@ -11,11 +11,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +32,8 @@ import android.widget.Toast;
 import com.think.onepass.BaseApplication;
 import com.think.onepass.R;
 import com.think.onepass.excel.ExcelUtils;
+import com.think.onepass.guide.CommonWindow;
+import com.think.onepass.guide.GuideWindow;
 import com.think.onepass.model.Secret;
 import com.think.onepass.model.SecretModelImpl;
 import com.think.onepass.setting.BackupTask;
@@ -52,6 +57,8 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
     private Switch mswitchLock,openFinger,openSuspend,openAutoClearClip;
     private ImageView imageViewBackToHeadActivity;
 
+    private static final int MSG_SHOW = 3001;
+    private GuideWindow window;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,11 +119,48 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
         if (isLock==true && BaseApplication.isUnlockActivity==false){
             BaseApplication.mScreenLock.start(); //开始计时
         }
+        showGuide();
+    }
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case MSG_SHOW :
+                    showFloatGuide();
+                    break;
+            }
+        }
+    };
+    private void showGuide(){
+            mHandler.removeMessages(MSG_SHOW);
+            Message message = mHandler.obtainMessage(MSG_SHOW);
+            mHandler.sendMessageDelayed(message,300);
+
+    }
+
+    private void showFloatGuide(){
+        if(SharePreferenceUtils.getGuideFloat()){
+            return;
+        }
+        Log.d(BaseApplication.TAG, "showFloatGuide: ");
+        window = new GuideWindow(this, R.layout.guide_layout, R.mipmap.floating_window_guide_img,
+                R.string.guide_float, new GuideWindow.Callback() {
+            @Override
+            public void onClickOk() {
+                SharePreferenceUtils.setGuideFloat(true);
+            }
+        });
+        window.showAtLocation(mswitchLock, Gravity.NO_GRAVITY,0,0);
     }
     @Override
     protected void onPause(){
         super.onPause();
         BaseApplication.mScreenLock.stop();
+        Log.d(BaseApplication.TAG, "onPause: ");
+        mHandler.removeMessages(MSG_SHOW);
+        if(window != null){
+            window.dismiss();
+        }
     }
     /** * 当触摸就会执行此方法 */
     @Override
@@ -147,6 +191,12 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
     public void onTimeOut(ScreenLock screensaver) {
         Intent intent = new Intent(this, UnlockActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(BaseApplication.TAG, "onStop: ");
     }
 
     @Override

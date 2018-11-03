@@ -13,6 +13,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.think.onepass.R;
 import com.think.onepass.suspend.permission.rom.HuaweiUtils;
 import com.think.onepass.suspend.permission.rom.MeizuUtils;
 import com.think.onepass.suspend.permission.rom.MiuiUtils;
@@ -210,7 +211,7 @@ public class FloatPermissionManager {
     }
 
     private void showConfirmDialog(Context context, OnConfirmResult result) {
-        showConfirmDialog(context, "您的手机没有授予悬浮窗权限，请开启后再试", result);
+        showConfirmDialog(context, context.getString(R.string.guide_float), result);
     }
 
     private void showConfirmDialog(Context context, String message, final OnConfirmResult result) {
@@ -220,14 +221,14 @@ public class FloatPermissionManager {
 
         dialog = new AlertDialog.Builder(context).setCancelable(true).setTitle("")
                 .setMessage(message)
-                .setPositiveButton("现在去开启",
+                .setPositiveButton(context.getString(R.string.confirm),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 result.confirmResult(true);
                                 dialog.dismiss();
                             }
-                        }).setNegativeButton("暂不开启",
+                        }).setNegativeButton(R.string.cancel,
                         new DialogInterface.OnClickListener() {
 
                             @Override

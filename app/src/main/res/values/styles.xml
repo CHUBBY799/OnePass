@@ -8,5 +8,9 @@
         <item name="colorAccent">@color/text_hint_color</item>
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
+    <style name="popwin_anim_style" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/guide_pop</item>
+        <item name="android:windowExitAnimation">@anim/guide_hide</item>
+    </style>
 
 </resources>

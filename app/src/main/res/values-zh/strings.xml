@@ -38,7 +38,7 @@
     <string name="add_delete">这将不会保存你之前设置的信息.</string>
     <string name="back">清除</string>
     <string name="data_title">数据还原与备份</string>
-    <string name="data_excel">Output Excel</string>
+    <string name="data_excel">输出Excel文件</string>
     <string name="data_excel_unsuccess">哭唧唧,我没有权限咋办</string>
     <string name="data_excel_none">对不起你还没有密码项</string>
     <string name="data_excel_success">文件已经被成功保存到内部存储/Record文件夹</string>
@@ -48,6 +48,11 @@
     <string name="data_store_success">数据还原成功</string>
     <string name="data_backup_failed">数据备份失败</string>
     <string name="data_store_failed">数据还原失败</string>
-    <string name="data_restore_remind_message">你当前的数据将会被清楚,是否还需还原？</string>
+    <string name="data_restore_remind_message">你当前的数据将会被清除,是否还需还原？</string>
     <string name="data_retore_remind_title">数据还原温馨提示</string>
+    <string name="guide_copy">您可以点击复制按钮进行复制</string>
+    <string name="guide_float">您可以直接点击复制</string>
+    <string name="guide_button">知道了</string>
+    <string name="setting">设置</string>
+    <string name="float_permission_message">您的手机没有授予悬浮窗权限</string>
 </resources>

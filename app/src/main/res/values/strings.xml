@@ -50,4 +50,8 @@
     <string name="data_store_failed">Data restore failed</string>
     <string name="data_restore_remind_message">Your current data will be cleared,do you want to restore it?</string>
     <string name="data_retore_remind_title">Restore of warning</string>
+    <string name="guide_copy">You can click the copy button to copy</string>
+    <string name="guide_float">You can click and copy directly</string>
+    <string name="guide_button">OK</string>
+    <string name="setting">Settings</string>
 </resources>

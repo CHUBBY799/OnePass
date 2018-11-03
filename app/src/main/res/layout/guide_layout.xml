@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/guide_iv"
+            android:layout_width="240dp"
+            android:layout_height="270dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/copy_guide_img"
+            android:scaleType="fitXY"/>
+        <TextView
+            android:id="@+id/guide_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/guide_copy"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/guide_color"
+            android:layout_marginTop="43dp"/>
+        <Button
+            android:id="@+id/guide_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/guide_button"
+            android:textColor="@color/guide_color"
+            android:textSize="16sp"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/guide_button_background"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

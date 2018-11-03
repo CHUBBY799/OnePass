@@ -13,7 +13,7 @@ import com.think.onepass.view.ScreenLock;
 import com.think.onepass.view.UnlockActivity;
 
 public class BaseApplication extends Application{
-    private static final String TAG = "BaseApplication";
+    public static final String TAG = "BaseApplication";
     private int appcount=0;
     private boolean isRunInBackground=true;
     public static Boolean isUnlockActivity;

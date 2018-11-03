@@ -27,6 +27,7 @@
                 android:layout_height="40dp"
                 android:hint="请输入关键词"
                 android:textSize="14sp"
+                android:background="@null"
                 android:textColorHint="@color/text_hint_color"
                 android:textColor="@color/text_hint_color"
                 app:layout_constraintStart_toEndOf="@id/suspend_search_icon"
