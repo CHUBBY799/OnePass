@@ -18,7 +18,16 @@ public class SharePreferenceUtils {
     private static final String GUIDE_FILE_NAME = "guide";
     private static final String GUIDE_COPY_KEY = "guidecopykey";
     private static final String GUIDE_FLOAT_KEY = "guidefloatkey";
+    private static final String GUIDE_MAIN_KEY = "guidemainkey";
 
+    public static void setGuideMain(boolean show){
+        SharedPreferences sharedPreferences=mContext.getSharedPreferences(GUIDE_FILE_NAME,Context.MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean(GUIDE_MAIN_KEY,show).apply();
+    }
+    public static boolean getGuideMain(){
+        SharedPreferences sharedPreferences=mContext.getSharedPreferences(GUIDE_FILE_NAME,Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(GUIDE_MAIN_KEY,false);
+    }
     public static void setGuideCopy(boolean show){
         SharedPreferences sharedPreferences=mContext.getSharedPreferences(GUIDE_FILE_NAME,Context.MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(GUIDE_COPY_KEY,show).apply();

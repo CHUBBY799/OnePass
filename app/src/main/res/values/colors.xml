@@ -8,7 +8,12 @@
     <color name="passwordtext">#000000</color>
     <color name="main_background">#F5F5F5</color>
     <color name="transparent">#00000000</color>
+    <color name="transparent_guide">#b3000000</color>
     <color name="guide_color">#FFFFFFFF</color>
+    <color name="guide_dot_color">#42AE85</color>
+    <color name="guide_page_top">#FF666666</color>
+    <color name="guide_page_bottom">#FFAAAAAA</color>
+    <color name="guide_indicator_color">#FFE5E5E5</color>
     <!--item-->
     <color name="head_item_title">#FF5EB482</color>
     <color name="text_hint_color">#FFD0E9DA</color>

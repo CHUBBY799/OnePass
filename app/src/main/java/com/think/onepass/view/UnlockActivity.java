@@ -16,6 +16,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 import com.think.onepass.BaseApplication;
 import com.think.onepass.R;
+import com.think.onepass.guide.GuideActivity;
 import com.think.onepass.util.AppManager;
 import com.think.onepass.util.SharePreferenceUtils;
 import java.security.KeyStore;
@@ -31,6 +32,10 @@ public class UnlockActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
+        if(!SharePreferenceUtils.getGuideMain()){
+            Intent intent = new Intent(this, GuideActivity.class);
+            startActivity(intent);
+        }
         BaseApplication.isUnlockActivity = true;
         setContentView(R.layout.activity_unlock);
         if(SharePreferenceUtils.getFingerprintopenKey() && supportFingerprint()){

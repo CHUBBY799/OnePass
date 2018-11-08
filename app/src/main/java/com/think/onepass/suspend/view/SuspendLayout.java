@@ -183,7 +183,9 @@ public class SuspendLayout extends FrameLayout {
                             });
                         }else {
                             Utils.setClipboard(mContext.getApplicationContext(),mdata);
-                            Toast.makeText(mContext, "复制成功", Toast.LENGTH_SHORT).show();
+                            Toast toast=Toast.makeText(mContext, "复制成功", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER,0,0);
+                            toast.show();
                         }
 
                     }

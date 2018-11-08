@@ -55,4 +55,11 @@
     <string name="guide_button">知道了</string>
     <string name="setting">设置</string>
     <string name="float_permission_message">您的手机没有授予悬浮窗权限</string>
+    <string name="main_guide_bt_text">立即体验</string>
+    <string name="main_guide_text_top_first">快速复制，只需一步</string>
+    <string name="main_guide_text_top_second">多重加密，安全防护</string>
+    <string name="main_guide_text_top_third">数据备份，一键还原</string>
+    <string name="main_guide_text_bottom_first">让您的登陆变得简单快速</string>
+    <string name="main_guide_text_bottom_second">让您的密码信息不会泄露</string>
+    <string name="main_guide_text_bottom_third">让您不用再担心数据丢失</string>
 </resources>

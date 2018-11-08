@@ -16,7 +16,6 @@ public abstract class CommonWindow {
     private static final int BACKGROUND_COLOR = 0xb3000000;
     public static final String TAG="CommonGuideWindow";
 
-    public static final String GUIDE_SP_NAME = "NewbieGuide";
     protected Context mContext;
     protected ViewGroup contentView;
     protected PopupWindow mInstance;

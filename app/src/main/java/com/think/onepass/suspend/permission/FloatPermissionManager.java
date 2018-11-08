@@ -58,7 +58,7 @@ public class FloatPermissionManager {
         }
     }
 
-    private boolean checkPermission(Context context) {
+    public boolean checkPermission(Context context) {
         //6.0 版本之后由于 google 增加了对悬浮窗权限的管理，所以方式就统一了
         if (Build.VERSION.SDK_INT < 23) {
             if (RomUtils.checkIsMiuiRom()) {
@@ -211,7 +211,7 @@ public class FloatPermissionManager {
     }
 
     private void showConfirmDialog(Context context, OnConfirmResult result) {
-        showConfirmDialog(context, context.getString(R.string.guide_float), result);
+        showConfirmDialog(context, context.getString(R.string.float_permission_message), result);
     }
 
     private void showConfirmDialog(Context context, String message, final OnConfirmResult result) {

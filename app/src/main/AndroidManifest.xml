@@ -51,7 +51,8 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".guide.GuideActivity"></activity>
+        <activity android:name=".guide.GuideActivity">
+        </activity>
     </application>
 
 </manifest>

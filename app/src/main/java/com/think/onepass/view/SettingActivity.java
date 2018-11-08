@@ -70,7 +70,6 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
 
         //20秒无动作锁定
         mswitchLock = findViewById(R.id.secure_lock_switch);
-        mswitchLock.setOnCheckedChangeListener(this);
         BaseApplication.mScreenLock = new ScreenLock(20000); //定时20秒
         BaseApplication.mScreenLock.setOnTimeOutListener(this); //监听
 
@@ -81,15 +80,25 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
 
         //指纹
         openFinger=findViewById(R.id.secure_fingerprintsatrt_switch);
-        openFinger.setOnCheckedChangeListener(this);
 
         //悬浮窗
         openSuspend=findViewById(R.id.secure_floatwindowstart_switch);
-        openSuspend.setOnCheckedChangeListener(this);
-
-
-        //清除剪切板
         openAutoClearClip=findViewById(R.id.secure_clear_switch);
+
+
+        isLock = msharedPreferences.getBoolean("lock",false);
+        isOpenSuspend = msharedPreferences.getBoolean("suspend",false);
+        isOpenFinger = msharedPreferences.getBoolean("finger",false);
+        isopenAutoClearClip = msharedPreferences.getBoolean("clear",false);
+
+        mswitchLock.setChecked(isLock);
+        openFinger.setChecked(isOpenFinger);
+        openSuspend.setChecked(isOpenSuspend);
+        openAutoClearClip.setChecked(isopenAutoClearClip);
+        mswitchLock.setOnCheckedChangeListener(this);
+        openSuspend.setOnCheckedChangeListener(this);
+        openFinger.setOnCheckedChangeListener(this);
+        //清除剪切板
         openAutoClearClip.setOnCheckedChangeListener(this);
 
         //输出Excel
@@ -107,17 +116,20 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
     @Override
     protected void onResume(){
         super.onResume();
-        isLock = msharedPreferences.getBoolean("lock",false);
-        isOpenSuspend = msharedPreferences.getBoolean("suspend",false);
-        isOpenFinger = msharedPreferences.getBoolean("finger",false);
-        isopenAutoClearClip = msharedPreferences.getBoolean("clear",false);
-
-        mswitchLock.setChecked(isLock);
-        openFinger.setChecked(isOpenFinger);
-        openSuspend.setChecked(isOpenSuspend);
-        openAutoClearClip.setChecked(isopenAutoClearClip);
         if (isLock==true && BaseApplication.isUnlockActivity==false){
             BaseApplication.mScreenLock.start(); //开始计时
+        }
+        SharedPreferences.Editor meditor_suspend = msharedPreferences.edit();
+        if(FloatPermissionManager.getInstance().checkPermission(this) && msharedPreferences.getBoolean("suspend",false)){
+            Log.d(TAG, "onResume: 1");
+            openSuspend.setChecked(true);
+            SuspendController.getInstance().stopSuspendService(this);
+            SuspendController.getInstance().startSuspendService(this);
+        }else {
+            Log.d(TAG, "onResume: 2");
+            meditor_suspend.putBoolean("suspend",false);
+            openSuspend.setChecked(false);
+            SuspendController.getInstance().stopSuspendService(this);
         }
         showGuide();
     }
@@ -398,13 +410,16 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
                 break;
             case R.id.secure_floatwindowstart_switch:
                 SharedPreferences.Editor meditor_suspend = msharedPreferences.edit();
-                meditor_suspend.putBoolean("suspend",isChecked);
-                meditor_suspend.commit();
                 if(isChecked){
                     boolean isPermission = FloatPermissionManager.getInstance().applyFloatWindow(this);
                     if(isPermission){
+                        meditor_suspend.putBoolean("suspend",true);
+                        meditor_suspend.commit();
                         ((Switch)buttonView).setChecked(true);
                     }else {
+                        Log.d(TAG, "onCheckedChanged: false");
+                        meditor_suspend.putBoolean("suspend",true);
+                        meditor_suspend.commit();
                         ((Switch)buttonView).setChecked(false);
                     }
                     //有对应权限或者系统版本小于7.0
@@ -412,6 +427,8 @@ public class SettingActivity extends Activity implements View.OnClickListener,Sc
                         SuspendController.getInstance().startSuspendService(this);
                     }
                 }else {
+                    Log.d(TAG, "onCheckedChanged: 3");
+                    meditor_suspend.putBoolean("suspend",false).commit();
                     SuspendController.getInstance().stopSuspendService(this);
                 }
                 break;

@@ -38,6 +38,9 @@ public class BaseApplication extends Application{
                 Log.d(TAG, "onActivityStarted: "+activity.getClass().getSimpleName());
                 if(isRunInBackground){
                     isRunInBackground=false;
+                    if(!SharePreferenceUtils.getGuideMain()){
+                        return;
+                    }
                     if(!activity.getLocalClassName().equals("view.UnlockActivity")){
                         Intent intent=new Intent(activity, UnlockActivity.class);
                         startActivity(intent);

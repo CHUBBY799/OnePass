@@ -8,20 +8,44 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/main_guide_vp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/main_guide_bt"
+    <LinearLayout
+        android:id="@+id/main_guide_ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginBottom="53dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/guide_dot_1"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/dot_green" />
+
+        <TextView
+            android:id="@+id/guide_dot_2"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/dot_green" />
+
+        <TextView
+            android:id="@+id/guide_dot_3"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:background="@drawable/dot_green" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -9,7 +9,7 @@
     <string name="search_first">Please input keywords.</string>
     <string name="setting_tag">Common setting</string>
     <string name="secure_lock">No action lock after 20 seconds.</string>
-    <string name="secure_clear">Automatic clipboard after 1min</string>
+    <string name="secure_clear">Automatic clear clipboard after 1min</string>
     <string name="secure_fingerprintsatrt">Unlocking fingerprint</string>
     <string name="secure_floatwindowstart">Open suspension window</string>
     <string name="secure_passwordupdate">Change Password</string>
@@ -54,4 +54,13 @@
     <string name="guide_float">You can click and copy directly</string>
     <string name="guide_button">OK</string>
     <string name="setting">Settings</string>
+    <string name="float_permission_message">Your phone does not grant suspension window permission</string>
+    <string name="main_guide_bt_text">Experience\nImmediately</string>
+    <string name="main_guide_text_top_first">Quick copy,just one step</string>
+    <string name="main_guide_text_top_second">Multiple Encryption,safety protection</string>
+    <string name="main_guide_text_top_third">Data backup,one-click recovery</string>
+    <string name="main_guide_text_bottom_first">Make your login easy and quick</string>
+    <string name="main_guide_text_bottom_second">Keep your password information private</string>
+    <string name="main_guide_text_bottom_third">So that you no longer have \nto worry about data loss</string>
+
 </resources>
