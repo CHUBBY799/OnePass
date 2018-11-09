@@ -18,9 +18,9 @@
     <string name="password_incorrect">Incorrect password.Please retype.</string>
     <string name="password_correct">Success</string>
     <string name="changetofingerprintframenttv">Fingerprint verification</string>
-    <string name="fingerprint">Please verify your fingerprint information.</string>
+    <string name="fingerprint">verify fingerprint information</string>
     <string name="changetonumframentv">Password verification</string>
-    <string name="secret_title_hint">Please input your title.</string>
+    <string name="secret_title_hint">Please input your title</string>
     <string name="secret_user_hint">Please input your account ID</string>
     <string name="secret_password_hint">Please input your password.</string>
     <string name="secret_label_hint">Add labels</string>
@@ -62,5 +62,15 @@
     <string name="main_guide_text_bottom_first">Make your login easy and quick</string>
     <string name="main_guide_text_bottom_second">Keep your password information private</string>
     <string name="main_guide_text_bottom_third">So that you no longer have \nto worry about data loss</string>
+    <string name="original_password">original password</string>
+    <string name="old_four_digit_password">old four digit password</string>
+    <string name="Change_password">Change password</string>
+    <string name="New_password">New password</string>
+    <string name="Confirm_new_password">Confirm new password</string>
+    <string name="Ascertaining_modification">Ascertaining modification</string>
+    <string name="Confirm_the_original_password">Confirm the original password</string>
+    <string name="The_password_is_wrong">The password is wrong</string>
+    <string name="Password_modification_succeeded">Password modification succeeded</string>
+    <string name="Failed_to_modify_password">Failed to modify password</string>
 
 </resources>
