@@ -1,19 +1,11 @@
 package com.think.onepass.suspend.view;
 
-import android.app.Activity;
-import android.app.Service;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.graphics.ColorSpace;
 import android.graphics.Rect;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.CancellationSignal;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,12 +19,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.think.onepass.R;
@@ -40,14 +30,10 @@ import com.think.onepass.model.Secret;
 import com.think.onepass.model.SecretModel;
 import com.think.onepass.model.SecretModelImpl;
 import com.think.onepass.suspend.SuspendControlManager;
-import com.think.onepass.suspend.SuspendController;
 import com.think.onepass.suspend.SuspendManager;
 import com.think.onepass.util.FingerprintUtils;
 import com.think.onepass.util.SharePreferenceUtils;
 import com.think.onepass.util.Utils;
-import com.think.onepass.view.HeadActivity;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.crypto.Cipher;

@@ -2,7 +2,6 @@ package com.think.onepass.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.SystemClock;
 
 public class SharePreferenceUtils {
     private static Context mContext;

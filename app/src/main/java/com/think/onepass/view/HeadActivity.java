@@ -1,5 +1,5 @@
 package com.think.onepass.view;
-import android.content.ClipboardManager;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,7 +30,6 @@ import com.think.onepass.label.LabelFragment;
 import com.think.onepass.model.Secret;
 import com.think.onepass.model.SecretModelImpl;
 import com.think.onepass.presenter.HeadPresenter;
-import com.think.onepass.setting.ClearClipboardService;
 import com.think.onepass.util.SharePreferenceUtils;
 import com.think.onepass.util.Utils;
 
@@ -135,7 +134,8 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
             BaseApplication.mScreenLock.stop();
         }
         return super.dispatchTouchEvent(ev);
-    } /** * 当使用键盘就会执行此方法 */
+    }
+    /** * 当使用键盘就会执行此方法 */
 
     @Override public boolean dispatchKeyEvent(KeyEvent event) {
         isLock = msharedPreferences.getBoolean("lock",false);
